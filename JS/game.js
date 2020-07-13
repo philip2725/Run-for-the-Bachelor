@@ -1,4 +1,4 @@
-
+//TESTKOMMENTAR
 //************* Globale Variablen (Config) ***************//
 //Window
 var canvas, ctx;
