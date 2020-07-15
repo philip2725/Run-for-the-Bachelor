@@ -10,15 +10,15 @@ var charY = 130;
 var charWidth = 160;
 var	charHeight = 160;
 
-var charPictureIds = ['char1', 'char2'];
-var currentPictureIdx = 0;
-var movementspeed = 250;
+var charPictureIds = ['char1', 'char2'];	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+var currentPictureIdx = 0;					//current Displayed PlayerPicture Index of charPictureIds-Array
+var movementSpeed = 250;					//speed of how often an image changes
 
 //move Options
-var ground = charY;		//save the null point of the ground
-var jumpHigh = 250;		//high from the ground
-var jumpSpeed = 15;		//lower = faster
-var jumping;			//jumping Intervall ID
+var ground = charY;							//save the null point of the ground
+var jumpHigh = 250;							//high from the ground
+var jumpSpeed = 15;							//lower = faster
+var jumping;							    //jumping Intervall ID
 var goingDown = false;		
 
 //************* Initialierung ******************//
@@ -29,13 +29,13 @@ function init(){
 	ctx = canvas.getContext("2d");
 
 	setInterval(draw, 40);
-	setInterval(changePlayerPicture, movementspeed);
+	setInterval(changePlayerPicture, movementSpeed);
 }
 
 function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
-	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   					//floor
-	drawRect(0,0,gameWidth,gameHeight*0.8, "lightblue")	       									//Background
+	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
+	drawRect(0,0,gameWidth,gameHeight*0.8, "lightblue")	       										//Background
 	ctx.drawImage(player, gameWidth*0.5-(charX/2),gameHeight*0.8-charY, charWidth, charHeight);		//character Image
 	ctx.drawImage()
 }
@@ -62,6 +62,7 @@ function jump(){
 
 function changePlayerPicture(){
 	
+	//Movment: Run
 	if(charPictureIds[currentPictureIdx] == charPictureIds[charPictureIds.length - 1]){
 		currentPictureIdx = 0;
 	}else{
@@ -69,6 +70,12 @@ function changePlayerPicture(){
 	}
 	player = document.getElementById(charPictureIds[currentPictureIdx]);
 	console.log(charPictureIds[currentPictureIdx]);
+
+	//Movment: jump
+	//...
+
+	//Movment: duck
+	//...
 }
 
 /*function goLeft(){
