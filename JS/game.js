@@ -6,19 +6,21 @@ var gameHeight = 700;
 
 //character
 var charX = 120;
-var charY = 130;
+var charY = 160;
 var charWidth = 160;
 var	charHeight = 160;
 
-var charPictureIds = ['char1', 'char2'];	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-var currentPictureIdx = 0;					//current Displayed PlayerPicture Index of charPictureIds-Array
-var movementSpeed = 250;					//speed of how often an image changes
-
-//move Options
-var ground = charY;							//save the null point of the ground
-var jumpHigh = 250;							//high from the ground
-var jumpSpeed = 15;							//lower = faster
-var jumping;							    //jumping Intervall ID
+var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
+					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
+					  'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
+					  'char19', 'char20'];											//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+var currentPictureIdx = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
+var movementSpeed = 40;					    										//speed of how often an image changes (lower = faster)	
+//move Option	
+var ground = charY;																	//save the null point of the ground
+var jumpHigh = 350;																	//high from the ground
+var jumpSpeed = 15;																	//lower = faster
+var jumping;							  											//jumping Intervall ID
 var goingDown = false;		
 
 //************* Initialierung ******************//
@@ -35,7 +37,7 @@ function init(){
 function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
-	drawRect(0,0,gameWidth,gameHeight*0.8, "lightblue")	       										//Background
+	drawRect(0,0,gameWidth,gameHeight*0.8, "#46cbe3")	       										//Background
 	ctx.drawImage(player, gameWidth*0.5-(charX/2),gameHeight*0.8-charY, charWidth, charHeight);		//character Image
 	ctx.drawImage()
 }
@@ -55,7 +57,7 @@ function jump(){
 			goingDown = false;
 			clearInterval(jumping);
 		}else{
-			charY -= 6
+			charY -= 8
 		}
 	}
 }
