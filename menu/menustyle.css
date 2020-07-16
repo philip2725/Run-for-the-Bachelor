@@ -1,60 +1,77 @@
 @charset "utf-8"
 
-    h1{
-        font-family: 'Century Gothic'; 
-        font-size: 40px;
-        font-weight: bold; 
-        }
 
-    .mainButton {
-        box-shadow: inset 0px 1px 0px 0px #ffffff;
-        background: linear-gradient(to bottom, #ffffff 5%, #e6e6e6 100%);
-        background-color: #ffffff;
-        border-radius: 6px;
-        border: 1px solid #d9d9d9;
-        display: inline-block;
-        cursor: pointer;
-        color: #454545;
-        font-family: Arial;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 6px 24px;
-        text-decoration: none;
-        text-shadow: 0px 1px 0px #ffffff;
+
+h1 {
+    font-family: 'Century Gothic'; 
+    font-size: 40px;
+    font-weight: bold; 
+    color:  orange;
     }
 
-        .mainButton:hover {
-            background: linear-gradient(to bottom, #e6e6e6 5%, #ffffff 100%);
-            background-color: #e6e6e6;
-        }
+.mainButton {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #e6e6e6 100%);
+    background-color: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+    display: inline-block;
+    cursor: pointer;
+    color: #454545;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
 
-        .mainButton:active {
-            position: relative;
-            top: 1px;
-        }
+    .mainButton:hover {
+        background: linear-gradient(to bottom, #e6e6e6 5%, #ffffff 100%);
+        background-color: #e6e6e6;
+    }
 
-    .footerButton {
+    .mainButton:active {
+        position: relative;
+        top: 1px;
+    }
+
+.footerButton {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    color: #808080;
+    font-family: 'Courier New';
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 5px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+}
+
+    .footerButton:hover {
         background-color: transparent;
-        border: 1px solid #ffffff;
-        display: inline-block;
-        cursor: pointer;
-        color: #808080;
-        font-family: 'Courier New';
-        font-size: 12px;
-        font-weight: bold;
-        padding: 3px 5px;
-        text-decoration: none;
-        text-shadow: 0px 1px 0px #ffffff;
-        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        color: #636363;
     }
 
-        .footerButton:hover {
-            background-color: transparent;
-        }
+    .footerButton:active {
+        position: relative;
+        top: 1px;
+    }
+        
+    
+.popup {
+    display: block;
+    position: fixed;
+    height: 300px;
+    bottom: 250px;
+    right: 810px;
+    width: 300px;
+    background-color: rgb(202, 202, 202);
+    font-size: 12px;
+}
 
-        .footerButton:active {
-            position: relative;
-            top: 1px;
-        }
-                
+
  

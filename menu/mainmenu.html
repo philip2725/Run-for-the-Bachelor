@@ -5,22 +5,43 @@
 	    <title>Run for the Bachelor</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" href="menustyle.css"> 
+        <script src="menufunctions.js"></script>
     </head>
     
    	<body>
 		<center>
-            <h1 id="menuhead">Run for the Bachelor</h1>
-            <br> <br>
+            <img src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" alt="Run for the Bachelor" style="width:677px;height:451px;" />
+            <br>
             <a href="../default.html" class="mainButton"> SPIELEN </a>
+
             <br> <br>
-            <a href="#" class="mainButton"> STEUERUNG </a>
+
+            <a href="#" class="mainButton" onClick="toggle('cntrl')" > STEUERUNG </a>
+
             <br> <br>
-            <a href="#" onclick="window.top.close();return false;" class="mainButton"> BEENDEN </a>
+
+            <a href="#" onClick="window.top.close();return false;" class="mainButton"> BEENDEN </a>
+
             <br> <br> <br>
-            <a href="#" class="footerButton"> Datenschutz </a>
-            <a href="#" class="footerButton"> Impressum </a>
-            
-		<center>
+
+            <a href="#" class="footerButton" onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
+        </center>
+        
+
+        <div id="cntrl" class = "popup" style="display:none;">
+            Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+            <br> <br>
+            <a href="#" onClick="toggle('cntrl')"> schließen </a>
+        </div>
+
+        <div id="prvcy" class = "popup" style="display:none;">
+            DatenschutzText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+            <br> <br>
+            ImpressumText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+            <br> <br>
+            <a href="#" onClick="toggle('prvcy')"> schließen </a>
+        </div>
+       
 	</body>
 </html>
 
