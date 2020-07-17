@@ -18,8 +18,15 @@
             
             <br>
 
-            <!-- Linkbutton to start the default.html -->
-            <a      href="../default.html" class="mainButton"> SPIELEN </a>                                  
+            <!-- Linkbutton to start the default.html 
+            <a      href="../default.html" class="mainButton"> SPIELEN </a>     -->                             
+
+            <br> <br>
+
+            <!-- Opens a popup with a name input action -->
+            <a      href="#" 
+                    class="mainButton" 
+                    onClick="toggle('nameinpt')" > SPIELEN </a>                                              
 
             <br> <br>
 
@@ -30,7 +37,7 @@
 
             <br> <br>
 
-            <!-- Link-Button to start the default.html -->
+            <!-- Link-Button to ende the tab -->
             <a      href="#" 
                     onClick="window.top.close();return false;" 
                     class="mainButton"> BEENDEN </a>
@@ -43,20 +50,40 @@
                     onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
         </center>
         
+        <!-- name input window -->
+        <div id="nameinpt" class= "namepopup" style="display:none;">
+            
+            <form action="/action_page.php" autocomplete="off" target="_blank">
+                <label for="pname">PLAYER:</label><br>
+                <input type="text" id="pname" name="pname"><br>
+                <input type="submit" value="Submit" onclick="getPlayerName()">
+            </form>
+
+            <br> <br>
+
+            <a href="#" class="close" onClick="toggle('nameinpt')"> schließen </a>
+        </div>
+        
         <!-- content of the control window -->
         <div id="cntrl" class = "popup" style="display:none;">
             Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+            
             <br> <br>
-            <a href="#" onClick="toggle('cntrl')"> schließen </a>
+
+            <a href="#" class="close" onClick="toggle('cntrl')"> schließen </a>
         </div>
 
         <!-- content of the privacy and imprint popup window  -->
         <div id="prvcy" class = "popup" style="display:none;">
             DatenschutzText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+            
             <br> <br>
+
             ImpressumText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
-            <br> <br>
-            <a href="#" onClick="toggle('prvcy')"> schließen </a>
+            
+            <br> <br
+            
+            <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
         </div>
        
 	</body>
