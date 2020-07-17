@@ -1,4 +1,53 @@
 @charset "utf-8";
+<<<<<<< HEAD
+=======
+
+/***** Windows Size Alert ****/
+.windowSizeAlert{
+    display: none;
+
+}
+@media only screen and (max-width: 1250px){
+        
+    body{background-color: red;}
+
+    .windowSizeAlert{
+            display: block;
+            position: relative;
+            bottom: 260px;
+            height: 250px;
+            width: 500px;
+            background-color: rgb(61, 61, 61);
+            color: #fff;
+            font-family: Arial;
+            font-size: 40px;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75)
+        } 
+}
+
+@media only screen and (max-height: 800px){
+    body{background-color: red;}
+
+    .windowSizeAlert{
+            display: block;
+            position: relative;
+            bottom: 260px;
+            height: 250px;
+            width: 500px;
+            background-color: rgb(61, 61, 61);
+            color: #fff;
+            font-family: Arial;
+            font-size: 40px;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75)
+        } 
+}
+>>>>>>> aa74723eeee7b7af78c03f79b974f1aa4a6d447e
 
 /***** headerstyles *****/
 .xy {}
@@ -61,13 +110,16 @@
 /***** popupstyles *****/   
 .popup {
     display: block;
-    position: fixed;
-    height: 300px;
-    bottom: 250px;
-    right: 810px;
+    position: relative;
+    height: 250px;
     width: 300px;
+    bottom: 260px;
     background-color: rgb(202, 202, 202);
+    font-family: Arial;
     font-size: 12px;
+    text-align: left;
+    padding: 10px;
+    box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75);
 }
 
 .namepopup {

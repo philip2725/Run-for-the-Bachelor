@@ -26,7 +26,7 @@
             <!-- Opens a popup with a name input action -->
             <a      href="#" 
                     class="mainButton" 
-                    onClick="toggle('nameinpt')" > SPIELEN </a>                                              
+                    onClick="toggle('nameinput')" > SPIELEN </a>                                              
 
             <br> <br>
 
@@ -48,12 +48,13 @@
             <a      href="#"   
                     class="footerButton"   
                     onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
+<<<<<<< HEAD
         </center>
         
         <!-- name input window -->
-        <div id="nameinpt" class= "namepopup" style="display:none;">
+        <div id="nameinput" class= "namepopup" style="display:none;">
             
-            <form action="/action_page.php" autocomplete="off" target="_blank">
+            <form autocomplete="off">
                 <label for="pname">PLAYER:</label><br>
                 <input type="text" id="pname" name="pname"><br>
                 <input type="submit" value="Submit" onclick="getPlayerName()">
@@ -61,10 +62,18 @@
 
             <br> <br>
 
-            <a href="#" class="close" onClick="toggle('nameinpt')"> schließen </a>
+            <a href="#" class="close" onClick="toggle('nameinput')"> schließen </a>
         </div>
         
         <!-- content of the control window -->
+=======
+
+            <div class = "windowSizeAlert">
+                Browserfenster ist zu klein!
+            </div>
+
+             <!-- content of the control window -->
+>>>>>>> aa74723eeee7b7af78c03f79b974f1aa4a6d447e
         <div id="cntrl" class = "popup" style="display:none;">
             Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
             
@@ -85,7 +94,14 @@
             
             <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
         </div>
+
+               
+        <p id="test"> </p>
+        </center>
+        
        
+       
+      
 	</body>
 </html>
 
