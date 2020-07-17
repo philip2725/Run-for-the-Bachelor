@@ -9,3 +9,8 @@ function toggle(txt) {
         txt.style.display = "block"
     }
 }
+
+function getPlayerName() {
+    var input = document.getElementById("userInput").value;
+    document.getElementById("test").innerHTML = "Hallo " + input;
+}
