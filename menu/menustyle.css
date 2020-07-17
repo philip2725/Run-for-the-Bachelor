@@ -1,14 +1,10 @@
 @charset "utf-8"
 
+/***** headerstyles *****/
+.xy {}
 
 
-h1 {
-    font-family: 'Century Gothic'; 
-    font-size: 40px;
-    font-weight: bold; 
-    color:  orange;
-    }
-
+/***** buttonstyles *****/
 .mainButton {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #e6e6e6 100%);
@@ -36,6 +32,7 @@ h1 {
         top: 1px;
     }
 
+
 .footerButton {
     background-color: transparent;
     border: 1px solid #ffffff;
@@ -61,7 +58,7 @@ h1 {
         top: 1px;
     }
         
-    
+/***** popupstyles *****/   
 .popup {
     display: block;
     position: fixed;

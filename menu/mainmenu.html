@@ -10,30 +10,47 @@
     
    	<body>
 		<center>
-            <img src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" alt="Run for the Bachelor" style="width:677px;height:451px;" />
+
+            <!-- Game-Logo-Image -->
+            <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" 
+                    alt="Run for the Bachelor" 
+                    style="width:677px;height:451px;" />                                                
+            
             <br>
-            <a href="../default.html" class="mainButton"> SPIELEN </a>
+
+            <!-- Linkbutton to start the default.html -->
+            <a      href="../default.html" class="mainButton"> SPIELEN </a>                                  
 
             <br> <br>
 
-            <a href="#" class="mainButton" onClick="toggle('cntrl')" > STEUERUNG </a>
+            <!-- Opens a popup with ingame controls -->
+            <a      href="#" 
+                    class="mainButton" 
+                    onClick="toggle('cntrl')" > STEUERUNG </a>                                              
 
             <br> <br>
 
-            <a href="#" onClick="window.top.close();return false;" class="mainButton"> BEENDEN </a>
+            <!-- Link-Button to start the default.html -->
+            <a      href="#" 
+                    onClick="window.top.close();return false;" 
+                    class="mainButton"> BEENDEN </a>
 
             <br> <br> <br>
 
-            <a href="#" class="footerButton" onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
+            <!-- Opens a popup with the privacy and imprint text -->
+            <a      href="#"   
+                    class="footerButton"   
+                    onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
         </center>
         
-
+        <!-- content of the control window -->
         <div id="cntrl" class = "popup" style="display:none;">
             Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
             <br> <br>
             <a href="#" onClick="toggle('cntrl')"> schließen </a>
         </div>
 
+        <!-- content of the privacy and imprint popup window  -->
         <div id="prvcy" class = "popup" style="display:none;">
             DatenschutzText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
             <br> <br>
