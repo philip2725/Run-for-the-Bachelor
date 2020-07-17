@@ -4,11 +4,17 @@ var canvas, ctx;
 var gameWidth = 1200;
 var gameHeight = 700;
 
-//character
-var charX = 120;
-var charY = 160;
-var charWidth = 160;
-var	charHeight = 160;
+//Background
+var background;
+var backgroundWidth = 2826;																//Full lenght of the Background Image
+var backgroundX = 0;																	//Current X-point from the top left corner of the image
+var backgroundMoveSpeed = 30;															//lower = faster
+
+//character											
+var charX = 130;																	//X-Point of character
+var charY = 130;																	//Y-Point of character
+var charWidth = 130;																//width of character image
+var	charHeight = 130;																//height of character image
 
 var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
 					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
@@ -16,9 +22,10 @@ var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6',
 					  'char19', 'char20'];											//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
 var currentPictureIdx = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
 var movementSpeed = 40;					    										//speed of how often an image changes (lower = faster)	
+
 //move Option	
 var ground = charY;																	//save the null point of the ground
-var jumpHigh = 350;																	//high from the ground
+var jumpHigh = 250;																	//high from the ground
 var jumpSpeed = 15;																	//lower = faster
 var jumping;							  											//jumping Intervall ID
 var goingDown = false;		
@@ -32,14 +39,15 @@ function init(){
 
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, movementSpeed);
+	setInterval(moveBackground, backgroundMoveSpeed);
 }
 
 function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
-	drawRect(0,0,gameWidth,gameHeight*0.8, "#46cbe3")	       										//Background
+	background = document.getElementById("background");
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
 	ctx.drawImage(player, gameWidth*0.5-(charX/2),gameHeight*0.8-charY, charWidth, charHeight);		//character Image
-	ctx.drawImage()
 }
 
 //*************** Functions ******************//
@@ -50,15 +58,23 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function jump(){
 	if(charY < jumpHigh && !goingDown){
-		charY += 6
+		charY += 5
 	}else {
 		goingDown = true;
 		if(charY == ground){
 			goingDown = false;
 			clearInterval(jumping);
 		}else{
-			charY -= 8
+			charY -= 10
 		}
+	}
+}
+
+function moveBackground(){
+	if(backgroundX > backgroundWidth*(-1)+gameWidth){
+		backgroundX-=3;
+	}else{
+		backgroundX = 0;
 	}
 }
 
@@ -71,7 +87,6 @@ function changePlayerPicture(){
 		currentPictureIdx++;
 	}
 	player = document.getElementById(charPictureIds[currentPictureIdx]);
-	console.log(charPictureIds[currentPictureIdx]);
 
 	//Movment: jump
 	//...
