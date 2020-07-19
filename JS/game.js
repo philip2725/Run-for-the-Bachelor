@@ -28,7 +28,26 @@ var ground = charY;																	//save the null point of the ground
 var jumpHigh = 250;																	//high from the ground
 var jumpSpeed = 15;																	//lower = faster
 var jumping;							  											//jumping Intervall ID
-var goingDown = false;		
+var goingDown = false;
+var isGoing = false;																//Tells whether the player is going or not
+
+
+//obstacles
+class Obstacle {
+	constructor(x,y = ground,width,height,type) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.type = type;
+	}
+
+	update() {
+		this.x -= 5																	//movement of obstacle when player goes to right
+	}
+
+}
+var obstacles = [];
 
 //************* Initialierung ******************//
 function init(){
@@ -38,8 +57,20 @@ function init(){
 	ctx = canvas.getContext("2d");
 
 	setInterval(draw, 40);
-	setInterval(changePlayerPicture, movementSpeed);
-	setInterval(moveBackground, backgroundMoveSpeed);
+	changePlayerPicture()
+
+	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"box")				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")				//demo obstacle
+	var box3 = new Obstacle(gameWidth + 500,gameHeight*0.8 - 200, 100,200,"box")				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 800,gameHeight*0.8 - 150, 150,150,"box")				//demo obstacle
+
+	obstacles.push(box1)
+	obstacles.push(box2)
+	obstacles.push(box3)
+	obstacles.push(box4)
+	//setInterval(changePlayerPicture, movementSpeed);
+	//setInterval(moveBackground, backgroundMoveSpeed);
+	
 }
 
 function draw(){
@@ -48,14 +79,31 @@ function draw(){
 	background = document.getElementById("background");
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
 	ctx.drawImage(player, gameWidth*0.5-(charX/2),gameHeight*0.8-charY, charWidth, charHeight);		//character Image
+	drawObstacles()
 }
 
 //*************** Functions ******************//
 function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
-	ctx.fillStyle = rstyle
+	ctx.fillStyle = rstyle;
 	ctx.fillRect(rx, ry, rw, rh);
 }
 
+function drawObstacles() {
+	
+	for (index = 0; index < obstacles.length; index++) {
+		var obstacle = obstacles[index];
+		var colors = ["red", "green", "blue", "yellow", "orange"]
+		drawRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height, colors[Math.floor(Math.random() * colors.length)]);
+	}
+
+}
+
+function updateObstacles() {
+	for (index = 0; index < obstacles.length; index++) {
+		var obstacle = obstacles[index]
+		obstacle.update()
+	}
+}
 function jump(){
 	if(charY < jumpHigh && !goingDown){
 		charY += 5
@@ -72,7 +120,7 @@ function jump(){
 
 function moveBackground(){
 	if(backgroundX > backgroundWidth*(-1)+gameWidth){
-		backgroundX-=3;
+		backgroundX-=5;
 	}else{
 		backgroundX = 0;
 	}
@@ -80,6 +128,10 @@ function moveBackground(){
 
 function changePlayerPicture(){
 	
+	//Movement: Stay
+	if (isGoing == false) {
+		currentPictureIdx = 0;
+	}
 	//Movment: Run
 	if(charPictureIds[currentPictureIdx] == charPictureIds[charPictureIds.length - 1]){
 		currentPictureIdx = 0;
@@ -98,10 +150,15 @@ function changePlayerPicture(){
 /*function goLeft(){
 	charX += 10
 }
-
+*/
 function goRight(){
-	charX -= 10
-}*/
+	console.log("Right Key pressed")
+	isGoing = true
+	//charX -= 10
+	moveBackground()
+	changePlayerPicture()
+	updateObstacles()
+}
 
 //************** Event Functions *************//
 //Key-Events: Every key has one keyCode. 
@@ -119,7 +176,7 @@ function keyDown(event){
 	    break;
 	  case 39:
 	    // Right-Arrow Pressed
-	    //goRight();
+	    goRight();
 	    break;
 	  case 40:
 	    // Down-Arrow Pressed
@@ -130,6 +187,13 @@ function keyDown(event){
 	}
 }
 
+function keyUp(event){
+console.log("Key is up")	
+	isGoing = false
+	changePlayerPicture()
+}
+
 //Event Listener
 document.addEventListener("keydown", keyDown, false);
+document.addEventListener("keyup", keyUp, false);
 document.addEventListener("DOMContentLoaded", init, false);
