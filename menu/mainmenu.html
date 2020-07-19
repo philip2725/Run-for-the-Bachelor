@@ -10,98 +10,88 @@
     
    	<body>
 		<center>
-            <div id="kasten">
+            <div id="box">
 
-            <!-- Game-Logo-Image -->
-            <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" 
-                    alt="Run for the Bachelor" 
-                    style="width:677px;height:451px;" />                                                
-            
-            <br>
+                <!-- Game-Logo-Image -->
+                <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png"   alt="Run for the Bachelor"      style="width:677px;height:451px;" />                                                
+                
+                <br>
 
-            <!-- Linkbutton to start the default.html 
-            <a      href="../default.html" class="mainButton"> SPIELEN </a>     -->                             
+                <!-- Linkbutton to start the default.html 
+                <a      href="../default.html"  class="mainButton"> SPIELEN </a>     -->                             
 
-            <!-- Linkbutton to start the default.html  -->
-            <a      href="charakter.html" class="mainButton"> SPIELEN </a>     
 
-            <br> <br>
 
-            <!-- Opens a popup with a name input action 
-            <a      href="#" 
-                    class="mainButton" 
-                    onClick="toggle('nameinput')" > SPIELEN </a>    -->                                          
+                <!--***** Navigation Buttons *****-->
 
-            <br> <br>
+                <!-- Linkbutton to start the default.html  -->
+                <a      href="charakter.html"   class="mainButton"> SPIELEN </a>     
 
-            <!-- Opens a popup with ingame controls -->
-            <a      href="#" 
-                    class="mainButton" 
-                    onClick="toggle('cntrl')" > STEUERUNG </a>                                              
+                <br> <br>
 
-            <br> <br>
+                <!-- Opens a popup with a name input action 
+                <a      href="#"    class="mainButton"      onClick="toggle('nameinput')" > SPIELEN </a>    -->                                          
 
-            <!-- Link-Button to ende the tab -->
-            <a      href="#" 
-                    onClick="window.top.close();return false;" 
-                    class="mainButton"> BEENDEN </a>
+                <!-- Opens a popup with ingame controls -->
+                <a      href="#"    class="mainButton"      onClick="toggle('cntrl')" > STEUERUNG </a>                                              
 
-            <br> <br> <br>
+                <br> <br>
 
-            <!-- Opens a popup with the privacy and imprint text -->
-            <a      href="#"   
-                    class="footerButton"   
-                    onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
-        </center>
-        
-    </div>
+                <!-- Link-Button to ende the tab -->
+                <a      href="#"    onClick="window.top.close();return false;"      class="mainButton"> BEENDEN </a>
 
-        <!-- name input window -->
-        <div id="nameinput" class= "namepopup" style="display:none;">
-            
-            <form autocomplete="off">
-                <label for="pname">PLAYER:</label><br>
-                <input type="text" id="userInput" name="pname"><br>
-                <input type="submit" value="Submit" onclick="getPlayerName()">
-            </form>
+                <br> <br> <br>
 
-            <br> <br>
 
-            <a href="#" class="close" onClick="toggle('nameinput')"> schließen </a>
-        </div>
-        
-        <!-- content of the control window -->
-        <div id="cntrl" class = "popup" style="display:none;">
-            Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
-            
-            <br> <br>
 
-            <a href="#" class="close" onClick="toggle('cntrl')"> schließen </a>
-        </div>
+                <!--***** Footer Buttons *****-->
 
-        <!-- content of the privacy and imprint popup window  -->
-        <div id="prvcy" class = "popup" style="display:none;">
-            DatenschutzText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
-            
-            <br> <br>
+                <!-- Opens a popup with the privacy and imprint text -->
+                <a      href="#"   class="footerButton"   onClick="toggle('prvcy')"> Datenschutz / Impressum</a>  
+    
+            </div>
 
-            ImpressumText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
-            
-            <br> <br
-            
-            <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
-        </div>
 
-        <!-- <form id="form" onsubmit="return false;">
-            <input style="position:absolute; top:80%; left:5%; width:40%;" type="text" id="userInput" />
-            <input style="position:absolute; top:50%; left:5%; width:40%;" type="submit" onclick="getPlayerName();" />
-        </form> --> 
-               
-        <p id="test"> </p>
-        </center>
-        
-       
-       
+            <!-- name input window -->
+            <div id="nameinput" class= "namepopup" style="display:none;">
+
+                <form autocomplete="off">
+                    <label for="pname">PLAYER:</label><br>
+                    <input type="text" id="userInput" name="pname"><br>
+                    <input type="submit" value="Submit" onclick="getPlayerName()">
+                </form>
+
+                <br> <br>
+
+                <a href="#" class="close" onClick="toggle('nameinput')"> schließen </a>
+            </div>
+
+            <!-- content of the control window -->
+            <div id="cntrl" class = "popup" style="display:none;">
+                Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+
+                <br> <br>
+
+                <a href="#" class="close" onClick="toggle('cntrl')"> schließen </a>
+            </div>
+
+            <!-- content of the privacy and imprint popup window  -->
+            <div id="prvcy" class = "popup" style="display:none;">
+                DatenschutzText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+
+                <br> <br>
+
+                ImpressumText bla bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+
+                <br> <br>
+
+                <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
+            </div>
+
+
+            <p class="windowSizeAlert"> Browserfenster ist zu klein!</p>
+
+        </center>      
       
 	</body>
 </html>
