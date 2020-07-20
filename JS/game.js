@@ -194,6 +194,6 @@ console.log("Key is up")
 }
 
 //Event Listener
-document.addEventListener("keydown", keyDown, false);
-document.addEventListener("keyup", keyUp, false);
+document.addEventListener("keydown", keyDown, false); //Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
+document.addEventListener("keyup", keyUp, false); //Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
