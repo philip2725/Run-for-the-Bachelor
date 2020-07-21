@@ -8,28 +8,32 @@ var gameHeight = 700;
 var background;
 var backgroundWidth = 2826;																//Full lenght of the Background Image
 var backgroundX = 0;																	//Current X-point from the top left corner of the image
-var backgroundMoveSpeed = 30;															//lower = faster
+var backgroundUpdateSpeed = 30;															//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
+var backgroundIntervalHandle;															//lower = faster
 
 //character											
-var charX = 130;																	//X-Point of character
-var charY = 130;																	//Y-Point of character
-var charWidth = 130;																//width of character image
-var	charHeight = 130;																//height of character image
+var charWidth = 130;																	//width of character image
+var	charHeight = 130;																	//height of character image
+var charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
+var charY = gameHeight*0.8-charHeight;													//Y-Point of character
 
 var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
 					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
 					  'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
-					  'char19', 'char20'];											//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-var currentPictureIdx = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
-var movementSpeed = 40;					    										//speed of how often an image changes (lower = faster)	
+					  'char19', 'char20'];												//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+var currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
+var movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
+var playerImg;																			//contains the currently used image-Element of the player
+var playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
 
 //move Option	
-var ground = charY;																	//save the null point of the ground
-var jumpHigh = 250;																	//high from the ground
-var jumpSpeed = 15;																	//lower = faster
-var jumping;							  											//jumping Intervall ID
-var goingDown = false;
-var isGoing = false;																//Tells whether the player is going or not
+var ground = charY;																		//save the null point of the ground
+var jumpHigh = 250;																		//high from the ground
+var jumpSpeed = 10;																		//lower = faster
+var jumping;							  												//jumping Intervall ID
+var goingDown = false;																	//status of player currently going Down
+var isGoing = false;																	//Tells whether the player is going or not
 
 
 //obstacles
@@ -42,12 +46,14 @@ class Obstacle {
 		this.type = type;
 	}
 
-	update() {
-		this.x -= 5																	//movement of obstacle when player goes to right
+	update(direcion) {
+		console.log(direcion);
+		this.x += direcion;																	//movement of obstacle when player goes to right
 	}
 
 }
 var obstacles = [];
+var obstaclesIntervalHandle;
 
 //************* Initialierung ******************//
 function init(){
@@ -60,7 +66,7 @@ function init(){
 	changePlayerPicture()
 
 	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"box")				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")					//demo obstacle
 	var box3 = new Obstacle(gameWidth + 500,gameHeight*0.8 - 200, 100,200,"box")				//demo obstacle
 	var box4 = new Obstacle(gameWidth + 800,gameHeight*0.8 - 150, 150,150,"box")				//demo obstacle
 
@@ -68,8 +74,6 @@ function init(){
 	obstacles.push(box2)
 	obstacles.push(box3)
 	obstacles.push(box4)
-	//setInterval(changePlayerPicture, movementSpeed);
-	//setInterval(moveBackground, backgroundMoveSpeed);
 	
 }
 
@@ -78,7 +82,7 @@ function draw(){
 	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
-	ctx.drawImage(player, gameWidth*0.5-(charX/2),gameHeight*0.8-charY, charWidth, charHeight);		//character Image
+	ctx.drawImage(playerImg, charX ,charY, charWidth, charHeight);									//character Image
 	drawObstacles()
 }
 
@@ -95,34 +99,40 @@ function drawObstacles() {
 		var colors = ["red", "green", "blue", "yellow", "orange"]
 		drawRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height, colors[Math.floor(Math.random() * colors.length)]);
 	}
-
 }
 
-function updateObstacles() {
+function updateObstacles(direction) {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
-		obstacle.update()
+		obstacle.update(direction)
 	}
 }
 function jump(){
-	if(charY < jumpHigh && !goingDown){
-		charY += 5
+	if(charY > jumpHigh && !goingDown){
+		charY -= 6
+		console.log(charY);
 	}else {
 		goingDown = true;
 		if(charY == ground){
 			goingDown = false;
 			clearInterval(jumping);
 		}else{
-			charY -= 10
+			charY += 9
 		}
 	}
 }
 
-function moveBackground(){
-	if(backgroundX > backgroundWidth*(-1)+gameWidth){
-		backgroundX-=5;
+function moveBackground(direction){
+	//direction = negaitve --> go left
+	//direction = positive --> go right
+	
+	var start = 0
+	var end = backgroundWidth*(-1)+gameWidth
+
+	if(backgroundX + direction > end && backgroundX + direction <= start){
+		backgroundX += direction;
 	}else{
-		backgroundX = 0;
+	//	if(charX + direction + charWidth < gameWidth && charX > direction) charX += direction;
 	}
 }
 
@@ -138,7 +148,7 @@ function changePlayerPicture(){
 	}else{
 		currentPictureIdx++;
 	}
-	player = document.getElementById(charPictureIds[currentPictureIdx]);
+	playerImg = document.getElementById(charPictureIds[currentPictureIdx]);
 
 	//Movment: jump
 	//...
@@ -147,17 +157,24 @@ function changePlayerPicture(){
 	//...
 }
 
-/*function goLeft(){
-	charX += 10
+function goLeft(){
+	if(isGoing === false){
+		console.log("Left Key pressed")
+		isGoing = true
+		playerIntervalHandle = setInterval(changePlayerPicture, movementSpeed);
+		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+	}
 }
-*/
+
 function goRight(){
-	console.log("Right Key pressed")
-	isGoing = true
-	//charX -= 10
-	moveBackground()
-	changePlayerPicture()
-	updateObstacles()
+	if(isGoing === false){
+		console.log("Right Key pressed")
+		isGoing = true
+		playerIntervalHandle = setInterval(changePlayerPicture, movementSpeed);
+		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+	}
 }
 
 //************** Event Functions *************//
@@ -168,7 +185,7 @@ function keyDown(event){
 	switch (event.keyCode) {
 	  case 37:
 	    // Left-Arrow Pressed
-	    //goLeft();
+	    goLeft();
 	    break;
 	  case 38:
 	    // Up-Arrow Pressed
@@ -189,8 +206,13 @@ function keyDown(event){
 
 function keyUp(event){
 console.log("Key is up")	
-	isGoing = false
 	changePlayerPicture()
+	if(isGoing === true && (event.keyCode === 39 || event.keyCode === 37)){
+		isGoing = false
+		clearInterval(playerIntervalHandle);
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
+	}
 }
 
 //Event Listener
