@@ -9,18 +9,20 @@
         <script src="menufunctions.js"></script>
     </head>
             
-    <body>
+    <body onload="getChosenCharGraphic()"> <!-- onload function gets the chosen character and refreshes the picture-->
 
         <center>
             <div id="box">
-
+                                
                 <!-- Game-Logo-Image -->
                 <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" 
                         alt="Run for the Bachelor" 
                         style="width:677px;height:451px;" />     
 
-                <!-- Boy character gif 
-                <img    src="../assets/Images/menu/boy.gif"     alt="character gif"     style="width: 135px; height:150px"> -->
+                <br>
+                <!-- show selected character graphic -->
+                               
+                <img   id="showChosenCharacter"   src=""   alt="character gif"   style="width: 135px; height:150px"> 
                         
                 <!-- Girl character gif 
                 <img    src="../assets/Images/menu/girl.gif"    alt="character gif"     style="width: 120px; height:142px"> -->
@@ -34,7 +36,7 @@
                 <br> <br>
 
                 <!-- Opens a popup with the privacy and imprint text -->
-                <a      href="#"   class="footerButton"   onClick="toggle('prvcy')"> Datenschutz / Impressum</a> 
+                <a      href="#"   class="footerButton"   onClick="toggle('prvcy')"> Privacy / Imprint </a> 
 
                 
 

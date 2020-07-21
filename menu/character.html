@@ -9,14 +9,32 @@
         <script src="menufunctions.js"></script>
     </head>
             
-    <body>
+    <body >
 
         <center>
             <div id="box">
 
                 <!-- Game-Logo-Image -->
-                <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png"   alt="Run for the Bachelor"      style="width:677px;height:451px;" />     
+                <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png"   alt="Run for the Bachelor"      style="width:451px;height:300px;" />     
 
+                <br>
+
+                <p class="text"> Choose your Character:</p>
+
+                <br> <br> <br> <br>
+
+                <!-- Character selection buttons -->
+                <a      href="playername.html"> <img    src="../assets/Images/menu/boy.gif"     alt="character gif"     style="width: 163px; height:182px" 
+                        onclick="saveChosenCharacter(0);"
+                        onmouseover="src='../assets/Images/menu/boyjump.gif'" 
+                        onmouseout="src='../assets/Images/menu/boy.gif'"> </a>  
+                        
+
+                <a      href="playername.html" > <img    src="../assets/Images/menu/girl.gif"   alt="character gif"     style="width: 132px; height:156px" 
+                        onclick="saveChosenCharacter(1);" 
+                        onmouseover="src='../assets/Images/menu/girljump.gif'" 
+                        onmouseout="src='../assets/Images/menu/girl.gif'">  </a>  
+                
                 <br> <br>
             
                 <!-- Boy character gif 
@@ -24,17 +42,11 @@
                         
                 <!-- Girl character gif 
                 <img    src="../assets/Images/menu/girl.gif"    alt="character gif"     style="width: 120px; height:142px"> -->
-
-
-                <!-- Linkbutton to start the default.html   -->
-                <a      href="playername.html" class="mainButton"> SPIELEN </a>   
-
-
-                <br> <br>                
-                
+           
+                <br> <br> <br>            
                 
                 <!-- Opens a popup with the privacy and imprint text -->
-                <a      href="#"   class="footerButton"     onClick="toggle('prvcy')"> Datenschutz / Impressum</a> 
+                <a      href="#"   class="footerButton"     onClick="toggle('prvcy')"> Privacy / Imprint </a> 
 
                 <!-- content of the privacy and imprint popup window  -->
                 <div    id="prvcy" class="popup"  style="display:none;">
@@ -50,6 +62,8 @@
                 </div>
         
             </div>
+
+            <p class="windowSizeAlert"> Browserfenster ist zu klein!</p>
         </center>
 
     </body>

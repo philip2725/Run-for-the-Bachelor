@@ -50,10 +50,20 @@
     position: relative;
     border: 2px solid black;
     background-color: burlywood;
+    background-image: url('../assets/Images/menu/ChooseCharacterBackground.png');
     width: 1200px;
     height: 700px;
 }
 
+.text{
+    display: block;
+    color: rgb(255, 255, 255);
+    text-shadow: 3px 1px 5px rgb(36, 36, 36);
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Century Gothic';
+    margin-bottom: -20px;
+}
 
 /***** buttonstyles *****/
 .mainButton {
@@ -86,17 +96,15 @@
 
 .footerButton {
     background-color: transparent;
-    border: 1px solid #ffffff;
     display: inline-block;
     cursor: pointer;
-    color: #808080;
+    color: #b8b8b8;
     font-family: 'Courier New';
     font-size: 12px;
     font-weight: bold;
     padding: 3px 5px;
     text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    
 }
 
     .footerButton:hover {
@@ -113,21 +121,23 @@
 .popup {
     display: block;
     position: relative;
-    height: 250px;
-    width: 300px;
-    bottom: 260px;
+    height: 300px;
+    width: 320px;
+    bottom: 350px;
     border-radius: 10px;
-    background-color: rgb(202, 202, 202);
+    background-color: rgb(26, 25, 25,0.96);
     font-family: Arial;
     font-size: 12px;
+    color: lightgrey;
     text-align: left;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75);
 }
 
 /* close popup */
 .close{
     display: block;
+    color: lightgrey;
     position: relative;
     text-align: center;
     font-family: fantasy;
