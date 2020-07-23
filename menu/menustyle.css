@@ -116,7 +116,25 @@
         position: relative;
         top: 1px;
     }
-        
+   
+/*****
+#charGraphic {
+    position: relative;
+    width: 35%;
+    height: 50%;
+    right: 330px;
+}
+*****/
+
+/*****
+#nameInput {
+    position: relative;
+    width: 35%;
+    height: 50%;
+    left: 330px; 
+}
+*****/
+
 /***** popupstyles *****/   
 .popup {
     display: block;
@@ -148,19 +166,13 @@
 input[type=text] {
     text-align: center;
     font-family: fantasy;
-    width: 80%;
+    font-size: 18px;
+    color: cornsilk;
+    background-color: rgba(46, 44, 44, 0.500);
+    width: 20%;
     padding: 7px 20px;
     margin: 20px 10%;
     box-sizing: border-box;
   }
 
-/* popup - submit style */
-  input[type=submit] {
-    text-align: center;
-    font-family: fantasy;
-    width: 50%;
-    padding: 7px 20px;
-    margin: 10px 25%;
-    box-sizing: border-box;
-  }
 

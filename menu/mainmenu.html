@@ -8,7 +8,7 @@
         <script src="menufunctions.js"></script>
     </head>
     
-   	<body>
+   	<body   style="overflow:hidden">
 		<center>
             <div id="box">
 
@@ -52,19 +52,7 @@
             </div>
 
 
-            <!-- name input window -->
-            <div id="nameinput" class= "namepopup" style="display:none;">
 
-                <form autocomplete="off">
-                    <label for="pname">PLAYER:</label><br>
-                    <input type="text" id="userInput" name="pname"><br>
-                    <input type="submit" value="Submit" onclick="getPlayerName()">
-                </form>
-
-                <br> <br>
-
-                <a href="#" class="close" onClick="toggle('nameinput')"> schließen </a>
-            </div>
 
             <!-- content of the control window -->
             <div id="cntrl" class = "popup" style="display:none;">

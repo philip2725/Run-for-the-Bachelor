@@ -1,5 +1,9 @@
+//************* Initialierung ******************//
 
-// function to change the visibility of an element
+
+//*************** Functions ******************//
+
+//  function to change the visibility of an element
 function toggle(txt) {
     var txt = document.getElementById(txt);
    
@@ -10,13 +14,7 @@ function toggle(txt) {
     }
 }
 
-function getPlayerName() {
-    var input = document.getElementById("userInput").value;
-    document.getElementById("test").innerHTML = "Hallo " + input;
-}
-
-
-//save the character selection in the sessionStorage
+//  saves the character selection in the sessionStorage
 function saveChosenCharacter(x)
 { 
     //0 = Boy   1 = Girl
@@ -29,9 +27,21 @@ function saveChosenCharacter(x)
     }
 }
 
-//Change the graphic of the choosen character 
+//  Change the graphic of the choosen character 
 function getChosenCharGraphic()
 {
     var img = document.getElementById("showChosenCharacter");
     img.src = sessionStorage.getItem("chosenCharGraphic");
 }
+
+//  saves the user input as charactername in the session storage
+function saveCharacterName() {
+    var input = document.getElementById("userInput").value;
+    sessionStorage.setItem("characterName", input);
+}
+
+// gets the chosen character out of the session storge and replace it at the given paragraph id
+function getCharacterName(){
+    document.getElementById("head").innerHTML = "Hallo " + sessionStorage.getItem("characterName");
+}
+

@@ -4,10 +4,13 @@
 	    <meta charset="utf-8" />
 	    <title>Run for the Bachelor</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	    <link rel="stylesheet" type="text/css" href="CSS/style.css">
-	    <script src="JS/game.js"></script>
+		<link rel="stylesheet" type="text/css" href="CSS/style.css">
+		<script src="JS/game.js"></script>
+		<script src="menu/menufunctions.js"></script>
 	</head>
-	<body>
+
+	<body	style="overflow:hidden"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
+
 		<center>
 			<h1 id="head">Run for the Bachelor</h1>
 			<canvas id="mycanvas" width="1200" height="700">

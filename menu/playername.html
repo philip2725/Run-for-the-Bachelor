@@ -9,29 +9,36 @@
         <script src="menufunctions.js"></script>
     </head>
             
-    <body onload="getChosenCharGraphic()"> <!-- onload function gets the chosen character and refreshes the picture-->
+    <body style="overflow:hidden"   onload="getChosenCharGraphic()"> <!-- onload function gets the chosen character and refreshes the picture-->
 
+        
         <center>
             <div id="box">
                                 
                 <!-- Game-Logo-Image -->
                 <img    src="../assets/Images/menu/Logo_Idee_ohne_Schild.png" 
                         alt="Run for the Bachelor" 
-                        style="width:677px;height:451px;" />     
+                        style="width:338px; height:226px;" />     
 
                 <br>
+                
                 <!-- show selected character graphic -->
-                               
-                <img   id="showChosenCharacter"   src=""   alt="character gif"   style="width: 135px; height:150px"> 
+                <aside id="charGraphic">
+
+                    <img   id="showChosenCharacter"   src=""   alt="character gif"   style="width: 135px; height:150px">  
                         
-                <!-- Girl character gif 
-                <img    src="../assets/Images/menu/girl.gif"    alt="character gif"     style="width: 120px; height:142px"> -->
+                </aside>
+                
+               <!-- name input window -->
+                <aside id="nameInput">
+                    
+                    <form autocomplete="off">
+                        <a class="text">Choose a name</a><br>
+                        <input type="text"  id="userInput" maxlength="15"> <br>
+                    </form>
+                     <a  href="../default.html"  class="mainButton" onclick="saveCharacterName(); getCharacterName();"> Let´s GO!</a> 
 
-
-                <br> <br>
-            
-                <!-- Linkbutton to start the default.html   -->
-                <a      href="../default.html"  class="mainButton"> SPIELEN </a>
+                </aside>
         
                 <br> <br>
 
@@ -53,12 +60,12 @@
                     <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
                 </div>
 
-
+                
 
             </div>
         </center>
 
-        <p id="test"> </p>
+        
 
     </body>
 
