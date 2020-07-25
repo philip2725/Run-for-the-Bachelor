@@ -7,40 +7,43 @@
 }
 @media only screen and (max-width: 1250px){
         
-    body{background-color: red;}
+    body{ background-color: #000;}
 
     .windowSizeAlert{
             display: block;
-            position: relative;
-            bottom: 260px;
-            height: 250px;
-            width: 500px;
-            background-color: rgb(61, 61, 61);
+            position: fixed;
+            left: 0px;
+            top: -40px;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.9);
             color: #fff;
             font-family: Arial;
             font-size: 40px;
             padding: 10px;
             text-align: center;
-            box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75)
         } 
 }
 
 @media only screen and (max-height: 800px){
-    body{background-color: red;}
 
+    body{ background-color: #000;}
+   
     .windowSizeAlert{
-            display: block;
-            position: relative;
-            bottom: 260px;
-            height: 250px;
-            width: 500px;
-            background-color: rgb(61, 61, 61);
-            color: #fff;
-            font-family: Arial;
-            font-size: 40px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75)
+        display: block;
+        position: fixed;
+        left: 0px;
+        top: -40px;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.9);
+        color: #fff;
+        font-family: Arial;
+        font-size: 40px;
+        padding: 10px;
+        text-align: center;
         } 
 }
 
@@ -53,6 +56,7 @@
     background-image: url('../assets/Images/menu/ChooseCharacterBackground.png');
     width: 1200px;
     height: 700px;
+    
 }
 
 .text{
@@ -95,6 +99,9 @@
 
 
 .footerButton {
+    position: absolute;
+    bottom: 1%;
+    left: 44.5%;
     background-color: transparent;
     display: inline-block;
     cursor: pointer;
@@ -110,11 +117,6 @@
     .footerButton:hover {
         background-color: transparent;
         color: #636363;
-    }
-
-    .footerButton:active {
-        position: relative;
-        top: 1px;
     }
    
 /*****
@@ -173,6 +175,8 @@ input[type=text] {
     padding: 7px 20px;
     margin: 20px 10%;
     box-sizing: border-box;
+    border-color: white;
+    border-radius: 3px;
   }
 
 
