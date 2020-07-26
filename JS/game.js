@@ -12,28 +12,85 @@ var backgroundUpdateSpeed = 30;															//miliseconds how often the backgr
 var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
 var backgroundIntervalHandle;															//lower = faster
 
-//character											
-var charWidth = 130;																	//width of character image
-var	charHeight = 130;																	//height of character image
-var charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
-var charY = gameHeight*0.8-charHeight;													//Y-Point of character
+//character		
+class Player {
+	constructor() {
+		var charWidth = 130;
+		var charHeight = 130;
+		this.charWidth = charWidth;																	//width of character image
+		this.charHeight = charHeight;																	//height of character image
+		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
+		this.charY = gameHeight*0.8-charHeight;													//Y-Point of character
+		this.charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
+		'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
+		'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
+		'char19', 'char20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+		this.currentPictureIdx = 0;
+		this.currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
+		this.movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
+		this.playerImg;																			//contains the currently used image-Element of the player
+		this.playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
+		//move Option	
+		this.ground = this.charY;																		//save the null point of the ground
+		this.jumpHigh = 250;																		//high from the ground
+		this.jumpSpeed = 10;																		//lower = faster
+		this.jumping;							  												//jumping Intervall ID
+		this.goingDown = false;																	//status of player currently going Down
+		this.isGoing = false;																	//Tells whether the player is going or not
 
-var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
-					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
-					  'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
-					  'char19', 'char20'];												//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-var currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
-var movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
-var playerImg;																			//contains the currently used image-Element of the player
-var playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
+	}
 
-//move Option	
-var ground = charY;																		//save the null point of the ground
-var jumpHigh = 250;																		//high from the ground
-var jumpSpeed = 10;																		//lower = faster
-var jumping;							  												//jumping Intervall ID
-var goingDown = false;																	//status of player currently going Down
-var isGoing = false;																	//Tells whether the player is going or not
+	drawPlayer() {
+		ctx.drawImage(this.playerImg, this.charX ,this.charY, this.charWidth, this.charHeight);
+	}
+
+	getTop() {
+		//console.log(this.charY)
+		return this.charY + this.charHeight;
+	}
+	getLeft() {
+		return this.charX;
+	}
+
+	getRight() {
+		return this.charX + this.charWidth;
+	}
+
+	getBottom() {
+		return this.charY + this.charHeight;
+	}
+
+	detectCollision(obstacle) {
+		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getBottom() < obstacle.getTop() || this.getLeft() > obstacle.getRight()) {
+			return false;
+		}
+		return true;
+	}	
+
+}
+
+var player;																				// object of Class Player
+// var charWidth = 130;																	//width of character image
+// var	charHeight = 130;																	//height of character image
+// var charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
+// var charY = gameHeight*0.8-charHeight;													//Y-Point of character
+
+// var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
+// 					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
+// 					  'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
+// 					  'char19', 'char20'];												//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+// var currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
+// var movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
+// var playerImg;																			//contains the currently used image-Element of the player
+// var playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
+
+// //move Option	
+// var ground = charY;																		//save the null point of the ground
+// var jumpHigh = 250;																		//high from the ground
+// var jumpSpeed = 10;																		//lower = faster
+// var jumping;							  												//jumping Intervall ID
+// var goingDown = false;																	//status of player currently going Down
+// var isGoing = false;																	//Tells whether the player is going or not
 
 
 //obstacles
@@ -51,6 +108,22 @@ class Obstacle {
 		this.x += direcion;																	//movement of obstacle when player goes to right
 	}
 
+	getTop() {
+		return this.y;
+	}
+
+	getBottom() {
+		return this.y + this.height;
+	}
+
+	getLeft() {
+		return this.x;
+	}
+
+	getRight() {
+		return this.x + this.width;
+	}
+
 }
 var obstacles = [];
 var obstaclesIntervalHandle;
@@ -61,9 +134,12 @@ function init(){
 	canvas = document.getElementById("mycanvas");
 	canvas.style.border = "1px solid grey";
 	ctx = canvas.getContext("2d");
+	player = new Player()
 
 	setInterval(draw, 40);
 	changePlayerPicture()
+
+	
 
 	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"box")				//demo obstacle
 	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")					//demo obstacle
@@ -82,7 +158,8 @@ function draw(){
 	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
-	ctx.drawImage(playerImg, charX ,charY, charWidth, charHeight);									//character Image
+	//ctx.drawImage(playerImg, charX ,charY, charWidth, charHeight);									//character Image
+	player.drawPlayer()
 	drawObstacles()
 }
 
@@ -107,17 +184,28 @@ function updateObstacles(direction) {
 		obstacle.update(direction)
 	}
 }
+
+function checkCollision() {
+
+	for (index = 0; index < obstacles.length; index++) {
+		var obstacle = obstacles[index]
+		if (player.detectCollision(obstacle)) {
+			console.log("Collision detected")
+		}
+	}
+	
+}
 function jump(){
-	if(charY > jumpHigh && !goingDown){
-		charY -= 6
-		console.log(charY);
+	if(player.charY > player.jumpHigh && !player.goingDown){
+		player.charY -= 6
+		console.log(player.charY);
 	}else {
-		goingDown = true;
-		if(charY == ground){
-			goingDown = false;
-			clearInterval(jumping);
+		player.goingDown = true;
+		if(player.charY == player.ground){
+			player.goingDown = false;
+			clearInterval(player.jumping);
 		}else{
-			charY += 9
+			player.charY += 9
 		}
 	}
 }
@@ -139,16 +227,16 @@ function moveBackground(direction){
 function changePlayerPicture(){
 	
 	//Movement: Stay
-	if (isGoing == false) {
-		currentPictureIdx = 0;
+	if (player.isGoing == false) {
+		player.currentPictureIdx = 0;
 	}
 	//Movment: Run
-	if(charPictureIds[currentPictureIdx] == charPictureIds[charPictureIds.length - 1]){
-		currentPictureIdx = 0;
+	if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
+		player.currentPictureIdx = 0;
 	}else{
-		currentPictureIdx++;
+		player.currentPictureIdx++;
 	}
-	playerImg = document.getElementById(charPictureIds[currentPictureIdx]);
+	player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
 
 	//Movment: jump
 	//...
@@ -158,20 +246,26 @@ function changePlayerPicture(){
 }
 
 function goLeft(){
-	if(isGoing === false){
+	if(player.isGoing === false){
 		console.log("Left Key pressed")
-		isGoing = true
-		playerIntervalHandle = setInterval(changePlayerPicture, movementSpeed);
+		player.isGoing = true;
+		player.charX -= backgroundMoveSpeed;
+		// console.log("PlayerXPosition:" + charX)
+		checkCollision()
+		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
 function goRight(){
-	if(isGoing === false){
-		console.log("Right Key pressed")
-		isGoing = true
-		playerIntervalHandle = setInterval(changePlayerPicture, movementSpeed);
+	if(player.isGoing === false){
+		console.log("Right Key pressed");
+		player.isGoing = true;
+		player.charX += backgroundMoveSpeed;
+		// console.log("PlayerXPosition:" + charX)
+		checkCollision()
+		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
@@ -189,7 +283,7 @@ function keyDown(event){
 	    break;
 	  case 38:
 	    // Up-Arrow Pressed
-	    if(charY == ground) jumping = setInterval(jump, jumpSpeed)
+	    if(player.charY == player.ground) player.jumping = setInterval(jump, player.jumpSpeed)
 	    break;
 	  case 39:
 	    // Right-Arrow Pressed
@@ -207,8 +301,8 @@ function keyDown(event){
 function keyUp(event){
 console.log("Key is up")	
 	changePlayerPicture()
-	if(isGoing === true && (event.keyCode === 39 || event.keyCode === 37)){
-		isGoing = false
+	if(player.isGoing === true && (event.keyCode === 39 || event.keyCode === 37)){
+		player.isGoing = false
 		clearInterval(playerIntervalHandle);
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
