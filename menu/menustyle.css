@@ -52,6 +52,7 @@
     display: block;
     position: relative;
     border: 2px solid black;
+    margin-top: 6%;
     background-color: burlywood;
     background-image: url('../assets/Images/menu/ChooseCharacterBackground.png');
     width: 1200px;
@@ -70,7 +71,7 @@
     width: 350px; 
     height:120px;
     margin-right: 150px;
-    margin-top: 120px;
+    margin-top: 130px;
     float: right;
 }
 

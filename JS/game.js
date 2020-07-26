@@ -59,7 +59,7 @@ var obstaclesIntervalHandle;
 function init(){
 	console.log("init called");
 	canvas = document.getElementById("mycanvas");
-	canvas.style.border = "1px solid grey";
+	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
 	setInterval(draw, 40);

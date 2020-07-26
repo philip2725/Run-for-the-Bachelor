@@ -32,11 +32,11 @@
                <!-- name input window -->
                 <aside id="nameInput">
                     
-                    <form autocomplete="off">
+                    <form onsubmit="saveCharacterName(); getCharacterName();" action="../default.html" autocomplete="off">
                         <a class="text">Choose a name:</a><br>
                         <input type="text"  id="userInput" maxlength="15"> <br>
+                        <input type="submit" value="Let´s GO!" class="mainButton">
                     </form>
-                     <a  href="../default.html"  class="mainButton" onclick="saveCharacterName(); getCharacterName();"> Let´s GO!</a> 
 
                 </aside>
         
