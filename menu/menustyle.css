@@ -140,10 +140,11 @@
 /***** popupstyles *****/   
 .popup {
     display: block;
-    position: relative;
-    height: 300px;
+    position: absolute;
+    height: 350px;
     width: 320px;
-    bottom: 350px;
+    bottom: 5%;
+    left: 35%;
     border-radius: 10px;
     background-color: rgb(26, 25, 25,0.96);
     font-family: Arial;
