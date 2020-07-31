@@ -61,7 +61,7 @@ class Player {
 	}
 
 	detectCollision(obstacle) {
-		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getBottom() < obstacle.getTop() || this.getLeft() > obstacle.getRight()) {
+		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getLeft() > obstacle.getRight()) {
 			return false;
 		}
 		return true;
@@ -128,6 +128,15 @@ class Obstacle {
 var obstacles = [];
 var obstaclesIntervalHandle;
 
+
+//control the game
+const gameState = {
+	current : 0,
+	getReady : 0,
+	game : 1,
+	over : 2
+}
+
 //************* Initialierung ******************//
 function init(){
 	console.log("init called");
@@ -191,6 +200,8 @@ function checkCollision() {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
 			console.log("Collision detected")
+			gameState.current = gameState.over					//sets the current game State to Game Over when a Collision with an obstacle is detected
+			break;
 		}
 	}
 	
