@@ -17,8 +17,8 @@ class Player {
 	constructor() {
 		var charWidth = 130;
 		var charHeight = 130;
-		this.charWidth = charWidth;																	//width of character image
-		this.charHeight = charHeight;																	//height of character image
+		this.charWidth = charWidth;																//width of character image
+		this.charHeight = charHeight;															//height of character image
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.88-charHeight;													//Y-Point of character
 		this.charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
@@ -27,14 +27,14 @@ class Player {
 		'char19', 'char20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
 		this.currentPictureIdx = 0;
 		this.currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
-		this.movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
+		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player
-		this.playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
+		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
 		//move Option	
-		this.ground = this.charY;																		//save the null point of the ground
-		this.jumpHigh = 250;																		//high from the ground
-		this.jumpSpeed = 10;																		//lower = faster
-		this.jumping;							  												//jumping Intervall ID
+		this.ground = this.charY;																//save the null point of the ground
+		this.jumpHigh = 250;																	//high from the ground
+		this.jumpSpeed = 10;																	//lower = faster
+		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
 
@@ -61,7 +61,7 @@ class Player {
 	}
 
 	detectCollision(obstacle) {
-		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getBottom() < obstacle.getTop() || this.getLeft() > obstacle.getRight()) {
+		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getLeft() > obstacle.getRight()) {
 			return false;
 		}
 		return true;
@@ -70,28 +70,6 @@ class Player {
 }
 
 var player;																				// object of Class Player
-// var charWidth = 130;																	//width of character image
-// var	charHeight = 130;																	//height of character image
-// var charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
-// var charY = gameHeight*0.8-charHeight;													//Y-Point of character
-
-// var charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
-// 					  'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
-// 					  'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
-// 					  'char19', 'char20'];												//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-// var currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
-// var movementSpeed = 40;																	//speed of how often an image changes (lower = faster)	
-// var playerImg;																			//contains the currently used image-Element of the player
-// var playerIntervalHandle;  																//Event-Handle for clearing the Inervall if the player is standing											
-
-// //move Option	
-// var ground = charY;																		//save the null point of the ground
-// var jumpHigh = 250;																		//high from the ground
-// var jumpSpeed = 10;																		//lower = faster
-// var jumping;							  												//jumping Intervall ID
-// var goingDown = false;																	//status of player currently going Down
-// var isGoing = false;																	//Tells whether the player is going or not
-
 
 //obstacles
 class Obstacle {
@@ -127,6 +105,15 @@ class Obstacle {
 }
 var obstacles = [];
 var obstaclesIntervalHandle;
+
+
+//control the game
+const gameState = {
+	current : 0,
+	getReady : 0,
+	game : 1,
+	over : 2
+}
 
 //************* Initialierung ******************//
 function init(){
@@ -191,6 +178,8 @@ function checkCollision() {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
 			console.log("Collision detected")
+			gameState.current = gameState.over					//sets the current game State to Game Over when a Collision with an obstacle is detected
+			break;
 		}
 	}
 	
@@ -200,10 +189,11 @@ function jump(){
 		player.charY -= 6
 		console.log(player.charY);
 	}else {
-		player.goingDown = true;
-		if(player.charY == player.ground){
+		if(player.charY > player.ground){
 			player.goingDown = false;
+			player.charY = player.ground;
 			clearInterval(player.jumping);
+			player.jumping = 0;
 		}else{
 			player.charY += 12
 		}
@@ -283,7 +273,7 @@ function keyDown(event){
 	    break;
 	  case 38:
 	    // Up-Arrow Pressed
-	    if(player.charY == player.ground) player.jumping = setInterval(jump, player.jumpSpeed)
+	    if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
 	    break;
 	  case 39:
 	    // Right-Arrow Pressed
