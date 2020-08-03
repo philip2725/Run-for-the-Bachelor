@@ -6,7 +6,7 @@ var gameHeight = 700;
 
 //Background
 var background;
-var backgroundWidth = 2826;																//Full lenght of the Background Image
+var backgroundWidth = 16358;																//Full lenght of the Background Image
 var backgroundX = 0;																	//Current X-point from the top left corner of the image
 var backgroundUpdateSpeed = 30;															//miliseconds how often the background will be updated
 var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
@@ -20,7 +20,7 @@ class Player {
 		this.charWidth = charWidth;																	//width of character image
 		this.charHeight = charHeight;																	//height of character image
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
-		this.charY = gameHeight*0.8-charHeight;													//Y-Point of character
+		this.charY = gameHeight*0.88-charHeight;													//Y-Point of character
 		this.charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
 		'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
 		'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
@@ -141,10 +141,10 @@ function init(){
 
 	
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"box")				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 500,gameHeight*0.8 - 200, 100,200,"box")				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 800,gameHeight*0.8 - 150, 150,150,"box")				//demo obstacle
+	var box1 = new Obstacle(gameWidth - 100,gameHeight - 194, 100,100,"box")				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 200,gameHeight - 174, 80,80,"box")					//demo obstacle
+	var box3 = new Obstacle(gameWidth + 500,gameHeight - 294, 100,200,"box")				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 800,gameHeight - 244, 150,150,"box")				//demo obstacle
 
 	obstacles.push(box1)
 	obstacles.push(box2)
@@ -155,9 +155,9 @@ function init(){
 
 function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
-	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
+	//var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 						//Background
 	//ctx.drawImage(playerImg, charX ,charY, charWidth, charHeight);									//character Image
 	player.drawPlayer()
 	drawObstacles()
@@ -205,7 +205,7 @@ function jump(){
 			player.goingDown = false;
 			clearInterval(player.jumping);
 		}else{
-			player.charY += 9
+			player.charY += 12
 		}
 	}
 }
