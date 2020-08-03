@@ -4,6 +4,13 @@ var canvas, ctx;
 var gameWidth = 1200;
 var gameHeight = 700;
 
+//Break-Menu
+var breakMenuRect;
+var breakMenuWidth = gameWidth/2;
+var breakMenuHeight = gameHeight/2;
+var breakMenuX = breakMenuWidth/2;
+var breakMenuY = breakMenuHeight*0.8/2;
+
 //Background
 var background;
 var backgroundWidth = 2826;																//Full lenght of the Background Image
@@ -32,7 +39,7 @@ class Player {
 		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 250;																	//high from the ground
+		this.jumpHigh = 50;																	//high from the ground
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -46,7 +53,7 @@ class Player {
 
 	getTop() {
 		//console.log(this.charY)
-		return this.charY + this.charHeight;
+		return this.charY;
 	}
 	getLeft() {
 		return this.charX;
@@ -61,10 +68,10 @@ class Player {
 	}
 
 	detectCollision(obstacle) {
-		if (this.getTop() > obstacle.getBottom() || this.getRight() < obstacle.getLeft() || this.getLeft() > obstacle.getRight()) {
-			return false;
+		if (this.getBottom() > obstacle.getTop() && this.getRight() > obstacle.getLeft() && this.getLeft() < obstacle.getRight()) {
+			return true;
 		}
-		return true;
+		return false;
 	}	
 
 }
@@ -73,11 +80,12 @@ var player;																				// object of Class Player
 
 //obstacles
 class Obstacle {
-	constructor(x,y = ground,width,height,type) {
+	constructor(x,y = ground,width,height,pictureId,type) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.pictureId = pictureId;
 		this.type = type;
 	}
 
@@ -124,19 +132,17 @@ function init(){
 	player = new Player()
 
 	setInterval(draw, 40);
-	changePlayerPicture()
+	changePlayerPicture();
 
-	
+	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"book","box");				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.8 - 80, 80,80,"book","box");					//demo obstacle
+	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.8 - 200, 100,200,"book","box");				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.8 - 150, 150,150,"book","box");				//demo obstacle
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"box")				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 200,gameHeight*0.8 - 80, 80,80,"box")					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 500,gameHeight*0.8 - 200, 100,200,"box")				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 800,gameHeight*0.8 - 150, 150,150,"box")				//demo obstacle
-
-	obstacles.push(box1)
-	obstacles.push(box2)
-	obstacles.push(box3)
-	obstacles.push(box4)
+	obstacles.push(box1);
+	obstacles.push(box2);
+	obstacles.push(box3);
+	obstacles.push(box4);
 	
 }
 
@@ -144,24 +150,45 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background
-	//ctx.drawImage(playerImg, charX ,charY, charWidth, charHeight);									//character Image
-	player.drawPlayer()
-	drawObstacles()
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background		
+	player.drawPlayer()																				//character Image
+	drawObstacles()																					//Obstacle Images
+	checkGameState();
+	checkCollision()
 }
 
 //*************** Functions ******************//
 function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	ctx.fillStyle = rstyle;
-	ctx.fillRect(rx, ry, rw, rh);
+	return ctx.fillRect(rx, ry, rw, rh);
+}
+
+function checkGameState(){
+	if(gameState.current === gameState.over){
+		drawBreakMenu();
+	}else if(gameState.current === gameState.game){
+		//TODO
+	}else if(gameState.current === gameState.getReady){
+		//TODO
+	}
+}
+
+function drawBreakMenu(){
+	drawRect(breakMenuX,breakMenuY,breakMenuWidth, breakMenuHeight, "lightgrey");
+	ctx.font = "60px Arial Black";
+	ctx.fillStyle = "red";
+	ctx.textAlign = "center";
+	ctx.fillText("Game Over", canvas.width/2, canvas.height/3)
 }
 
 function drawObstacles() {
 	
 	for (index = 0; index < obstacles.length; index++) {
-		var obstacle = obstacles[index];
-		var colors = ["red", "green", "blue", "yellow", "orange"]
-		drawRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height, colors[Math.floor(Math.random() * colors.length)]);
+		var obstacle = obstacles[index];	
+		var picture = document.getElementById(obstacle.pictureId)
+		//var colors = ["red", "green", "blue", "yellow", "orange"]
+		ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
+		//drawRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height, colors[Math.floor(Math.random() * colors.length)]);
 	}
 }
 
@@ -187,7 +214,6 @@ function checkCollision() {
 function jump(){
 	if(player.charY > player.jumpHigh && !player.goingDown){
 		player.charY -= 6
-		console.log(player.charY);
 	}else {
 		if(player.charY > player.ground){
 			player.goingDown = false;
@@ -210,8 +236,6 @@ function moveBackground(direction){
 
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
-	}else{
-	//	if(charX + direction + charWidth < gameWidth && charX > direction) charX += direction;
 	}
 }
 
@@ -241,8 +265,7 @@ function goLeft(){
 		console.log("Left Key pressed")
 		player.isGoing = true;
 		player.charX -= backgroundMoveSpeed;
-		// console.log("PlayerXPosition:" + charX)
-		checkCollision()
+
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -254,8 +277,7 @@ function goRight(){
 		console.log("Right Key pressed");
 		player.isGoing = true;
 		player.charX += backgroundMoveSpeed;
-		// console.log("PlayerXPosition:" + charX)
-		checkCollision()
+
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -301,6 +323,6 @@ console.log("Key is up")
 }
 
 //Event Listener
-document.addEventListener("keydown", keyDown, false); //Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
-document.addEventListener("keyup", keyUp, false); //Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
+document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
+document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
