@@ -39,7 +39,7 @@ class Player {
 		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 50;																	//high from the ground
+		this.jumpHigh = 250;																	//high from the ground
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -134,10 +134,10 @@ function init(){
 	setInterval(draw, 40);
 	changePlayerPicture();
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.8 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.8 - 80, 80,80,"book","box");					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.8 - 200, 100,200,"book","box");				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.8 - 150, 150,150,"book","box");				//demo obstacle
+	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.88 - 80, 80,80,"book","box");					//demo obstacle
+	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.88 - 200, 100,200,"book","box");				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.88 - 150, 150,150,"book","box");				//demo obstacle
 
 	obstacles.push(box1);
 	obstacles.push(box2);
@@ -150,7 +150,7 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	//var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight*0.8); 						//Background		
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 						//Background		
 	player.drawPlayer()																				//character Image
 	drawObstacles()																					//Obstacle Images
 	checkGameState();
@@ -214,6 +214,7 @@ function checkCollision() {
 function jump(){
 	if(player.charY > player.jumpHigh && !player.goingDown){
 		player.charY -= 6
+		console.log(player.charY);
 	}else {
 		if(player.charY > player.ground){
 			player.goingDown = false;
@@ -221,6 +222,7 @@ function jump(){
 			clearInterval(player.jumping);
 			player.jumping = 0;
 		}else{
+			player.goingDown = true;
 			player.charY += 12
 		}
 	}
