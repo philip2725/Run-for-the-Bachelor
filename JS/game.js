@@ -26,8 +26,10 @@ class Player {
 		var charHeight = 130;
 		this.charWidth = charWidth;																//width of character image
 		this.charHeight = charHeight;															//height of character image
+		this.rightPuffer = 20;																	//right puffer when an obstacle is hit
+		this.leftPuffer = 40;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
-		this.charY = gameHeight*0.88-charHeight;													//Y-Point of character
+		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
 		this.charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
 		'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
 		'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
@@ -44,6 +46,7 @@ class Player {
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
+		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
 
 	}
 
@@ -56,11 +59,11 @@ class Player {
 		return this.charY;
 	}
 	getLeft() {
-		return this.charX;
+		return this.charX+this.leftPuffer;
 	}
 
 	getRight() {
-		return this.charX + this.charWidth;
+		return this.charX + this.charWidth-this.rightPuffer;
 	}
 
 	getBottom() {
@@ -90,7 +93,6 @@ class Obstacle {
 	}
 
 	update(direcion) {
-		console.log(direcion);
 		this.x += direcion;																	//movement of obstacle when player goes to right
 	}
 
@@ -157,8 +159,7 @@ function draw(){
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 						//Background		
 	player.drawPlayer()																				//character Image
 	drawObstacles()																					//Obstacle Images
-	checkGameState();
-	checkCollision()
+	checkGameState()
 }
 
 //*************** Functions ******************//
@@ -169,6 +170,9 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function checkGameState(){
 	if(gameState.current === gameState.over){
+		clearInterval(playerIntervalHandle);
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
 		drawBreakMenu();
 	}else if(gameState.current === gameState.game){
 		//TODO
@@ -218,7 +222,6 @@ function checkCollision() {
 function jump(){
 	if(player.charY > player.jumpHigh && !player.goingDown){
 		player.charY -= 6
-		console.log(player.charY);
 	}else {
 		if(player.charY > player.ground){
 			player.goingDown = false;
@@ -242,6 +245,8 @@ function moveBackground(direction){
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
 	}
+
+	checkCollision()
 }
 
 function changePlayerPicture(){
@@ -250,17 +255,28 @@ function changePlayerPicture(){
 	if (player.isGoing == false) {
 		player.currentPictureIdx = 0;
 	}
-	//Movment: Run
-	if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
-		player.currentPictureIdx = 0;
-	}else{
-		player.currentPictureIdx++;
+	//Movment: Go Right
+	if(player.jumping === 0 && player.walkDirection === 0){
+		if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
+			player.currentPictureIdx = 0;
+		}else{
+			player.currentPictureIdx++;
+		}
+		player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
 	}
-	player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
-
+	//Movement: Go Left
+	if(player.jumping === 0 && player.walkDirection == 1){
+		if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
+			player.currentPictureIdx = 0;
+		}else{
+			player.currentPictureIdx++;
+		}
+		player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
+	}
 	//Movment: jump
-	//...
+	else if(player.jumping != 0){
 
+	}
 	//Movment: duck
 	//...
 }
@@ -269,7 +285,6 @@ function goLeft(){
 	if(player.isGoing === false){
 		console.log("Left Key pressed")
 		player.isGoing = true;
-		player.charX -= backgroundMoveSpeed;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -281,7 +296,6 @@ function goRight(){
 	if(player.isGoing === false){
 		console.log("Right Key pressed");
 		player.isGoing = true;
-		player.charX += backgroundMoveSpeed;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -294,25 +308,29 @@ function goRight(){
 //Find Out KeyCode Here  ->  https://keycode.info
 
 function keyDown(event){
-	switch (event.keyCode) {
-	  case 37:
-	    // Left-Arrow Pressed
-	    goLeft();
-	    break;
-	  case 38:
-	    // Up-Arrow Pressed
-	    if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
-	    break;
-	  case 39:
-	    // Right-Arrow Pressed
-	    goRight();
-	    break;
-	  case 40:
-	    // Down-Arrow Pressed
-	    break;
-	  default:
-	    //otherKey Pressed
-	    break;
+	if(gameState.current != gameState.over){
+		switch (event.keyCode) {
+		case 37:
+			// Left-Arrow Pressed
+			goLeft();
+			walkDirection = 1
+			break;
+		case 38:
+			// Up-Arrow Pressed
+			if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			break;
+		case 39:
+			// Right-Arrow Pressed
+			goRight();
+			walkDirection = 0
+			break;
+		case 40:
+			// Down-Arrow Pressed
+			break;
+		default:
+			//otherKey Pressed
+			break;
+		}
 	}
 }
 
