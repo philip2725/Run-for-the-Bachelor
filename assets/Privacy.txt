@@ -22,3 +22,5 @@ In der Regel werden Webserver-Logfiles zwei Wochen gespeichert und danach automa
  können jedoch nicht ausschließen, dass diese Daten beim Vorliegen von rechtswidrigem Verhalten eingesehen werden.
 
 Quelle: Erstellt mit dem Datenschutz Generator von AdSimple in Kooperation mit bauenwir.de
+
+https://www.adsimple.de/datenschutz-generator/?gclid=CjwKCAjw0_T4BRBlEiwAwoEiAXYiIIfOpnaNWFXuFbwORhj5Dm0rszIhniIH9_PNMbEMtXqS6hgzPRoCFmoQAvD_BwE
