@@ -123,7 +123,7 @@ const gameState = {
 	over : 2
 }
 
-//************* Initialierung ******************//
+//************* Initialisierung ******************//
 function init(){
 	console.log("init called");
 	canvas = document.getElementById("mycanvas");
@@ -143,6 +143,10 @@ function init(){
 	obstacles.push(box2);
 	obstacles.push(box3);
 	obstacles.push(box4);
+
+	function setup();
+	function loaded();
+	function togglePlaying();
 	
 }
 
@@ -327,3 +331,32 @@ console.log("Key is up")
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
+
+//Play and Pause Button
+var song;
+var button;
+
+function setup()
+{
+	song = loadSound("rainbow.mp3", loaded);	
+	button = createButton("play");
+	button.mousePressed(togglePlaying);
+}
+
+function loaded()
+{
+	console.log("loaded");
+}
+
+function togglePlaying()
+{
+	if (!song.isPlaying())
+	{
+		song.play();
+		song.setVolume(0.3);
+		button.html("pause");
+	} else {
+		song.pause();
+		button.html("play");
+	}
+}
