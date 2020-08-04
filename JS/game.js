@@ -22,12 +22,12 @@ var backgroundIntervalHandle;															//lower = faster
 //character		
 class Player {
 	constructor() {
-		var charWidth = 130;
-		var charHeight = 130;
+		var charWidth = 109;
+		var charHeight = 152;
 		this.charWidth = charWidth;																//width of character image
 		this.charHeight = charHeight;															//height of character image
-		this.rightPuffer = 20;																	//right puffer when an obstacle is hit
-		this.leftPuffer = 40;																	//left puffer when an obstacle is hit
+		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
+		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
 		this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
@@ -60,7 +60,7 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 250;																	//high from the ground
+		this.jumpHigh = 220;																	//high from the ground
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -74,7 +74,6 @@ class Player {
 	}
 
 	getTop() {
-		//console.log(this.charY)
 		return this.charY;
 	}
 	getLeft() {
@@ -155,10 +154,10 @@ function init(){
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.88 - 80, 80,80,"book","box");					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.88 - 200, 100,200,"book","box");				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.88 - 150, 150,150,"book","box");				//demo obstacle
+	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box3 = new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 
 	obstacles.push(box1);
 	obstacles.push(box2);
@@ -244,7 +243,7 @@ function jump(){
 			player.jumping = 0;
 		}else{
 			player.goingDown = true;
-			player.charY += 12
+			player.charY += 9
 		}
 	}
 }
@@ -331,7 +330,6 @@ function changePlayerPicture(){
 
 function goLeft(){
 	if(player.isGoing === false){
-		console.log("Left Key pressed")
 		player.isGoing = true;
 
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -341,7 +339,6 @@ function goLeft(){
 
 function goRight(){
 	if(player.isGoing === false){
-		console.log("Right Key pressed");
 		player.isGoing = true;
 
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
@@ -381,7 +378,6 @@ function keyDown(event){
 }
 
 function keyUp(event){
-console.log("Key is up")	
 	changePlayerPicture()
 	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
