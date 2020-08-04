@@ -148,10 +148,10 @@ function init(){
 	setInterval(draw, 40);
 	changePlayerPicture();
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.88 - 80, 80,80,"book","box");					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.88 - 200, 100,200,"book","box");				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.88 - 150, 150,150,"book","box");				//demo obstacle
+	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");					//demo obstacle
+	var box3 = new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 
 	obstacles.push(box1);
 	obstacles.push(box2);
