@@ -20,7 +20,7 @@ function saveChosenCharacter(x)
     //0 = Boy   1 = Girl
     if (x == 0) {
         sessionStorage.setItem("chosenCharacter", 0) //Boy
-        sessionStorage.setItem("chosenCharGraphic", "../assets/Images/menu/boy.gif")}
+        sessionStorage.setItem("chosenCharGraphic", "../assets/Images/Character/Boy/Gifs/Boy_Idle.gif")}
     else {
         sessionStorage.setItem("chosenCharacter", 1) //Girl
         sessionStorage.setItem("chosenCharGraphic", "../assets/Images/menu/girl.gif")
