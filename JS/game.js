@@ -22,8 +22,8 @@ var backgroundIntervalHandle;															//lower = faster
 //character		
 class Player {
 	constructor() {
-		var charWidth = 130;
-		var charHeight = 130;
+		var charWidth = 109;
+		var charHeight = 152;
 		this.charWidth = charWidth;																//width of character image
 		this.charHeight = charHeight;															//height of character image
 		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
@@ -43,7 +43,7 @@ class Player {
 		'BJR13', 'BJR14', 'BJR15', 'BJR16', 'BJR17', 'BJR18', 
 		'BJR19', 'BJR20'];
 		this.charPictureJL = ['BJL01', 'BJL02', 'BJL03', 'BJL04', 'BJL05', 'BJL06', 
-		'BJLR07', 'BJL08', 'BJL09', 'BJL10', 'BJL11', 'BJL12', 
+		'BJL07', 'BJL08', 'BJL09', 'BJL10', 'BJL11', 'BJL12', 
 		'BJL13', 'BJL14', 'BJL15', 'BJL16', 'BJL17', 'BJL18', 
 		'BJL19', 'BJL20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
 		this.currentPictureIdxR = 0;
@@ -53,7 +53,7 @@ class Player {
 		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 250;																	//high from the ground
+		this.jumpHigh = 220;																	//high from the ground
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -148,7 +148,7 @@ function init(){
 	changePlayerPicture();
 
 	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");					//demo obstacle
+	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 	var box3 = new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 	var box4 = new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 
@@ -237,7 +237,7 @@ function jump(){
 			player.jumping = 0;
 		}else{
 			player.goingDown = true;
-			player.charY += 12
+			player.charY += 9
 		}
 	}
 }
