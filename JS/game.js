@@ -145,11 +145,6 @@ function init(){
 	obstacles.push(box2);
 	obstacles.push(box3);
 	obstacles.push(box4);
-
-	function setup();
-	function loaded();
-	function togglePlaying();
-	
 }
 
 function draw(){
@@ -351,30 +346,7 @@ document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil o
 document.addEventListener("DOMContentLoaded", init, false);
 
 //Play and Pause Button
-var song;
-var button;
-
-function setup()
-{
-	song = loadSound("rainbow.mp3", loaded);	
-	button = createButton("play");
-	button.mousePressed(togglePlaying);
-}
-
-function loaded()
-{
-	console.log("loaded");
-}
-
-function togglePlaying()
-{
-	if (!song.isPlaying())
-	{
-		song.play();
-		song.setVolume(0.3);
-		button.html("pause");
-	} else {
-		song.pause();
-		button.html("play");
-	}
-}
+<audio controls>
+	<source src="The Columbians.mp3" type="audio/mpeg"></source>
+Your browser does not support the audio element.
+</audio>
