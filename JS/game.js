@@ -26,8 +26,8 @@ class Player {
 		var charHeight = 130;
 		this.charWidth = charWidth;																//width of character image
 		this.charHeight = charHeight;															//height of character image
-		this.rightPuffer = 20;																	//right puffer when an obstacle is hit
-		this.leftPuffer = 40;																	//left puffer when an obstacle is hit
+		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
+		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
 		this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
@@ -67,7 +67,6 @@ class Player {
 	}
 
 	getTop() {
-		//console.log(this.charY)
 		return this.charY;
 	}
 	getLeft() {
@@ -145,7 +144,7 @@ function init(){
 	ctx = canvas.getContext("2d");
 	player = new Player()
 
-	setInterval(draw, 40);
+	setInterval(draw, 60);
 	changePlayerPicture();
 
 	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
@@ -309,7 +308,6 @@ function changePlayerPicture(){
 
 function goLeft(){
 	if(player.isGoing === false){
-		console.log("Left Key pressed")
 		player.isGoing = true;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
@@ -320,7 +318,6 @@ function goLeft(){
 
 function goRight(){
 	if(player.isGoing === false){
-		console.log("Right Key pressed");
 		player.isGoing = true;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
@@ -361,7 +358,6 @@ function keyDown(event){
 }
 
 function keyUp(event){
-console.log("Key is up")	
 	changePlayerPicture()
 	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
