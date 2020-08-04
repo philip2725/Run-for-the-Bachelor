@@ -22,26 +22,38 @@ var backgroundIntervalHandle;															//lower = faster
 //character		
 class Player {
 	constructor() {
-		var charWidth = 130;
-		var charHeight = 130;
+		var charWidth = 109;
+		var charHeight = 152;
 		this.charWidth = charWidth;																//width of character image
 		this.charHeight = charHeight;															//height of character image
-		this.rightPuffer = 20;																	//right puffer when an obstacle is hit
-		this.leftPuffer = 40;																	//left puffer when an obstacle is hit
+		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
+		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
-		this.charPictureIds = ['char1', 'char2', 'char3', 'char4', 'char5', 'char6', 
-		'char7', 'char8', 'char9', 'char10', 'char11', 'char12', 
-		'char13', 'char14', 'char15', 'char16', 'char17', 'char18', 
-		'char19', 'char20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-		this.currentPictureIdx = 0;
-		this.currentPictureIdx = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
+		this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
+		'BWR07', 'BWR08', 'BWR09', 'BWR10', 'BWR11', 'BWR12', 
+		'BWR13', 'BWR14', 'BWR15', 'BWR16', 'BWR17', 'BWR18', 
+		'BWR19', 'BWR20'];
+		this.charPictureWL = ['BWL01', 'BWL02', 'BWL03', 'BWL04', 'BWL05', 'BWL06', 
+		'BWL07', 'BWL08', 'BWL09', 'BWL10', 'BWL11', 'BWL12', 
+		'BWL13', 'BWL14', 'BWL15', 'BWL16', 'BWL17', 'BWL18', 
+		'BWL19', 'BWL20'];
+		this.charPictureJR = ['BJR01', 'BJR02', 'BJR03', 'BJR04', 'BJR05', 'BJR06', 
+		'BJR07', 'BJR08', 'BJR09', 'BJR10', 'BJR11', 'BJR12', 
+		'BJR13', 'BJR14', 'BJR15', 'BJR16', 'BJR17', 'BJR18', 
+		'BJR19', 'BJR20'];
+		this.charPictureJL = ['BJL01', 'BJL02', 'BJL03', 'BJL04', 'BJL05', 'BJL06', 
+		'BJL07', 'BJL08', 'BJL09', 'BJL10', 'BJL11', 'BJL12', 
+		'BJL13', 'BJL14', 'BJL15', 'BJL16', 'BJL17', 'BJL18', 
+		'BJL19', 'BJL20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+		this.currentPictureIdxR = 0;
+		this.currentPictureIdxL = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
 		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player
 		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 250;																	//high from the ground
+		this.jumpHigh = 220;																	//high from the ground
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -55,7 +67,6 @@ class Player {
 	}
 
 	getTop() {
-		//console.log(this.charY)
 		return this.charY;
 	}
 	getLeft() {
@@ -133,13 +144,13 @@ function init(){
 	ctx = canvas.getContext("2d");
 	player = new Player()
 
-	setInterval(draw, 40);
+	setInterval(draw, 60);
 	changePlayerPicture();
 
-	var box1 = new Obstacle(gameWidth - 100,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 400,gameHeight*0.88 - 80, 80,80,"book","box");					//demo obstacle
-	var box3 = new Obstacle(gameWidth + 700,gameHeight*0.88 - 200, 100,200,"book","box");				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 1200,gameHeight*0.88 - 150, 150,150,"book","box");				//demo obstacle
+	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box3 = new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
+	var box4 = new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 
 	obstacles.push(box1);
 	obstacles.push(box2);
@@ -225,7 +236,7 @@ function jump(){
 			player.jumping = 0;
 		}else{
 			player.goingDown = true;
-			player.charY += 12
+			player.charY += 9
 		}
 	}
 }
@@ -252,33 +263,50 @@ function changePlayerPicture(){
 	}
 	//Movment: Go Right
 	if(player.jumping === 0 && player.walkDirection === 0){
-		if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
-			player.currentPictureIdx = 0;
+		if(player.charPictureWR[player.currentPictureIdxR] == player.charPictureWR[player.charPictureWR.length - 1]){
+			player.currentPictureIdxR = 0;
 		}else{
-			player.currentPictureIdx++;
+			player.currentPictureIdxR++;
 		}
-		player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
+		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxR]);
 	}
 	//Movement: Go Left
-	if(player.jumping === 0 && player.walkDirection == 1){
-		if(player.charPictureIds[player.currentPictureIdx] == player.charPictureIds[player.charPictureIds.length - 1]){
-			player.currentPictureIdx = 0;
+	if(player.jumping === 0 && player.walkDirection === 1){
+		if(player.charPictureWL[player.currentPictureIdxL] == player.charPictureWL[player.charPictureWL.length - 1]){
+			player.currentPictureIdxL = 0;
 		}else{
-			player.currentPictureIdx++;
+			player.currentPictureIdxL++;
 		}
-		player.playerImg = document.getElementById(player.charPictureIds[player.currentPictureIdx]);
+		player.playerImg = document.getElementById(player.charPictureWL[player.currentPictureIdxL]);
 	}
-	//Movment: jump
-	else if(player.jumping != 0){
 
+	//Movment: jump Right
+	else if(player.jumping != 0 && player.walkDirection === 0){
+		if(player.charPictureJR[player.currentPictureIdxR] == player.charPictureJR[player.charPictureJR.length - 1]){
+			player.currentPictureIdxR = 0;
+		}else{
+			player.currentPictureIdxR++;
+		}
+		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxR]);
 	}
+
+	//Movment: jump Left
+	else if(player.jumping != 0 && player.walkDirection === 1){
+		if(player.charPictureJL[player.currentPictureIdxL] == player.charPictureJL[player.charPictureJL.length - 1]){
+			player.currentPictureIdxL = 0;
+		}else{
+			player.currentPictureIdxL++;
+		}
+		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxL]);
+	}
+
+	
 	//Movment: duck
 	//...
 }
 
 function goLeft(){
 	if(player.isGoing === false){
-		console.log("Left Key pressed")
 		player.isGoing = true;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
@@ -289,7 +317,6 @@ function goLeft(){
 
 function goRight(){
 	if(player.isGoing === false){
-		console.log("Right Key pressed");
 		player.isGoing = true;
 
 		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
@@ -307,8 +334,8 @@ function keyDown(event){
 		switch (event.keyCode) {
 		case 37:
 			// Left-Arrow Pressed
+			player.walkDirection = 1;
 			goLeft();
-			walkDirection = 1
 			break;
 		case 38:
 			// Up-Arrow Pressed
@@ -316,8 +343,8 @@ function keyDown(event){
 			break;
 		case 39:
 			// Right-Arrow Pressed
+			player.walkDirection = 0;
 			goRight();
-			walkDirection = 0
 			break;
 		case 40:
 			// Down-Arrow Pressed
@@ -330,9 +357,8 @@ function keyDown(event){
 }
 
 function keyUp(event){
-console.log("Key is up")	
 	changePlayerPicture()
-	if(player.isGoing === true && (event.keyCode === 39 || event.keyCode === 37)){
+	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
 		clearInterval(playerIntervalHandle);
 		clearInterval(backgroundIntervalHandle);
