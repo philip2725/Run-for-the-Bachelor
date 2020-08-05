@@ -45,12 +45,19 @@ class Player {
 		this.charPictureJL = ['BJL01', 'BJL02', 'BJL03', 'BJL04', 'BJL05', 'BJL06', 
 		'BJL07', 'BJL08', 'BJL09', 'BJL10', 'BJL11', 'BJL12', 
 		'BJL13', 'BJL14', 'BJL15', 'BJL16', 'BJL17', 'BJL18', 
-		'BJL19', 'BJL20'];																	//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+		'BJL19', 'BJL20'];
+		this.charPictureIR = ['BIR01', 'BIR02', 'BIR03', 'BIR04', 'BIR05', 'BIR06', 
+		'BIR07', 'BIR08', 'BIR09', 'BIR10', 'BIR11', 'BIR12', 
+		'BIR13', 'BIR14', 'BIR15', 'BIR16', 'BIR17', 'BIR18', 
+		'BIR19', 'BIR20'];
+		this.charPictureIL = ['BIL01', 'BIL02', 'BIL03', 'BIL04', 'BIL05', 'BIL06', 
+		'BIL07', 'BIL08', 'BIL09', 'BIL10', 'BIL11', 'BIL12', 
+		'BIL13', 'BIL14', 'BIL15', 'BIL16', 'BIL17', 'BIL18', 
+		'BIL19', 'BIL20'];																		//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
 		this.currentPictureIdxR = 0;
 		this.currentPictureIdxL = 0;																//current Displayed PlayerPicture Index of charPictureIds-Array
 		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
-		this.playerImg;																			//contains the currently used image-Element of the player
-		this.playerIntervalHandle;  															//Event-Handle for clearing the Inervall if the player is standing											
+		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
 		this.jumpHigh = 220;																	//high from the ground
@@ -145,8 +152,8 @@ function init(){
 	ctx = canvas.getContext("2d");
 	player = new Player()
 
-	setInterval(draw, 60);
-	changePlayerPicture();
+	setInterval(draw, 40);
+	setInterval(changePlayerPicture, player.movementSpeed);
 
 	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
 	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
@@ -185,7 +192,6 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function checkGameState(){
 	if(gameState.current === gameState.over){
-		clearInterval(playerIntervalHandle);
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		drawBreakMenu();
@@ -266,12 +272,28 @@ function moveBackground(direction){
 
 function changePlayerPicture(){
 	
-	//Movement: Stay
-	if (player.isGoing == false) {
-		player.currentPictureIdx = 0;
+	//Movement: Stay Right
+	if (player.jumping === 0 && player.walkDirection === 0 && player.isGoing === false) {
+		if(player.charPictureIR[player.currentPictureIdxR] == player.charPictureIR[player.charPictureIR.length - 1]){
+			player.currentPictureIdxR = 0;
+		}else{
+			player.currentPictureIdxR++;
+		}
+		player.playerImg = document.getElementById(player.charPictureIR[player.currentPictureIdxR]);
 	}
-	//Movment: Go Right
-	if(player.jumping === 0 && player.walkDirection === 0){
+
+	//Movement: Stay Left
+	else if (player.jumping === 0 && player.walkDirection === 1 && player.isGoing === false) {
+		if(player.charPictureIL[player.currentPictureIdxL] == player.charPictureIL[player.charPictureIL.length - 1]){
+			player.currentPictureIdxL = 0;
+		}else{
+			player.currentPictureIdxL++;
+		}
+		player.playerImg = document.getElementById(player.charPictureIL[player.currentPictureIdxL]);
+	}
+
+	//Movment: Walk Right
+	else if(player.jumping === 0 && player.walkDirection === 0 && player.isGoing === true){
 		if(player.charPictureWR[player.currentPictureIdxR] == player.charPictureWR[player.charPictureWR.length - 1]){
 			player.currentPictureIdxR = 0;
 		}else{
@@ -279,8 +301,8 @@ function changePlayerPicture(){
 		}
 		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxR]);
 	}
-	//Movement: Go Left
-	if(player.jumping === 0 && player.walkDirection === 1){
+	//Movement: Walk Left
+	else if(player.jumping === 0 && player.walkDirection === 1 && player.isGoing === true){
 		if(player.charPictureWL[player.currentPictureIdxL] == player.charPictureWL[player.charPictureWL.length - 1]){
 			player.currentPictureIdxL = 0;
 		}else{
@@ -289,7 +311,7 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureWL[player.currentPictureIdxL]);
 	}
 
-	//Movment: jump Right
+	//Movment: Jump Right
 	else if(player.jumping != 0 && player.walkDirection === 0){
 		if(player.charPictureJR[player.currentPictureIdxR] == player.charPictureJR[player.charPictureJR.length - 1]){
 			player.currentPictureIdxR = 0;
@@ -299,7 +321,7 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxR]);
 	}
 
-	//Movment: jump Left
+	//Movment: Jump Left
 	else if(player.jumping != 0 && player.walkDirection === 1){
 		if(player.charPictureJL[player.currentPictureIdxL] == player.charPictureJL[player.charPictureJL.length - 1]){
 			player.currentPictureIdxL = 0;
@@ -318,7 +340,6 @@ function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
@@ -328,7 +349,6 @@ function goRight(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-		playerIntervalHandle = setInterval(changePlayerPicture, player.movementSpeed);
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
@@ -369,7 +389,6 @@ function keyUp(event){
 	changePlayerPicture()
 	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
-		clearInterval(playerIntervalHandle);
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 	}
