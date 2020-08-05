@@ -398,7 +398,7 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
-//document.addEventListener("click", breakButtonClick, false);
+document.addEventListener("click", breakButtonClick, false);
 
 
 //Play and Pause Button
@@ -449,27 +449,21 @@ function drawLevel()
 	ctx.fillText("Level: ", 1000, 80);
 }
 
-/*
-// first parameter is font name
-// second parameter is the path to the font file
-var spongebob_font = new FontFace('Spongebob', 'url(fonts/Spongebob.otf)');
+function breakButtonClick(event)
+{
+	let rect = canvas.getBoundingClientRect(); 
+	let x = event.clientX - rect.left; 
+	let y = event.clientY - rect.top;
 
-
-spongebob_font.load().then(function(loaded_face) {
-	// loaded_face holds the loaded FontFace
-}).catch(function(error) {
-	// error occurred
-})
-// loaded_face is the loaded FontFace
-document.fonts.add(loaded_face);
-document.body.style.fontFamily = '"Junction Regular", Arial';
-
-
-var spongebob_font = new FontFace('Spongebob', 'url(fonts/Spongebob.otf)');
-spongebob_font.load().then(function(loaded_face) {
-	document.fonts.add(loaded_face);
-  	document.body.style.fontFamily = '"Junction Regular", Arial';
-}).catch(function(error) {
-	// error occurred
-});
-*/
+	if (x > 1150 && y < 200)
+	{
+		if(gameState.current == gameState.break)
+		{
+			gameState.current = gameState.game;
+		}
+		else if(gameState.current == gameState.game)
+		{
+			gameState.current = gameState.break;
+		}
+	}
+}
