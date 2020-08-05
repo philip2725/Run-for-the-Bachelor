@@ -178,8 +178,8 @@ function draw(){
 	checkGameState();
 	drawMenu(); 
 	drawMenuIcon();
-	//drawECTS();
-	//drawLevel();
+	drawECTS();
+	drawLevel();
 	//var MenuButton = drawRect(canvas.width - 50, 50, 50, 50);
 }
 
@@ -433,4 +433,43 @@ function drawMenuIcon()
 	}
 }
 
+function drawECTS()
+{
+	ctx.font = "30px Comic Sans MS";
+	ctx.fillStyle = "blue";
+	ctx.textAlign = "center";
+	ctx.fillText("Creditpoints: ", 1000, 40);
+}
 
+function drawLevel()
+{
+	ctx.font = "30px Comic Sans MS";
+	ctx.fillStyle = "blue";
+	ctx.textAlign = "center";
+	ctx.fillText("Level: ", 1000, 80);
+}
+
+/*
+// first parameter is font name
+// second parameter is the path to the font file
+var spongebob_font = new FontFace('Spongebob', 'url(fonts/Spongebob.otf)');
+
+
+spongebob_font.load().then(function(loaded_face) {
+	// loaded_face holds the loaded FontFace
+}).catch(function(error) {
+	// error occurred
+})
+// loaded_face is the loaded FontFace
+document.fonts.add(loaded_face);
+document.body.style.fontFamily = '"Junction Regular", Arial';
+
+
+var spongebob_font = new FontFace('Spongebob', 'url(fonts/Spongebob.otf)');
+spongebob_font.load().then(function(loaded_face) {
+	document.fonts.add(loaded_face);
+  	document.body.style.fontFamily = '"Junction Regular", Arial';
+}).catch(function(error) {
+	// error occurred
+});
+*/
