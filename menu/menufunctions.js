@@ -23,7 +23,7 @@ function saveChosenCharacter(x)
         sessionStorage.setItem("chosenCharGraphic", "../assets/Images/Character/Boy/Gifs/Boy_Idle.gif")}
     else {
         sessionStorage.setItem("chosenCharacter", 1) //Girl
-        sessionStorage.setItem("chosenCharGraphic", "../assets/Images/menu/girl.gif")
+        sessionStorage.setItem("chosenCharGraphic", "../assets/Images/Character/Girl/Gifs/Girl_Idle_Right.gif")
     }
 }
 
