@@ -133,7 +133,8 @@ const gameState = {
 	current : 0,
 	getReady : 0,
 	game : 1,
-	over : 2
+	over : 2,
+	break : 3
 }
 
 //************* Initialisierung ******************//
@@ -156,6 +157,8 @@ function init(){
 	obstacles.push(box2);
 	obstacles.push(box3);
 	obstacles.push(box4);
+
+	gameState.current = gameState.game;
 }
 
 function draw(){
@@ -163,10 +166,16 @@ function draw(){
 	//var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
 	background = document.getElementById("background");
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 						//Background		
-	player.drawPlayer()																				//character Image
-	drawObstacles()																					//Obstacle Images
-	checkGameState()
+	player.drawPlayer();																				//character Image
+	drawObstacles();																					//Obstacle Images
+	checkGameState();
+	drawMenu(); 
+	drawMenuIcon();
+	//drawECTS();
+	//drawLevel();
+	//var MenuButton = drawRect(canvas.width - 50, 50, 50, 50);
 }
+
 
 //*************** Functions ******************//
 function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
@@ -370,9 +379,39 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
+//document.addEventListener("click", breakButtonClick, false);
+
 
 //Play and Pause Button
-<audio controls>
+/*<audio controls>
 	<source src="The Columbians.mp3" type="audio/mpeg"></source>
 Your browser does not support the audio element.
 </audio>
+*/
+
+//Menu Button
+function drawMenu(event)
+{
+	if (gameState.current == gameState.break)
+	{
+		var menubackground = document.getElementById("menubutton");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	}
+}
+
+function drawMenuIcon()
+{
+	if(gameState.current == gameState.game)
+	{
+		var menuiconopen = document.getElementById("menuopen");
+		ctx.drawImage(menuiconopen, 1150, 0, 50, 50);
+	}
+	
+	if(gameState.current == gameState.break)
+	{
+		var menuiconclose = document.getElementById("menuclose");
+		ctx.drawImage(menuiconclose, 1150, 0, 50, 50);
+	}
+}
+
+
