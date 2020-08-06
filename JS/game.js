@@ -30,32 +30,18 @@ class Player {
 		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
-		this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
-		'BWR07', 'BWR08', 'BWR09', 'BWR10', 'BWR11', 'BWR12', 
-		'BWR13', 'BWR14', 'BWR15', 'BWR16', 'BWR17', 'BWR18', 
-		'BWR19', 'BWR20'];
-		this.charPictureWL = ['BWL01', 'BWL02', 'BWL03', 'BWL04', 'BWL05', 'BWL06', 
-		'BWL07', 'BWL08', 'BWL09', 'BWL10', 'BWL11', 'BWL12', 
-		'BWL13', 'BWL14', 'BWL15', 'BWL16', 'BWL17', 'BWL18', 
-		'BWL19', 'BWL20'];
-		this.charPictureJR = ['BJR01', 'BJR02', 'BJR03', 'BJR04', 'BJR05', 'BJR06', 
-		'BJR07', 'BJR08', 'BJR09', 'BJR10', 'BJR11', 'BJR12', 
-		'BJR13', 'BJR14', 'BJR15', 'BJR16', 'BJR17', 'BJR18', 
-		'BJR19', 'BJR20'];
-		this.charPictureJL = ['BJL01', 'BJL02', 'BJL03', 'BJL04', 'BJL05', 'BJL06', 
-		'BJL07', 'BJL08', 'BJL09', 'BJL10', 'BJL11', 'BJL12', 
-		'BJL13', 'BJL14', 'BJL15', 'BJL16', 'BJL17', 'BJL18', 
-		'BJL19', 'BJL20'];
-		this.charPictureIR = ['BIR01', 'BIR02', 'BIR03', 'BIR04', 'BIR05', 'BIR06', 
-		'BIR07', 'BIR08', 'BIR09', 'BIR10', 'BIR11', 'BIR12', 
-		'BIR13', 'BIR14', 'BIR15', 'BIR16', 'BIR17', 'BIR18', 
-		'BIR19', 'BIR20'];
-		this.charPictureIL = ['BIL01', 'BIL02', 'BIL03', 'BIL04', 'BIL05', 'BIL06', 
-		'BIL07', 'BIL08', 'BIL09', 'BIL10', 'BIL11', 'BIL12', 
-		'BIL13', 'BIL14', 'BIL15', 'BIL16', 'BIL17', 'BIL18', 
-		'BIL19', 'BIL20'];																		//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-		this.currentPictureIdxR = 0;
-		this.currentPictureIdxL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
+		this.charPictureWR = [];
+		this.charPictureWL = [];
+		this.charPictureJR = [];
+		this.charPictureJL = [];
+		this.charPictureIR = [];
+		this.charPictureIL = [];																		//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+		this.currentPictureIdxWR = 0;
+		this.currentPictureIdxWL = 0;
+		this.currentPictureIdxJR = 0;
+		this.currentPictureIdxJL = 0;
+		this.currentPictureIdxIR = 0;
+		this.currentPictureIdxIL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
 		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
@@ -95,9 +81,8 @@ class Player {
 		return false;
 	}	
 
-	setGender(Gender){
-		console.log(Gender)
-		if(Gender == 0){												
+	setGender(gender){
+		if(gender == 0){												
 			this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
 			'BWR07', 'BWR08', 'BWR09', 'BWR10', 'BWR11', 'BWR12', 
 			'BWR13', 'BWR14', 'BWR15', 'BWR16', 'BWR17', 'BWR18', 
@@ -124,21 +109,21 @@ class Player {
 			'BIL19', 'BIL20'];	
 			}
 	
-			if(Gender == 1){ console.log("Hallo")
+		if(gender == 1){ 
 			this.charPictureWR = ['GWR01', 'GWR02', 'GWR03', 'GWR04', 'GWR05', 'GWR06', 
 			'GWR07', 'GWR08', 'GWR09', 'GWR10', 'GWR11', 'GWR12', 
 			'GWR13', 'GWR14', 'GWR15', 'GWR16'];
 			this.charPictureWL = ['GWL01', 'GWL02', 'GWL03', 'GWL04', 'GWL05', 'GWL06', 
 			'GWL07', 'GWL08', 'GWL09', 'GWL10', 'GWL11', 'GWL12', 
 			'GWL13', 'GWL14', 'GWL15', 'GWL16'];
-			/**this.charPictureJR = ['GJR01', 'GJR02', 'GJR03', 'GJR04', 'GJR05', 'GJR06', 
+			this.charPictureJR = ['GJR01', 'GJR02', 'GJR03', 'GJR04', 'GJR05', 'GJR06', 
 			'GJR07', 'GJR08', 'GJR09', 'GJR10', 'GJR11', 'GJR12', 
 			'GJR13', 'GJR14', 'GJR15', 'GJR16', 'GJR17', 'GJR18', 
 			'GJR19', 'GJR20'];
 			this.charPictureJL = ['GJL01', 'GJL02', 'GJL03', 'GJL04', 'GJL05', 'GJL06', 
 			'GJL07', 'GJL08', 'GJL09', 'GJL10', 'GJL11', 'GJL12', 
 			'GJL13', 'GJL14', 'GJL15', 'GJL16', 'GJL17', 'GJL18', 
-			'GJL19', 'GJL20'];**/
+			'GJL19', 'GJL20'];
 			this.charPictureIR = ['GIR01', 'GIR02', 'GIR03', 'GIR04', 'GIR05', 'GIR06', 
 			'GIR07', 'GIR08', 'GIR09', 'GIR10', 'GIR11', 'GIR12', 
 			'GIR13', 'GIR14', 'GIR15', 'GIR16', 'GIR17', 'GIR18', 
@@ -329,61 +314,61 @@ function changePlayerPicture(){
 	
 	//Movement: Stay Right
 	if (player.jumping === 0 && player.walkDirection === 0 && player.isGoing === false) {
-		if(player.charPictureIR[player.currentPictureIdxR] == player.charPictureIR[player.charPictureIR.length - 1]){
-			player.currentPictureIdxR = 0;
+		if(player.charPictureIR[player.currentPictureIdxIR] == player.charPictureIR[player.charPictureIR.length - 1]){
+			player.currentPictureIdxIR = 0;
 		}else{
-			player.currentPictureIdxR++;
+			player.currentPictureIdxIR++;
 		}
-		player.playerImg = document.getElementById(player.charPictureIR[player.currentPictureIdxR]);
+		player.playerImg = document.getElementById(player.charPictureIR[player.currentPictureIdxIR]);
 	}
 
 	//Movement: Stay Left
 	else if (player.jumping === 0 && player.walkDirection === 1 && player.isGoing === false) {
-		if(player.charPictureIL[player.currentPictureIdxL] == player.charPictureIL[player.charPictureIL.length - 1]){
-			player.currentPictureIdxL = 0;
+		if(player.charPictureIL[player.currentPictureIdxIL] == player.charPictureIL[player.charPictureIL.length - 1]){
+			player.currentPictureIdxIL = 0;
 		}else{
-			player.currentPictureIdxL++;
+			player.currentPictureIdxIL++;
 		}
-		player.playerImg = document.getElementById(player.charPictureIL[player.currentPictureIdxL]);
+		player.playerImg = document.getElementById(player.charPictureIL[player.currentPictureIdxIL]);
 	}
 
 	//Movment: Walk Right
 	else if(player.jumping === 0 && player.walkDirection === 0 && player.isGoing === true){
-		if(player.charPictureWR[player.currentPictureIdxR] == player.charPictureWR[player.charPictureWR.length - 1]){
-			player.currentPictureIdxR = 0;
+		if(player.charPictureWR[player.currentPictureIdxWR] == player.charPictureWR[player.charPictureWR.length - 1]){
+			player.currentPictureIdxWR = 0;
 		}else{
-			player.currentPictureIdxR++;
+			player.currentPictureIdxWR++;
 		}
-		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxR]);
+		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxWR]);
 	}
 	//Movement: Walk Left
 	else if(player.jumping === 0 && player.walkDirection === 1 && player.isGoing === true){
-		if(player.charPictureWL[player.currentPictureIdxL] == player.charPictureWL[player.charPictureWL.length - 1]){
-			player.currentPictureIdxL = 0;
+		if(player.charPictureWL[player.currentPictureIdxWL] == player.charPictureWL[player.charPictureWL.length - 1]){
+			player.currentPictureIdxWL = 0;
 		}else{
-			player.currentPictureIdxL++;
+			player.currentPictureIdxWL++;
 		}
-		player.playerImg = document.getElementById(player.charPictureWL[player.currentPictureIdxL]);
+		player.playerImg = document.getElementById(player.charPictureWL[player.currentPictureIdxWL]);
 	}
 
 	//Movment: Jump Right
 	else if(player.jumping != 0 && player.walkDirection === 0){
-		if(player.charPictureJR[player.currentPictureIdxR] == player.charPictureJR[player.charPictureJR.length - 1]){
-			player.currentPictureIdxR = 0;
+		if(player.charPictureJR[player.currentPictureIdxJR] == player.charPictureJR[player.charPictureJR.length - 1]){
+			player.currentPictureIdxJR = 0;
 		}else{
-			player.currentPictureIdxR++;
+			player.currentPictureIdxJR++;
 		}
-		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxR]);
+		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxJR]);
 	}
 
 	//Movment: Jump Left
 	else if(player.jumping != 0 && player.walkDirection === 1){
-		if(player.charPictureJL[player.currentPictureIdxL] == player.charPictureJL[player.charPictureJL.length - 1]){
-			player.currentPictureIdxL = 0;
+		if(player.charPictureJL[player.currentPictureIdxJL] == player.charPictureJL[player.charPictureJL.length - 1]){
+			player.currentPictureIdxJL = 0;
 		}else{
-			player.currentPictureIdxL++;
+			player.currentPictureIdxJL++;
 		}
-		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxL]);
+		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxJL]);
 	}
 
 	
