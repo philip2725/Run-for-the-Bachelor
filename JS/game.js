@@ -180,7 +180,8 @@ const gameState = {
 	getReady : 0,
 	game : 1,
 	over : 2,
-	break : 3
+	break : 3,
+	finish : 4
 }
 
 //************* Initialisierung ******************//
@@ -216,11 +217,10 @@ function draw(){
 	player.drawPlayer();																				//character Image
 	drawObstacles();																					//Obstacle Images
 	checkGameState();
-	drawMenu(); 
+	//drawMenu(); 
 	drawMenuIcon();
 	drawECTS();
 	drawLevel();
-	//var MenuButton = drawRect(canvas.width - 50, 50, 50, 50);
 }
 
 
@@ -231,23 +231,32 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 }
 
 function checkGameState(){
-	if(gameState.current === gameState.over){
+
+	if(gameState.current === gameState.game)
+	{
+		//TODO
+	}else if(gameState.current === gameState.getReady)
+	{
+		//TODO
+	}else if (gameState.current == gameState.break)
+	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
-		drawBreakMenu();
-	}else if(gameState.current === gameState.game){
-		//TODO
-	}else if(gameState.current === gameState.getReady){
-		//TODO
+		var menubackground = document.getElementById("breakmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	}else if (gameState.current == gameState.finish)
+	{
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
+		var menubackground = document.getElementById("finishmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	}else if (gameState.current == gameState.over)
+	{
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
+		var menubackground = document.getElementById("gameovermenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}
-}
-
-function drawBreakMenu(){
-	drawRect(breakMenuX,breakMenuY,breakMenuWidth, breakMenuHeight, "lightgrey");
-	ctx.font = "60px Arial Black";
-	ctx.fillStyle = "red";
-	ctx.textAlign = "center";
-	ctx.fillText("Game Over", canvas.width/2, canvas.height/3)
 }
 
 function drawObstacles() {
@@ -280,6 +289,15 @@ function checkCollision() {
 	}
 	
 }
+
+function checkFinished() {
+	var end = backgroundWidth*(-1)+gameWidth+20
+
+	if(backgroundX <= end){
+		gameState.current = gameState.finish;
+	}
+}
+
 function jump(){
 	if(player.charY > player.jumpHigh && !player.goingDown){
 		player.charY -= 6
@@ -307,7 +325,8 @@ function moveBackground(direction){
 		backgroundX += direction;
 	}
 
-	checkCollision()
+	checkFinished();
+	checkCollision();
 }
 
 function changePlayerPicture(){
@@ -449,14 +468,22 @@ Your browser does not support the audio element.
 */
 
 //Menu Button
-function drawMenu(event)
+/*function drawMenu(event)
 {
 	if (gameState.current == gameState.break)
 	{
-		var menubackground = document.getElementById("menubutton");
+		var menubackground = document.getElementById("breakmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	}else if (gameState.current == gameState.finish)
+	{
+		var menubackground = document.getElementById("finishmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	}else if (gameState.current == gameState.over)
+	{
+		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}
-}
+}*/
 
 function drawMenuIcon()
 {
