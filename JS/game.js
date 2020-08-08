@@ -19,6 +19,10 @@ var backgroundUpdateSpeed = 30;															//miliseconds how often the backgr
 var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
 var backgroundIntervalHandle;															//lower = faster
 
+// Audio
+var audioPlayer;
+var playingBackgroundAudio = true;
+
 //character		
 class Player {
 	constructor() {
@@ -192,6 +196,8 @@ function init(){
 	ctx = canvas.getContext("2d");
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
+	audioPlayer = document.getElementById("backgroundAudio");
+	playBackgroundAudio(playingBackgroundAudio);
 
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -221,6 +227,7 @@ function draw(){
 	drawMenuIcon();
 	drawECTS();
 	drawLevel();
+	drawMuteButton();
 }
 
 
@@ -229,6 +236,15 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	ctx.fillStyle = rstyle;
 	return ctx.fillRect(rx, ry, rw, rh);
 }
+
+function playBackgroundAudio(state) {
+	if (state) {
+		audioPlayer.play()
+	} else {
+		audioPlayer.pause();
+	}
+}
+
 
 function checkGameState(){
 
@@ -457,7 +473,7 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
-document.addEventListener("click", breakButtonClick, false);
+document.addEventListener("click", menuButtonClick, false);
 
 
 //Play and Pause Button
@@ -516,12 +532,18 @@ function drawLevel()
 	ctx.fillText("Level: ", 1000, 80);
 }
 
-function breakButtonClick(event)
+function drawMuteButton() {
+	var muteButton = document.getElementById("menuopen");
+	ctx.drawImage(muteButton, 0, 0, 50, 50);
+}
+
+function menuButtonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
 	let x = event.clientX - rect.left; 
 	let y = event.clientY - rect.top;
 
+	// handler for breakButtonClicked
 	if (x > 1150 && y < 200)
 	{
 		if(gameState.current == gameState.break)
@@ -532,5 +554,9 @@ function breakButtonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
+		//handler for muteButtonClicked
+	} else if (x <= 50 && y <= 50) {
+		playingBackgroundAudio = !playingBackgroundAudio
+		playBackgroundAudio(playingBackgroundAudio)
 	}
 }
