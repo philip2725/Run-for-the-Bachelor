@@ -188,6 +188,11 @@ const gameState = {
 	finish : 4
 }
 
+var creditPoints = 0; //counter for the creditPoints
+var recordDistance = 0; //saves the furthest distance the player had made
+var nextCreditPointPosition = 0; // the next position in the game where the player can get a Creditpoint
+var maxCreditPoints = 180; //max Creditpoints a player can get in the game
+
 //************* Initialisierung ******************//
 function init(){
 	console.log("init called");
@@ -251,6 +256,27 @@ function checkGameState(){
 	if(gameState.current === gameState.game)
 	{
 		//TODO
+		// var end = backgroundWidth*(-1)+gameWidth+20
+		// console.log("ENd: " + end); 
+		
+		// if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+		// 	recordDistance = backgroundX; 
+		// 	if ((backgroundX - recordDistance) <= -84) {
+		// 		creditPoints++;
+		// 	}
+		// }
+
+		//creditPoint Counter
+		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+			recordDistance = backgroundX; // new Record
+			if (recordDistance <= nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
+				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
+				var counterHelper = (end - recordDistance) / (maxCreditPoints - creditPoints); // calculate the next Position where a player gets a creditpoint
+				nextCreditPointPosition += counterHelper; 
+				creditPoints++;
+			}
+		}
+
 	}else if(gameState.current === gameState.getReady)
 	{
 		//TODO
@@ -521,7 +547,7 @@ function drawECTS()
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: ", 1000, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 1000, 40);
 }
 
 function drawLevel()
@@ -529,7 +555,7 @@ function drawLevel()
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Level: ", 1000, 80);
+	ctx.fillText("Level: 1", 1000, 80);
 }
 
 function drawMuteButton() {
