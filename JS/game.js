@@ -19,6 +19,10 @@ var backgroundUpdateSpeed = 30;															//miliseconds how often the backgr
 var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
 var backgroundIntervalHandle;															//lower = faster
 
+// Audio
+var audioPlayer;
+var playingBackgroundAudio = true;
+
 //character		
 class Player {
 	constructor() {
@@ -184,6 +188,11 @@ const gameState = {
 	finish : 4
 }
 
+var creditPoints = 0; //counter for the creditPoints
+var recordDistance = 0; //saves the furthest distance the player had made
+var nextCreditPointPosition = 0; // the next position in the game where the player can get a Creditpoint
+var maxCreditPoints = 180; //max Creditpoints a player can get in the game
+
 //************* Initialisierung ******************//
 function init(){
 	console.log("init called");
@@ -192,6 +201,8 @@ function init(){
 	ctx = canvas.getContext("2d");
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
+	audioPlayer = document.getElementById("backgroundAudio");
+	playBackgroundAudio(playingBackgroundAudio);
 
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -221,6 +232,7 @@ function draw(){
 	drawMenuIcon();
 	drawECTS();
 	drawLevel();
+	drawMuteButton();
 }
 
 
@@ -230,11 +242,41 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	return ctx.fillRect(rx, ry, rw, rh);
 }
 
+function playBackgroundAudio(state) {
+	if (state) {
+		audioPlayer.play()
+	} else {
+		audioPlayer.pause();
+	}
+}
+
+
 function checkGameState(){
 
 	if(gameState.current === gameState.game)
 	{
 		//TODO
+		// var end = backgroundWidth*(-1)+gameWidth+20
+		// console.log("ENd: " + end); 
+		
+		// if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+		// 	recordDistance = backgroundX; 
+		// 	if ((backgroundX - recordDistance) <= -84) {
+		// 		creditPoints++;
+		// 	}
+		// }
+
+		//creditPoint Counter
+		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+			recordDistance = backgroundX; // new Record
+			if (recordDistance <= nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
+				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
+				var counterHelper = (end - recordDistance) / (maxCreditPoints - creditPoints); // calculate the next Position where a player gets a creditpoint
+				nextCreditPointPosition += counterHelper; 
+				creditPoints++;
+			}
+		}
+
 	}else if(gameState.current === gameState.getReady)
 	{
 		//TODO
@@ -457,7 +499,7 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
-document.addEventListener("click", breakButtonClick, false);
+document.addEventListener("click", menuButtonClick, false);
 
 
 //Menu Button
@@ -498,7 +540,7 @@ function drawECTS()
 	ctx.font = "30px Spongebob";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: ", 1000, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 1000, 40);
 }
 
 function drawLevel()
@@ -506,15 +548,21 @@ function drawLevel()
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Level: ", 1000, 80);
+	ctx.fillText("Level: 1", 1000, 80);
 }
 
-function breakButtonClick(event)
+function drawMuteButton() {
+	var muteButton = document.getElementById("menuopen");
+	ctx.drawImage(muteButton, 0, 0, 50, 50);
+}
+
+function menuButtonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
 	let x = event.clientX - rect.left; 
 	let y = event.clientY - rect.top;
 
+	// handler for breakButtonClicked
 	if (x > 1150 && y < 200)
 	{
 		if(gameState.current == gameState.break)
@@ -525,5 +573,9 @@ function breakButtonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
+		//handler for muteButtonClicked
+	} else if (x <= 50 && y <= 50) {
+		playingBackgroundAudio = !playingBackgroundAudio
+		playBackgroundAudio(playingBackgroundAudio)
 	}
 }
