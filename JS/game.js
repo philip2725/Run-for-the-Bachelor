@@ -233,6 +233,7 @@ function draw(){
 	drawECTS();
 	drawLevel();
 	drawMuteButton();
+	drawLivesLabel();
 }
 
 
@@ -578,4 +579,11 @@ function menuButtonClick(event)
 		playingBackgroundAudio = !playingBackgroundAudio
 		playBackgroundAudio(playingBackgroundAudio)
 	}
+}
+
+function drawLivesLabel() {
+	var livesLabel = document.getElementById("liveslabel");
+	ctx.drawImage(livesLabel, 500, 10, 50, 50);
+	ctx.drawImage(livesLabel, 600, 10, 50, 50);
+	ctx.drawImage(livesLabel, 700, 10, 50, 50);
 }
