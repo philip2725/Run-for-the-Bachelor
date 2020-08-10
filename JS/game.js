@@ -525,13 +525,13 @@ function drawMenuIcon()
 	if(gameState.current == gameState.game)
 	{
 		var menuiconopen = document.getElementById("menuopen");
-		ctx.drawImage(menuiconopen, 1150, 0, 50, 50);
+		ctx.drawImage(menuiconopen, 15, 5, 50, 50);
 	}
 	
 	if(gameState.current == gameState.break)
 	{
 		var menuiconclose = document.getElementById("menuclose");
-		ctx.drawImage(menuiconclose, 1150, 0, 50, 50);
+		ctx.drawImage(menuiconclose, 15, 5, 50, 50);
 	}
 }
 
@@ -540,7 +540,7 @@ function drawECTS()
 	ctx.font = "30px Spongebob";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 1000, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 180, 40);
 }
 
 function drawLevel()
@@ -548,12 +548,12 @@ function drawLevel()
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Level: 1", 1000, 80);
+	ctx.fillText("Level: 1", 180, 80);
 }
 
 function drawMuteButton() {
 	var muteButton = document.getElementById("menuopen");
-	ctx.drawImage(muteButton, 0, 0, 50, 50);
+	ctx.drawImage(muteButton, 1140, 5, 50, 50);
 }
 
 function menuButtonClick(event)
@@ -563,7 +563,7 @@ function menuButtonClick(event)
 	let y = event.clientY - rect.top;
 
 	// handler for breakButtonClicked
-	if (x > 1150 && y < 200)
+	if (x <= 50 && y <= 50)
 	{
 		if(gameState.current == gameState.break)
 		{
@@ -574,7 +574,7 @@ function menuButtonClick(event)
 			gameState.current = gameState.break;
 		}
 		//handler for muteButtonClicked
-	} else if (x <= 50 && y <= 50) {
+	} else if (x > 1150 && y < 200) {
 		playingBackgroundAudio = !playingBackgroundAudio
 		playBackgroundAudio(playingBackgroundAudio)
 	}
