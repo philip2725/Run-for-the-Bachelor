@@ -537,18 +537,18 @@ function drawMenuIcon()
 
 function drawECTS()
 {
-	ctx.font = "30px Spongebob";
-	ctx.fillStyle = "blue";
+	ctx.font = "25px Faster One";
+	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 180, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
 }
 
 function drawLevel()
 {
-	ctx.font = "30px Comic Sans MS";
-	ctx.fillStyle = "blue";
+	ctx.font = "25px Faster One";
+	ctx.fillStyle = "#0c65f5";
 	ctx.textAlign = "center";
-	ctx.fillText("Level: 1", 180, 80);
+	ctx.fillText("Level: 1", 200, 80);
 }
 
 function drawMuteButton() {
