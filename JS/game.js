@@ -460,13 +460,6 @@ document.addEventListener("DOMContentLoaded", init, false);
 document.addEventListener("click", breakButtonClick, false);
 
 
-//Play and Pause Button
-/*<audio controls>
-	<source src="The Columbians.mp3" type="audio/mpeg"></source>
-Your browser does not support the audio element.
-</audio>
-*/
-
 //Menu Button
 /*function drawMenu(event)
 {
@@ -502,7 +495,7 @@ function drawMenuIcon()
 
 function drawECTS()
 {
-	ctx.font = "30px Comic Sans MS";
+	ctx.font = "30px Spongebob";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
 	ctx.fillText("Creditpoints: ", 1000, 40);
