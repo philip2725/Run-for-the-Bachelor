@@ -55,7 +55,8 @@ class Player {
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
-		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
+		this.walkDirection = 0;	
+		var fallIntervalHandle;																//1 = player go currently left, 0 = player go currently right
 
 	}
 
@@ -80,7 +81,12 @@ class Player {
 
 	detectCollision(obstacle) {
 		if (this.getBottom() > obstacle.getTop() && this.getRight() > obstacle.getLeft() && this.getLeft() < obstacle.getRight()) {
-			return true;
+			if(obstacle.type == "hole"){
+				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
+				setTimeout(function(){gameState.current = gameState.over},500);
+			}else{
+				return true;
+			}
 		}
 		return false;
 	}	
@@ -142,7 +148,7 @@ class Player {
 
 var player;																				// object of Class Player
 
-//obstacles
+//Obstacles
 class Obstacle {
 	constructor(x,y = ground,width,height,pictureId,type) {
 		this.x = x;
@@ -193,45 +199,67 @@ var recordDistance = 0; //saves the furthest distance the player had made
 var nextCreditPointPosition = 0; // the next position in the game where the player can get a Creditpoint
 var maxCreditPoints = 180; //max Creditpoints a player can get in the game
 
+//*************** Level ******************//
+
+function createLevel1(){
+	background = document.getElementById("background");
+	audioPlayer = document.getElementById("backgroundAudio");
+
+	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
+	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
+	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
+	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
+	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
+}
+
+function createLevel2(){
+	//TODO
+}
+
+function createLevel3(){
+	//TODO
+}
+
 //************* Initialisierung ******************//
 function init(){
 	console.log("init called");
 	canvas = document.getElementById("mycanvas");
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
+
+
+	sessionStorage.setItem("level", 1)
+
+	if(sessionStorage.getItem("level") == 1){
+		createLevel1();
+	}else if(sessionStorage.getItem("level") == 2){
+		createLevel2();
+	}else if(sessionStorage.getItem("level") == 3){
+		createLevel3();
+	}
+
 	player = new Player();
-	player.setGender(sessionStorage.getItem("chosenCharacter"));
-	audioPlayer = document.getElementById("backgroundAudio");
+	player.setGender(sessionStorage.getItem("chosenCharacter"));	
+
 	playBackgroundAudio(playingBackgroundAudio);
 
-	setInterval(draw, 40);
+	setInterval(draw, 70);
 	setInterval(changePlayerPicture, player.movementSpeed);
-
-	var box1 = new Obstacle(gameWidth - 50,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box2 = new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box3 = new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-	var box4 = new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box");				//demo obstacle
-
-	obstacles.push(box1);
-	obstacles.push(box2);
-	obstacles.push(box3);
-	obstacles.push(box4);
 
 	gameState.current = gameState.game;
 }
 
 function draw(){
+
 	ctx.clearRect(0,0,gameWidth,gameHeight)
-	//var floor = drawRect(0,gameHeight*0.8,gameWidth,gameHeight*0.2, "green")   						//floor
-	background = document.getElementById("background");
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 						//Background		
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
 	player.drawPlayer();																				//character Image
 	drawObstacles();																					//Obstacle Images
 	checkGameState();
-	//drawMenu(); 
+
 	drawMenuIcon();
-	drawECTS();
-	drawLevel();
+	drawECTSLabel();
+	drawLevelLabel();
 	drawMuteButton();
 }
 
@@ -249,8 +277,6 @@ function playBackgroundAudio(state) {
 		audioPlayer.pause();
 	}
 }
-
-
 function checkGameState(){
 
 	if(gameState.current === gameState.game)
@@ -306,9 +332,7 @@ function drawObstacles() {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index];	
 		var picture = document.getElementById(obstacle.pictureId)
-		//var colors = ["red", "green", "blue", "yellow", "orange"]
 		ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
-		//drawRect(obstacle.x,obstacle.y,obstacle.width,obstacle.height, colors[Math.floor(Math.random() * colors.length)]);
 	}
 }
 
@@ -320,7 +344,6 @@ function updateObstacles(direction) {
 }
 
 function checkCollision() {
-
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
@@ -348,11 +371,22 @@ function jump(){
 			player.goingDown = false;
 			player.charY = player.ground;
 			clearInterval(player.jumping);
+			checkCollision();
 			player.jumping = 0;
 		}else{
 			player.goingDown = true;
 			player.charY += 9
 		}
+	}
+}
+
+function fall(){
+	clearInterval(backgroundIntervalHandle);
+	clearInterval(obstaclesIntervalHandle);
+	if(player.charY < gameHeight){
+		player.charY += 5
+	}else{
+		clearInterval( player.fallIntervalHandle )
 	}
 }
 
@@ -501,32 +535,6 @@ document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil o
 document.addEventListener("DOMContentLoaded", init, false);
 document.addEventListener("click", menuButtonClick, false);
 
-
-//Play and Pause Button
-/*<audio controls>
-	<source src="The Columbians.mp3" type="audio/mpeg"></source>
-Your browser does not support the audio element.
-</audio>
-*/
-
-//Menu Button
-/*function drawMenu(event)
-{
-	if (gameState.current == gameState.break)
-	{
-		var menubackground = document.getElementById("breakmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-	}else if (gameState.current == gameState.finish)
-	{
-		var menubackground = document.getElementById("finishmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-	}else if (gameState.current == gameState.over)
-	{
-		var menubackground = document.getElementById("gameovermenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-	}
-}*/
-
 function drawMenuIcon()
 {
 	if(gameState.current == gameState.game)
@@ -542,15 +550,15 @@ function drawMenuIcon()
 	}
 }
 
-function drawECTS()
+function drawECTSLabel()
 {
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 1000, 40);
+	ctx.fillText("Creditpoints: "  + creditPoints, 1000, 40);
 }
 
-function drawLevel()
+function drawLevelLabel()
 {
 	ctx.font = "30px Comic Sans MS";
 	ctx.fillStyle = "blue";
