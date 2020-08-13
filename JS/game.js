@@ -33,7 +33,7 @@ class Player {
 		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
 		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
-		this.charY = gameHeight*0.88-charHeight;												//Y-Point of character
+		this.charY = gameHeight*0.87-charHeight;												//Y-Point of character
 		this.charPictureWR = [];
 		this.charPictureWL = [];
 		this.charPictureJR = [];
@@ -56,7 +56,7 @@ class Player {
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
 		this.walkDirection = 0;	
-		var fallIntervalHandle;																//1 = player go currently left, 0 = player go currently right
+		var fallIntervalHandle;																	//1 = player go currently left, 0 = player go currently right
 
 	}
 
@@ -194,10 +194,10 @@ const gameState = {
 	finish : 4
 }
 
-var creditPoints = 0; //counter for the creditPoints
-var recordDistance = 0; //saves the furthest distance the player had made
-var nextCreditPointPosition = 0; // the next position in the game where the player can get a Creditpoint
-var maxCreditPoints = 180; //max Creditpoints a player can get in the game
+var creditPoints = 0; 				//counter for the creditPoints
+var recordDistance = 0; 			//saves the furthest distance the player had made
+var nextCreditPointPosition = 0; 	// the next position in the game where the player can get a Creditpoint
+var maxCreditPoints = 180; 			//max Creditpoints a player can get in the game
 
 //*************** Level ******************//
 
@@ -568,7 +568,7 @@ function drawLevelLabel()
 }
 
 function drawMuteButton() {
-	var muteButton = document.getElementById("menuopen");
+	var muteButton = document.getElementById("mutebutton");
 	ctx.drawImage(muteButton, 1140, 5, 50, 50);
 }
 
@@ -598,7 +598,7 @@ function menuButtonClick(event)
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
-	ctx.drawImage(livesLabel, 500, 10, 50, 50);
-	ctx.drawImage(livesLabel, 600, 10, 50, 50);
-	ctx.drawImage(livesLabel, 700, 10, 50, 50);
+	ctx.drawImage(livesLabel, 500, 10, 75, 40);
+	ctx.drawImage(livesLabel, 600, 10, 75, 40);
+	ctx.drawImage(livesLabel, 700, 10, 75, 40);
 }

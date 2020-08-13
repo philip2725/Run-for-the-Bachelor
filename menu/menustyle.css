@@ -48,7 +48,7 @@
 }
 
 /***** headerstyles *****/
-#box {
+.box {
     display: block;
     position: relative;
     border: 2px solid black;

@@ -45,3 +45,9 @@ function getCharacterName(){
     document.getElementById("head").innerHTML = "Hallo " + sessionStorage.getItem("characterName");
 }
 
+//changes the display property of the given div-tag ID's to show and hide several parts of the HTML page
+function showMenuPage(showpage, hidepage){
+    document.getElementById(showpage).style.display='block';
+    document.getElementById(hidepage).style.display='none';
+    
+}
