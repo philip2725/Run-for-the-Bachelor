@@ -652,19 +652,21 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
 	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
 }
 
+/*
 function drawLevelLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#0c65f5";
 	ctx.textAlign = "center";
 	ctx.fillText("Level: 1", 200, 80);
 }
+*/
 
 function drawMuteButton() {
 	var muteButton = document.getElementById("mutebutton");
@@ -697,7 +699,8 @@ function menuButtonClick(event)
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
-	ctx.drawImage(livesLabel, 500, 10, 75, 40);
-	ctx.drawImage(livesLabel, 600, 10, 75, 40);
-	ctx.drawImage(livesLabel, 700, 10, 75, 40);
+	var middle = gameWidth / 2 - 37.5;
+	ctx.drawImage(livesLabel, middle - 100, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
 }
