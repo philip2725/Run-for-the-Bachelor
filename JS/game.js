@@ -602,7 +602,7 @@ function keyDown(event){
 			break;
 		case 38:
 			// Up-Arrow Pressed
-			if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
 			break;
 		case 39:
 			// Right-Arrow Pressed
