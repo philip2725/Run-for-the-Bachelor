@@ -62,6 +62,8 @@ class Player {
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
+		this.onPlatform = false; //tells whether the player is on a platform or not
+		this.playerWantsDownFromPlatform = false; //tells whether the player wants down from the platform
 		this.walkDirection = 0;	
 		var fallIntervalHandle;																	//1 = player go currently left, 0 = player go currently right
 
@@ -97,6 +99,15 @@ class Player {
 		}
 		return false;
 	}	
+
+	detectPlatform(platform) {
+		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
+			//hier muss noch genauer geprüft werden. Wenn player gegen die Platform läuft kann er nicht weiter und nur wenn er auf der Plattform läuft wird hier auf true gesetzt!
+			return true;
+			}else{
+				return false;
+			}
+	}
 
 	setGender(gender){
 		if(gender == 0){												
@@ -190,6 +201,39 @@ class Obstacle {
 var obstacles = [];
 var obstaclesIntervalHandle;
 
+//platforms 
+var platforms = [];
+var platformsIntervalHandle;
+
+class Platform {
+	constructor(x,y = ground,width,height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+
+	update(direcion) {
+		this.x += direcion;																	//movement of platform when player goes to right
+	}
+
+	getTop() {
+		return this.y;
+	}
+
+	getBottom() {
+		return this.y + this.height;
+	}
+
+	getLeft() {
+		return this.x;
+	}
+
+	getRight() {
+		return this.x + this.width;
+	}
+}
+
 
 //control the game
 const gameState = {
@@ -222,6 +266,8 @@ function createLevel1(){
 	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
+
+	platforms.push(new Platform(gameWidth - 500, gameHeight*0.88 - 120, 120,120));
 }
 
 function createLevel2(){
@@ -266,14 +312,15 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
 	player.drawPlayer();																				//character Image
-	drawObstacles();																					//Obstacle Images
+	drawObstacles();
+	drawPlatforms();																					//Obstacle Images
 	checkGameState();
 
 	drawMenuIcon();
 	drawECTSLabel();
 	drawLevelLabel();
 	drawMuteButton(playingAudio);
-	drawLivesLabel();
+	//drawLivesLabel();
 }
 
 
@@ -332,18 +379,21 @@ function checkGameState(){
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		playSoundFX(playingAudio, gameoversound);
@@ -375,8 +425,43 @@ function checkCollision() {
 			break;
 		}
 	}
+}
+
+function drawPlatforms() {
+	
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index];	
+		//var picture = document.getElementById(obstacle.pictureId)
+		//ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
+		drawRect(platform.x,platform.y,platform.width,platform.height)
+	}
+}
+
+function updatePlatforms(direction) {
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index]
+		platform.update(direction)
+	}
+}
+
+function checkPlatforms() {
+	
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index]
+		if (player.detectPlatform(platform)) {
+			player.onPlatform = true;	
+			break;
+		} else {
+			player.onPlatform = false;
+			if (player.charY != player.ground && player.jumping == 0) {
+				player.playerWantsDownFromPlatform = true;
+				player.jumping = setInterval(jump, player.jumpSpeed);
+			}
+		}
+	}
 	
 }
+
 
 function checkFinished() {
 	var end = backgroundWidth*(-1)+gameWidth+20
@@ -387,7 +472,8 @@ function checkFinished() {
 }
 
 function jump(){
-	if(player.charY > player.jumpHigh && !player.goingDown){
+	 checkPlatforms()
+	if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 		player.charY -= 6
 	}else {
 		if(player.charY > player.ground){
@@ -396,9 +482,17 @@ function jump(){
 			clearInterval(player.jumping);
 			checkCollision();
 			player.jumping = 0;
-		}else{
-			player.goingDown = true;
-			player.charY += 9
+			player.playerWantsDownFromPlatform = false
+		} else {
+			if (player.onPlatform == false) {
+				player.goingDown = true;
+				player.charY += 9
+			} else {
+				player.goingDown = false;
+				clearInterval(player.jumping);
+				checkCollision();
+				player.jumping = 0;
+			}
 		}
 	}
 }
@@ -406,6 +500,7 @@ function jump(){
 function fall(){
 	clearInterval(backgroundIntervalHandle);
 	clearInterval(obstaclesIntervalHandle);
+	clearInterval(platformsIntervalHandle);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
@@ -426,6 +521,7 @@ function moveBackground(direction){
 
 	checkFinished();
 	checkCollision();
+	checkPlatforms();
 }
 
 function changePlayerPicture(){
@@ -470,10 +566,10 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Right
-	else if(player.jumping != 0 && player.walkDirection === 0){
+	else if(player.jumping != 0 && player.walkDirection === 0) {
 		if(player.charPictureJR[player.currentPictureIdxJR] == player.charPictureJR[player.charPictureJR.length - 1]){
 			player.currentPictureIdxJR = 0;
-		}else{
+		} else{
 			player.currentPictureIdxJR++;
 		}
 		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxJR]);
@@ -496,10 +592,10 @@ function changePlayerPicture(){
 
 function goLeft(){
 	if(player.isGoing === false){
-		player.isGoing = true;
-
-		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			player.isGoing = true;
+			backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -509,7 +605,7 @@ function goRight(){
 
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-
+		platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -528,7 +624,7 @@ function keyDown(event){
 			break;
 		case 38:
 			// Up-Arrow Pressed
-			if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
 			playSoundFX(playingAudio, jumpdemo);
 			break;
 		case 39:
@@ -572,6 +668,7 @@ function keyUp(event){
 		player.isGoing = false
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 	}
 }
 
@@ -598,19 +695,21 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
 	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
 }
 
+/*
 function drawLevelLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#0c65f5";
 	ctx.textAlign = "center";
 	ctx.fillText("Level: 1", 200, 80);
 }
+*/
 
 function drawMuteButton(state) {
 	if (state) {
@@ -654,7 +753,8 @@ function menuButtonClick(event)
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
-	ctx.drawImage(livesLabel, 500, 10, 75, 40);
-	ctx.drawImage(livesLabel, 600, 10, 75, 40);
-	ctx.drawImage(livesLabel, 700, 10, 75, 40);
+	var middle = gameWidth / 2 - 37.5;
+	ctx.drawImage(livesLabel, middle - 100, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
 }
