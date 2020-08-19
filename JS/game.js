@@ -21,7 +21,14 @@ var backgroundIntervalHandle;															//lower = faster
 
 // Audio
 var audioPlayer;
-var playingBackgroundAudio = true;
+if(sessionStorage.getItem("mutedStatus") == 1){
+	var playingAudio = false;
+}else if (sessionStorage.getItem("mutedStatus") == 0){
+	var playingAudio = true;
+}
+
+
+
 
 //character		
 class Player {
@@ -46,7 +53,7 @@ class Player {
 		this.currentPictureIdxJL = 0;
 		this.currentPictureIdxIR = 0;
 		this.currentPictureIdxIL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
-		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
+		this.movementSpeed = 60;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
@@ -204,6 +211,11 @@ var maxCreditPoints = 180; 			//max Creditpoints a player can get in the game
 function createLevel1(){
 	background = document.getElementById("background");
 	audioPlayer = document.getElementById("backgroundAudio");
+	audioPlayer.volume = 0.1;
+	var jumpsound = document.getElementById("jumpdemo");
+	var gameoversound = document.getElementById("gameoversound");
+	var runningsound = document.getElementById("runningsound");
+	
 
 	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
@@ -241,7 +253,7 @@ function init(){
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));	
 
-	playBackgroundAudio(playingBackgroundAudio);
+	playBackgroundAudio(playingAudio);
 
 	setInterval(draw, 70);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -260,7 +272,7 @@ function draw(){
 	drawMenuIcon();
 	drawECTSLabel();
 	drawLevelLabel();
-	drawMuteButton();
+	drawMuteButton(playingAudio);
 	drawLivesLabel();
 }
 
@@ -273,11 +285,20 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function playBackgroundAudio(state) {
 	if (state) {
+		console.log("Hintergundaudio ja")
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
 	}
 }
+
+function playSoundFX(state, sound){
+	if(state){
+		sound.play();
+	}
+}
+
+
 function checkGameState(){
 
 	if(gameState.current === gameState.game)
@@ -325,6 +346,7 @@ function checkGameState(){
 		clearInterval(obstaclesIntervalHandle);
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		playSoundFX(playingAudio, gameoversound);
 	}
 }
 
@@ -487,6 +509,7 @@ function goRight(){
 
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+
 	}
 }
 
@@ -501,19 +524,41 @@ function keyDown(event){
 			// Left-Arrow Pressed
 			player.walkDirection = 1;
 			goLeft();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 38:
 			// Up-Arrow Pressed
 			if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			playSoundFX(playingAudio, jumpdemo);
 			break;
 		case 39:
 			// Right-Arrow Pressed
 			player.walkDirection = 0;
 			goRight();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 40:
 			// Down-Arrow Pressed
 			break;
+		case 27:
+			// ESC-Key Pressed
+			if(gameState.current != gameState.break)
+			{
+				gameState.current = gameState.break;
+			}else if(gameState.current == gameState.break){
+				gameState.current = gameState.game; 
+			}
+			break;
+		case 77:
+			// M-Key Pressed
+			playingAudio = !playingAudio;
+			if(playingAudio)
+			{
+				sessionStorage.setItem("mutedStatus", 0);
+			}else{
+				sessionStorage.setItem("mutedStatus", 1);
+			}
+			playBackgroundAudio(playingAudio);
 		default:
 			//otherKey Pressed
 			break;
@@ -567,9 +612,15 @@ function drawLevelLabel()
 	ctx.fillText("Level: 1", 200, 80);
 }
 
-function drawMuteButton() {
-	var muteButton = document.getElementById("mutebutton");
-	ctx.drawImage(muteButton, 1140, 5, 50, 50);
+function drawMuteButton(state) {
+	if (state) {
+		var audioButton = document.getElementById("mutebutton");
+		ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	} else {
+		var audioButton = document.getElementById("unmutebutton");
+	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	}
+	
 }
 
 function menuButtonClick(event)
@@ -591,8 +642,13 @@ function menuButtonClick(event)
 		}
 		//handler for muteButtonClicked
 	} else if (x > 1150 && y < 200) {
-		playingBackgroundAudio = !playingBackgroundAudio
-		playBackgroundAudio(playingBackgroundAudio)
+		playingAudio = !playingAudio
+		if(playingAudio){
+			sessionStorage.setItem("mutedStatus", 0);
+		}else{
+			sessionStorage.setItem("mutedStatus", 1);
+		}
+		playBackgroundAudio(playingAudio)
 	}
 }
 
