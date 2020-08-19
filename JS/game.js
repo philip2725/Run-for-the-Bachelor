@@ -318,9 +318,9 @@ function draw(){
 
 	drawMenuIcon();
 	drawECTSLabel();
-	drawLevelLabel();
+	//drawLevelLabel();
 	drawMuteButton(playingAudio);
-	//drawLivesLabel();
+	
 }
 
 
