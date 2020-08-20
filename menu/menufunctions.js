@@ -60,11 +60,17 @@ function playAudio(){
         menuAudio.play();
         menuAudio.loop = true;
         menuAudio.volume = 0.2;
-        document.getElementById("menumutebutton").innerHTML ="MUTE";
+        var img2 = document.getElementById("menumutebutton")
+        img2.src ="../assets/Images/Buttons/Menu_Buttons/Mute yellow.png";
+        img2.setAttribute('onmouseover', "src='../assets/Images/Buttons/Menu_Buttons/Mute hover yellow.png'") 
+        img2.setAttribute('onmouseout', "src='../assets/Images/Buttons/Menu_Buttons/Mute yellow.png'") 
         sessionStorage.setItem("mutedStatus", 0);
 	} else {
         menuAudio.pause();
-        document.getElementById("menumutebutton").innerHTML ="UNMUTE";
+        var img3 = document.getElementById("menumutebutton")
+        img3.src ="../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png";
+        img3.setAttribute('onmouseover', "src='../assets/Images/Buttons/Menu_Buttons/Unmute hover yellow.png'") 
+        img3.setAttribute('onmouseout', "src='../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png'") 
         sessionStorage.setItem("mutedStatus", 1);
     }
 }

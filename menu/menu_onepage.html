@@ -15,27 +15,31 @@
 
             
                     <!-- Game-Logo-Image -->
-                    <img    src="../assets/Images/menu/Logo_Farben_FHDW.png"   alt="Run for the Bachelor"      style="width:677px;height:451px;" />                                                
+                    <img    src="../assets/Images/menu/Logo/Logo_Farben_FHDW.png"   alt="Run for the Bachelor"      style="width:677px;height:451px;" />                                                
                     
                     <br>
                          
                     <!--***** Navigation Buttons *****-->
     
                     <!-- Linkbutton to start the default.html  -->
-                    <a      href="#"   onclick="showMenuPage('chooseCharacterHTML','mainmenuHTML'); playSoundEffect('buttonclick')"; class="mainButton"> PLAY </a>     
+                    <img   class="buttonImgScale"      onclick="showMenuPage('chooseCharacterHTML','mainmenuHTML'); playSoundEffect('buttonclick')"  src="../assets/Images/Buttons/Menu_Buttons/Play yellow.png"
+                            onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Play hover yellow.png'"
+                            onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Play yellow.png'">    
     
-                    <br> <br>
-    
-                    <!-- Opens a popup with a name input action 
-                    <a      href="#"    class="mainButton"      onClick="toggle('nameinput')" > SPIELEN </a>    -->                                          
+                    <br> <br>                                        
     
                     <!-- Opens a popup with ingame controls -->
-                    <a      href="#"    class="mainButton"      onClick="toggle('cntrl'); playSoundEffect('buttonclick')" > CONTROLS </a>                                              
+                    <img   class="buttonImgScale"      onclick="toggle('cntrl'); playSoundEffect('buttonclick')" src="../assets/Images/Buttons/Menu_Buttons/Controls yellow.png"
+                            onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Controls hover yellow.png'"
+                            onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Controls yellow.png'">                                              
     
                     <br> <br>
     
-                    <!-- Link-Button to ende the tab -->
-                    <a      href="#"    id="menumutebutton" class="mainButton"     onclick="playAudio()"> UNMUTE </a>
+                    <!-- Link-Button to (un)mute the music -->
+                    <img   class="buttonImgScale"  id="menumutebutton"       src="../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png"
+                            onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Unmute hover yellow.png'"
+                            onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png'"
+                            onclick="playAudio();">
     
                     <br> <br> <br> <br> <br>
     
@@ -46,31 +50,35 @@
              
         </div>
 
+<!--height: 40px; width: 97px;-->
 
         <!-- ********** Choose Character Page ********** -->
         <div id="chooseCharacterHTML" class ="box" style="display: none;">
             
-                    <a href="#"   class ="backButton" onclick="showMenuPage('mainmenuHTML','chooseCharacterHTML'); playSoundEffect('buttonclick')" style="position: absolute; top: 10px; left: 10px"> </a>
+            <img    onclick="showMenuPage('mainmenuHTML', 'chooseCharacterHTML'); playSoundEffect('buttonclick')" src="../assets/Images/Buttons/Menu_Buttons/Back yellow.png"  
+                    style="position: absolute; top: 10px; left: 10px; height: 40px; width: 97px;"
+                    onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Back hover yellow.png'"
+                    onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Back yellow.png'">
 
                     <!-- Game-Logo-Image -->
-                    <img    src="../assets/Images/menu/Logo_Idee_ohne Schild.png"   alt="Run for the Bachelor"      style="width:451px;height:300px;" />     
+                    <img    src="../assets/Images/menu/Logo/Logo_Farben_FHDW.png"   alt="Run for the Bachelor"      style="width:451px;height:300px;" />     
     
                     <br>
     
-                    <p class="text"> Choose your Character:</p>
+                    <img    src="../assets/Images/menu/Text/ChooseYourCharacter.png"    style="width: 408px; height: 59px; margin-bottom: -30px;">
     
                     <br> <br> <br> <br>
     
                     <!-- Character selection buttons -->
-                    <a      href="#"> <img    src="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif"     alt="character gif"     style="width: 148.5px; height:206px; margin-right: 50px;"  
+                    <img    src="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif"     alt="character gif"     style="height:250px; width: 180px; margin-right: 50px;"  
                             onclick="saveChosenCharacter(0); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')"
                             onmouseover="src='../assets/Images/Character/Boy/Gifs/Boy_Walk.gif'" 
-                            onmouseout="src='../assets/Images/Character/Boy/Gifs/Boy_Idle.gif'"></a>  
+                            onmouseout="src='../assets/Images/Character/Boy/Gifs/Boy_Idle.gif'"> 
     
-                    <a      href="#" > <img    src="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif"   alt="character gif"     style="width: 125.33px; height: 205.33px; margin-left: 50px" 
+                    <img    src="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif"   alt="character gif"     style="height: 246px; width: 150px; margin-left: 50px" 
                             onclick="saveChosenCharacter(1); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')" 
                             onmouseover="src='../assets/Images/Character/Girl/Gifs/Girl_Walk_Left.gif'" 
-                            onmouseout="src='../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif'"></a>  
+                            onmouseout="src='../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif'">  
                     
                 
                     <br> <br> <br>            
@@ -84,12 +92,13 @@
         <!-- ********** Enter Playername Page ********** -->
         <div id="enterplayernameHTML" class="box" style="display: none;">
 
-                    <a href="#"   class="backButton"   onclick="showMenuPage('chooseCharacterHTML','enterplayernameHTML'); playSoundEffect('buttonclick')" style="position: absolute; top: 10px; left: 10px"></a>
+                    <img    src="../assets/Images/Buttons/Menu_Buttons/Back yellow.png"  onclick="showMenuPage('chooseCharacterHTML','enterplayernameHTML'); playSoundEffect('buttonclick')" 
+                            style="position: absolute; top: 10px; left: 10px; height: 40px; width: 97px;"
+                            onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Back hover yellow.png'"
+                            onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Back yellow.png'">
                             
                     <!-- Game-Logo-Image -->
-                    <img    src="../assets/Images/menu/Logo_Idee_ohne Schild.png" 
-                            alt="Run for the Bachelor" 
-                            style="width:338px; height:226px;" />     
+                    <img    src="../assets/Images/menu/Logo/Logo_Farben_FHDW.png"   alt="Run for the Bachelor"    style="width:451px;height:300px;">     
     
                     <br>
                     
@@ -104,9 +113,11 @@
                     <aside id="nameInput">
                         
                         <form onsubmit="saveCharacterName(); getCharacterName(); playSoundEffect('buttonclick')" action="../default.html" autocomplete="off">
-                            <a class="text">Choose a name:</a><br>
+                            <img    src="../assets/Images/menu/Text/ChooseAName.png"    style="width: 260px; height: 59px; margin-bottom: -15px;"><br>
                             <input type="text"  id="userInput" maxlength="15" required> <br>
-                            <input type="submit" value="Let´s GO!" class="mainButton">
+                            <input type="image" name="Submit" src="../assets/Images/Buttons/Menu_Buttons/Let´s GO! yellow.png"  style="width: 200px; height: 50px;"
+                            onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Let´s GO! hover yellow.png'"
+                            onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Let´s GO! yellow.png'">
                         </form>
     
                     </aside>
