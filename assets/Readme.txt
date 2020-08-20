@@ -4,3 +4,6 @@ M√ºnze bei einsammeln auf x/y -1000/-1000 gesetzt, da sonst probleme beim hochz√
 
 Backgroundmusik startet nicht automatisch
 
+Objekte verschieben sich beim laufen gegen das linke ende
+
+
