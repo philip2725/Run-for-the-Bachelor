@@ -51,3 +51,27 @@ function showMenuPage(showpage, hidepage){
     document.getElementById(hidepage).style.display='none';
     
 }
+
+//audio functions for the menu HTML
+var audiostate = false;
+function playAudio(){
+    audiostate = !audiostate;
+    if (audiostate) {
+        menuAudio.play();
+        menuAudio.loop = true;
+        menuAudio.volume = 0.2;
+        document.getElementById("menumutebutton").innerHTML ="MUTE";
+        sessionStorage.setItem("mutedStatus", 0);
+	} else {
+        menuAudio.pause();
+        document.getElementById("menumutebutton").innerHTML ="UNMUTE";
+        sessionStorage.setItem("mutedStatus", 1);
+    }
+}
+
+function playSoundEffect(soundName){
+   if(audiostate){
+        var sound = document.getElementById(soundName);
+        sound.play()
+   }
+}

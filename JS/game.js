@@ -21,7 +21,14 @@ var backgroundIntervalHandle;															//lower = faster
 
 // Audio
 var audioPlayer;
-var playingBackgroundAudio = true;
+if(sessionStorage.getItem("mutedStatus") == 1){
+	var playingAudio = false;
+}else if (sessionStorage.getItem("mutedStatus") == 0){
+	var playingAudio = true;
+}
+
+
+
 
 //character		
 class Player {
@@ -46,7 +53,7 @@ class Player {
 		this.currentPictureIdxJL = 0;
 		this.currentPictureIdxIR = 0;
 		this.currentPictureIdxIL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
-		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
+		this.movementSpeed = 60;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
@@ -55,6 +62,8 @@ class Player {
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
+		this.onPlatform = false; //tells whether the player is on a platform or not
+		this.playerWantsDownFromPlatform = false; //tells whether the player wants down from the platform
 		this.walkDirection = 0;	
 		var fallIntervalHandle;															//1 = player go currently left, 0 = player go currently right
 
@@ -90,6 +99,15 @@ class Player {
 		}
 		return false;
 	}	
+
+	detectPlatform(platform) {
+		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
+			//hier muss noch genauer geprüft werden. Wenn player gegen die Platform läuft kann er nicht weiter und nur wenn er auf der Plattform läuft wird hier auf true gesetzt!
+			return true;
+			}else{
+				return false;
+			}
+	}
 
 	setGender(gender){
 		if(gender == 0){												
@@ -198,6 +216,10 @@ class Item {
 		this.x += direcion;																	//movement of items when player goes to right
 	}
 
+	update(direcion) {
+		this.x += direcion;																	//movement of platform when player goes to right
+	}
+
 	getTop() {
 		return this.y;
 	}
@@ -221,6 +243,46 @@ var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06',
 'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
 creditsPerCoin = 10;
 
+//platforms 
+class Platform {
+	constructor(x,y = ground,width,height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.type = type;																	//type coin = Creditpoint
+		this.currentPictureIdx = 0;
+	}
+
+	update(direcion) {
+		this.x += direcion;																	//movement of items when player goes to right
+	}
+
+	update(direcion) {
+		this.x += direcion;																	//movement of platform when player goes to right
+	}
+
+	getTop() {
+		return this.y;
+	}
+
+	getBottom() {
+		return this.y + this.height;
+	}
+
+	getLeft() {
+		return this.x;
+	}
+
+	getRight() {
+		return this.x + this.width;
+	}
+
+}
+var platforms = [];
+var platformsIntervalHandle;
+
+
 
 //control the game
 const gameState = {
@@ -242,6 +304,11 @@ var maxCreditPoints = 60; 			//max Creditpoints a player can get in the game
 function createLevel1(){
 	background = document.getElementById("background");
 	audioPlayer = document.getElementById("backgroundAudio");
+	audioPlayer.volume = 0.1;
+	var jumpsound = document.getElementById("jumpdemo");
+	var gameoversound = document.getElementById("gameoversound");
+	var runningsound = document.getElementById("runningsound");
+	
 
 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
@@ -253,6 +320,8 @@ function createLevel1(){
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
 
+
+	platforms.push(new Platform(gameWidth - 500, gameHeight*0.88 - 120, 120,120));
 }
 
 function createLevel2(){
@@ -284,7 +353,7 @@ function init(){
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));	
 
-	playBackgroundAudio(playingBackgroundAudio);
+	playBackgroundAudio(playingAudio);
 
 	setInterval(draw, 70);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -296,16 +365,17 @@ function draw(){
 
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
-	player.drawPlayer();																				//character Image
-	drawObstacles();																					
+	player.drawPlayer();																				//character Image																					
 	drawItems();																						
+	drawObstacles();
+	drawPlatforms();																					//Obstacle Images
 	checkGameState();
 
 	drawMenuIcon();
 	drawECTSLabel();
-	drawLevelLabel();
-	drawMuteButton();
-	drawLivesLabel();
+	//drawLevelLabel();
+	drawMuteButton(playingAudio);
+	
 }
 
 
@@ -317,11 +387,20 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function playBackgroundAudio(state) {
 	if (state) {
+		console.log("Hintergundaudio ja")
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
 	}
 }
+
+function playSoundFX(state, sound){
+	if(state){
+		sound.play();
+	}
+}
+
+
 function checkGameState(){
 
 	if(gameState.current === gameState.game)
@@ -355,20 +434,24 @@ function checkGameState(){
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		playSoundFX(playingAudio, gameoversound);
 	}
 }
 
@@ -421,14 +504,49 @@ function checkCollision() {
 	for (index = 0; index < items.length; index++) {
 		var item = items[index]
 		if (player.detectCollision(item)) {
-			items[index].x = -1000									
-			items[index].y = -1000
+			items[index].x = -1000;								
+			items[index].y = -1000;
 			creditPoints += creditsPerCoin;
 			break;
 		}
 	}
+}
+
+function drawPlatforms() {
+	
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index];	
+		//var picture = document.getElementById(obstacle.pictureId)
+		//ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
+		drawRect(platform.x,platform.y,platform.width,platform.height)
+	}
+}
+
+function updatePlatforms(direction) {
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index]
+		platform.update(direction)
+	}
+}
+
+function checkPlatforms() {
+	
+	for (index = 0; index < platforms.length; index++) {
+		var platform = platforms[index]
+		if (player.detectPlatform(platform)) {
+			player.onPlatform = true;	
+			break;
+		} else {
+			player.onPlatform = false;
+			if (player.charY != player.ground && player.jumping == 0) {
+				player.playerWantsDownFromPlatform = true;
+				player.jumping = setInterval(jump, player.jumpSpeed);
+			}
+		}
+	}
 	
 }
+
 
 function checkFinished() {
 	var end = backgroundWidth*(-1)+gameWidth+20
@@ -439,7 +557,8 @@ function checkFinished() {
 }
 
 function jump(){
-	if(player.charY > player.jumpHigh && !player.goingDown){
+	 checkPlatforms()
+	if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 		player.charY -= 6
 	}else {
 		if(player.charY > player.ground){
@@ -448,9 +567,17 @@ function jump(){
 			clearInterval(player.jumping);
 			checkCollision();
 			player.jumping = 0;
-		}else{
-			player.goingDown = true;
-			player.charY += 9
+			player.playerWantsDownFromPlatform = false
+		} else {
+			if (player.onPlatform == false) {
+				player.goingDown = true;
+				player.charY += 9
+			} else {
+				player.goingDown = false;
+				clearInterval(player.jumping);
+				checkCollision();
+				player.jumping = 0;
+			}
 		}
 	}
 }
@@ -458,6 +585,7 @@ function jump(){
 function fall(){
 	clearInterval(backgroundIntervalHandle);
 	clearInterval(obstaclesIntervalHandle);
+	clearInterval(platformsIntervalHandle);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
@@ -478,6 +606,7 @@ function moveBackground(direction){
 
 	checkFinished();
 	checkCollision();
+	checkPlatforms();
 }
 
 function changePlayerPicture(){
@@ -522,10 +651,10 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Right
-	else if(player.jumping != 0 && player.walkDirection === 0){
+	else if(player.jumping != 0 && player.walkDirection === 0) {
 		if(player.charPictureJR[player.currentPictureIdxJR] == player.charPictureJR[player.charPictureJR.length - 1]){
 			player.currentPictureIdxJR = 0;
-		}else{
+		} else{
 			player.currentPictureIdxJR++;
 		}
 		player.playerImg = document.getElementById(player.charPictureJR[player.currentPictureIdxJR]);
@@ -552,7 +681,8 @@ function goLeft(){
 
 		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed )
+		itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed );
+		platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -563,6 +693,7 @@ function goRight(){
 		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 		itemsIntervalHandle = setInterval(function() { updateItems(-backgroundMoveSpeed); }, backgroundUpdateSpeed )
+		platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -577,19 +708,41 @@ function keyDown(event){
 			// Left-Arrow Pressed
 			player.walkDirection = 1;
 			goLeft();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 38:
 			// Up-Arrow Pressed
-			if(player.charY == player.ground && player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			playSoundFX(playingAudio, jumpdemo);
 			break;
 		case 39:
 			// Right-Arrow Pressed
 			player.walkDirection = 0;
 			goRight();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 40:
 			// Down-Arrow Pressed
 			break;
+		case 27:
+			// ESC-Key Pressed
+			if(gameState.current != gameState.break)
+			{
+				gameState.current = gameState.break;
+			}else if(gameState.current == gameState.break){
+				gameState.current = gameState.game; 
+			}
+			break;
+		case 77:
+			// M-Key Pressed
+			playingAudio = !playingAudio;
+			if(playingAudio)
+			{
+				sessionStorage.setItem("mutedStatus", 0);
+			}else{
+				sessionStorage.setItem("mutedStatus", 1);
+			}
+			playBackgroundAudio(playingAudio);
 		default:
 			//otherKey Pressed
 			break;
@@ -604,6 +757,7 @@ function keyUp(event){
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(itemsIntervalHandle);
+		clearInterval(platformsIntervalHandle);
 	}
 }
 
@@ -630,23 +784,31 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
 	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
 }
 
+/*
 function drawLevelLabel()
 {
-	ctx.font = "25px Faster One";
+	ctx.font = "25px Bangers";
 	ctx.fillStyle = "#0c65f5";
 	ctx.textAlign = "center";
 	ctx.fillText("Level: 1", 200, 80);
 }
+*/
 
-function drawMuteButton() {
-	var muteButton = document.getElementById("mutebutton");
-	ctx.drawImage(muteButton, 1140, 5, 50, 50);
+function drawMuteButton(state) {
+	if (state) {
+		var audioButton = document.getElementById("mutebutton");
+		ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	} else {
+		var audioButton = document.getElementById("unmutebutton");
+	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	}
+	
 }
 
 function menuButtonClick(event)
@@ -668,14 +830,20 @@ function menuButtonClick(event)
 		}
 		//handler for muteButtonClicked
 	} else if (x > 1150 && y < 200) {
-		playingBackgroundAudio = !playingBackgroundAudio
-		playBackgroundAudio(playingBackgroundAudio)
+		playingAudio = !playingAudio
+		if(playingAudio){
+			sessionStorage.setItem("mutedStatus", 0);
+		}else{
+			sessionStorage.setItem("mutedStatus", 1);
+		}
+		playBackgroundAudio(playingAudio)
 	}
 }
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
-	ctx.drawImage(livesLabel, 500, 10, 75, 40);
-	ctx.drawImage(livesLabel, 600, 10, 75, 40);
-	ctx.drawImage(livesLabel, 700, 10, 75, 40);
+	var middle = gameWidth / 2 - 37.5;
+	ctx.drawImage(livesLabel, middle - 100, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle, 10, 75, 40);
+	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
 }
