@@ -9,10 +9,10 @@
 		<script src="menu/menufunctions.js"></script>
 	</head>
 
-	<body	style="overflow:hidden"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
+	<body	style="overflow:hidden; background-image: url(assets/Images/Backgrounds/MenuPageBackground.png);"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
 
 		<center>
-			<h1 id="head">Run for the Bachelor</h1>
+			<h1 id="head" style="color:white; font-family: Arial;">Run for the Bachelor</h1>
 			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px;">
 				Your browser does not support the canvas element.
 			</canvas>
@@ -288,6 +288,7 @@
 			<img id="menuopen" style="display:none" src="assets/Images/menu/new icons/Menu Icon.png" alt="char">
 			<img id="menuclose" style="display:none" src="assets/Images/menu/new icons/Cancel Button.png" alt="char">
 			<img id="mutebutton" style="display:none" src="assets/Images/menu/new icons/Mute Button.png" alt="char">
+			<img id="unmutebutton" style="display:none" src="assets/Images/menu/new icons/Unmute Button.png" alt="char">
 			<img id="breakmenu" style="display:none" src="assets/Images/menu/Mauer_Break.png" alt="char">
 			<img id="finishmenu" style="display:none" src="assets/Images/menu/Mauer_Finish.png" alt="char">
 			<img id="gameovermenu" style="display:none" src="assets/Images/menu/Mauer_GameOver.png" alt="char">
@@ -297,8 +298,20 @@
 			<img id="book" style="display:none" src="assets/Images/Objects/books.gif" alt="book">
 
 			<!--Sounds-->
-			<audio id="backgroundAudio" >
+			<audio id="backgroundAudio" autoplay loop>
 				<source src="assets/Sounds/backgroundAudio.wav" type="audio/mpeg" />
+			</audio>
+
+			<audio id="jumpdemo" >
+				<source src="assets/Sounds/jumpdemo.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="gameoversound" >
+				<source src="assets/Sounds/gameover.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="runningsound" >
+				<source src="assets/Sounds/runningsound.mp3" type="audio/mpeg" />
 			</audio>
 			
 			<!--Fonts-->

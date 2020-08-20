@@ -22,7 +22,7 @@
                     <!--***** Navigation Buttons *****-->
     
                     <!-- Linkbutton to start the default.html  -->
-                    <a      href="#"   onclick="showMenuPage('chooseCharacterHTML','mainmenuHTML')"; class="mainButton"> PLAY </a>     
+                    <a      href="#"   onclick="showMenuPage('chooseCharacterHTML','mainmenuHTML'); playSoundEffect('buttonclick')"; class="mainButton"> PLAY </a>     
     
                     <br> <br>
     
@@ -30,19 +30,19 @@
                     <a      href="#"    class="mainButton"      onClick="toggle('nameinput')" > SPIELEN </a>    -->                                          
     
                     <!-- Opens a popup with ingame controls -->
-                    <a      href="#"    class="mainButton"      onClick="toggle('cntrl')" > CONTROLS </a>                                              
+                    <a      href="#"    class="mainButton"      onClick="toggle('cntrl'); playSoundEffect('buttonclick')" > CONTROLS </a>                                              
     
                     <br> <br>
     
                     <!-- Link-Button to ende the tab -->
-                    <a      href="#"     class="mainButton"> MUTE </a>
+                    <a      href="#"    id="menumutebutton" class="mainButton"     onclick="playAudio()"> UNMUTE </a>
     
                     <br> <br> <br> <br> <br>
     
                     <!--***** Footer Buttons *****-->
     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy')"> Privacy / Imprint </a> 
+                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a> 
              
         </div>
 
@@ -50,7 +50,7 @@
         <!-- ********** Choose Character Page ********** -->
         <div id="chooseCharacterHTML" class ="box" style="display: none;">
             
-                    <a href="#" onclick="showMenuPage('mainmenuHTML','chooseCharacterHTML')" style="position: absolute; top: 10px; left: 10px"> back </a>
+                    <a href="#"   class ="backButton" onclick="showMenuPage('mainmenuHTML','chooseCharacterHTML'); playSoundEffect('buttonclick')" style="position: absolute; top: 10px; left: 10px"> </a>
 
                     <!-- Game-Logo-Image -->
                     <img    src="../assets/Images/menu/Logo_Idee_ohne Schild.png"   alt="Run for the Bachelor"      style="width:451px;height:300px;" />     
@@ -63,12 +63,12 @@
     
                     <!-- Character selection buttons -->
                     <a      href="#"> <img    src="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif"     alt="character gif"     style="width: 148.5px; height:206px; margin-right: 50px;"  
-                            onclick="saveChosenCharacter(0); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic();"
+                            onclick="saveChosenCharacter(0); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')"
                             onmouseover="src='../assets/Images/Character/Boy/Gifs/Boy_Walk.gif'" 
                             onmouseout="src='../assets/Images/Character/Boy/Gifs/Boy_Idle.gif'"></a>  
     
                     <a      href="#" > <img    src="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif"   alt="character gif"     style="width: 125.33px; height: 205.33px; margin-left: 50px" 
-                            onclick="saveChosenCharacter(1); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic();" 
+                            onclick="saveChosenCharacter(1); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')" 
                             onmouseover="src='../assets/Images/Character/Girl/Gifs/Girl_Walk_Left.gif'" 
                             onmouseout="src='../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif'"></a>  
                     
@@ -76,7 +76,7 @@
                     <br> <br> <br>            
                     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"     onClick="toggle('prvcy')"> Privacy / Imprint </a>
+                    <a      href="#"   class="footerButton"     onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>
             
         </div>
           
@@ -84,7 +84,7 @@
         <!-- ********** Enter Playername Page ********** -->
         <div id="enterplayernameHTML" class="box" style="display: none;">
 
-                    <a href="#" onclick="showMenuPage('chooseCharacterHTML','enterplayernameHTML')" style="position: absolute; top: 10px; left: 10px"> back </a>
+                    <a href="#"   class="backButton"   onclick="showMenuPage('chooseCharacterHTML','enterplayernameHTML'); playSoundEffect('buttonclick')" style="position: absolute; top: 10px; left: 10px"></a>
                             
                     <!-- Game-Logo-Image -->
                     <img    src="../assets/Images/menu/Logo_Idee_ohne Schild.png" 
@@ -103,9 +103,9 @@
                     <!-- name input window -->
                     <aside id="nameInput">
                         
-                        <form onsubmit="saveCharacterName(); getCharacterName();" action="../default.html" autocomplete="off">
+                        <form onsubmit="saveCharacterName(); getCharacterName(); playSoundEffect('buttonclick')" action="../default.html" autocomplete="off">
                             <a class="text">Choose a name:</a><br>
-                            <input type="text"  id="userInput" maxlength="15"> <br>
+                            <input type="text"  id="userInput" maxlength="15" required> <br>
                             <input type="submit" value="Let´s GO!" class="mainButton">
                         </form>
     
@@ -114,23 +114,41 @@
                     <br> <br> <br>
     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy')"> Privacy / Imprint </a>        
+                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>        
             
         </div>
 
 
         <!-- content of the control popup window -->
             <div id="cntrl" class = "popup" style="display:none;">
-            Steuerung la bla bla bla bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla
+                <p style="text-align: center; "><b><ins>CONTROLS</ins></b><br> 
+                    <pre style="text-align: left;">
+                [&#8592;]        walk left 
+            
+                [&#8594;]        walk right 
+            
+                [&#8593;]        jump 
+
+                [M]        (un)mute
+
+                [F5]       restart
+            
+                [ESC]      pause the game
+                     
+                     
+                      
+                    
+                    </pre>    
+                </p>
 
             <br> <br>
 
-            <a href="#" class="close" onClick="toggle('cntrl')"> schließen </a>
+            <a href="#" class="close" onClick="toggle('cntrl'); playSoundEffect('buttonclick')"> schließen </a>
         </div>
 
         <!-- content of the privacy and imprint popup window  -->
         <div    id="prvcy" class="popup"    style="display:none;">
-            <p style="text-align: center; "><b><ins>DATENSCHUTZ</ins></b><br>
+            <p style="text-align: center; "><b><ins>PRIVACY</ins></b><br>
 
                 <p  style="color: lightgrey;">
                     Wir haben diese Datenschutzerklärung (Fassung 26.07.2020-311198026) verfasst, 
@@ -157,10 +175,22 @@
             
             <br> <br>
 
-            <a href="#" class="close" onClick="toggle('prvcy')"> schließen </a>
+            <a href="#" class="close" onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> schließen </a>
         </div>
 
         <p class="windowSizeAlert"> Browser window is too small! <br> 
             <span style="font-size:15px">Window must be at least <strong>1250x800</strong> pixels large.</span></p>
         </center>
+
+
+
+        <!-- ************** Menu Audio Files ***************** -->
+        <audio id="menuAudio" >
+            <source src="../assets/Sounds/astronomia - demo.mp3" type="audio/mpeg" />
+        </audio>
+
+        <audio id="buttonclick" >
+            <source src="../assets/Sounds/clicksound2.mp3" type="audio/mpeg" />
+        </audio>
+
     </body>
