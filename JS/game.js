@@ -250,12 +250,6 @@ class Platform {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.type = type;																	//type coin = Creditpoint
-		this.currentPictureIdx = 0;
-	}
-
-	update(direcion) {
-		this.x += direcion;																	//movement of items when player goes to right
 	}
 
 	update(direcion) {
