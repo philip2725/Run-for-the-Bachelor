@@ -48,6 +48,8 @@
 }
 
 /***** headerstyles *****/
+body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);}
+
 .box {
     display: block;
     position: relative;
@@ -63,15 +65,15 @@
 #showChosenCharacter {
     width: 337px; 
     height:375px;
-    margin-left: 150px;
+    margin-left: 300px;
     float: left;
 }
 
 #nameInput {
     width: 350px; 
     height:120px;
-    margin-right: 150px;
-    margin-top: 130px;
+    margin-right: 200px;
+    margin-top: 80px;
     float: right;
 }
 
@@ -114,6 +116,13 @@
     }
 
 
+.buttonImgScale{
+    height: 59px;
+    width: 240px;
+    margin-bottom: -10px;
+}
+
+
 .footerButton {
     position: absolute;
     bottom: 1%;
@@ -135,6 +144,25 @@
         color: #636363;
     }
    
+.backButton {  
+  border: solid #454545;
+  border-width: 0 7px 7px 0;
+  display: inline-block;
+  padding: 7px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+    
+}
+
+    .backButton:hover {
+        border: solid #202020;
+        display: inline-block;
+        border-width: 0 7px 7px 0;
+        padding: 9px;
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg)<
+    }
+    
 
 
 /***** popupstyles *****/   
@@ -143,8 +171,8 @@
     position: absolute;
     height: 350px;
     width: 320px;
-    bottom: 5%;
-    left: 35%;
+    bottom: 17%;
+    left: 40%;
     border-radius: 10px;
     background-color: rgb(26, 25, 25,0.96);
     font-family: Arial;

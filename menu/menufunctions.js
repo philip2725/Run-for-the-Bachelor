@@ -51,3 +51,33 @@ function showMenuPage(showpage, hidepage){
     document.getElementById(hidepage).style.display='none';
     
 }
+
+//audio functions for the menu HTML
+var audiostate = false;
+function playAudio(){
+    audiostate = !audiostate;
+    if (audiostate) {
+        menuAudio.play();
+        menuAudio.loop = true;
+        menuAudio.volume = 0.2;
+        var img2 = document.getElementById("menumutebutton")
+        img2.src ="../assets/Images/Buttons/Menu_Buttons/Mute yellow.png";
+        img2.setAttribute('onmouseover', "src='../assets/Images/Buttons/Menu_Buttons/Mute hover yellow.png'") 
+        img2.setAttribute('onmouseout', "src='../assets/Images/Buttons/Menu_Buttons/Mute yellow.png'") 
+        sessionStorage.setItem("mutedStatus", 0);
+	} else {
+        menuAudio.pause();
+        var img3 = document.getElementById("menumutebutton")
+        img3.src ="../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png";
+        img3.setAttribute('onmouseover', "src='../assets/Images/Buttons/Menu_Buttons/Unmute hover yellow.png'") 
+        img3.setAttribute('onmouseout', "src='../assets/Images/Buttons/Menu_Buttons/Unmute yellow.png'") 
+        sessionStorage.setItem("mutedStatus", 1);
+    }
+}
+
+function playSoundEffect(soundName){
+   if(audiostate){
+        var sound = document.getElementById(soundName);
+        sound.play()
+   }
+}

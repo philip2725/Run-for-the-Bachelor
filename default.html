@@ -9,15 +9,13 @@
 		<script src="menu/menufunctions.js"></script>
 	</head>
 
-	<body	style="overflow:hidden"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
+	<body	style="overflow:hidden; background-image: url(assets/Images/Backgrounds/MenuPageBackground.png);"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
 
 		<center>
-			<h1 id="head">Run for the Bachelor</h1>
+			<h1 id="head" style="color:white; font-family: Arial;">Run for the Bachelor</h1>
 			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px;">
 				Your browser does not support the canvas element.
 			</canvas>
-
-			<img id="water" style="display:none; z-index:-10" src="assets/Images/Objects/water.png" alt="water">
 			
 			<!------ Sprite Sheets ------>
 			<div id="Boy">
@@ -288,17 +286,45 @@
 			<img id="menuopen" style="display:none" src="assets/Images/menu/new icons/Menu Icon.png" alt="char">
 			<img id="menuclose" style="display:none" src="assets/Images/menu/new icons/Cancel Button.png" alt="char">
 			<img id="mutebutton" style="display:none" src="assets/Images/menu/new icons/Mute Button.png" alt="char">
-			<img id="breakmenu" style="display:none" src="assets/Images/menu/Mauer_Break.png" alt="char">
-			<img id="finishmenu" style="display:none" src="assets/Images/menu/Mauer_Finish.png" alt="char">
-			<img id="gameovermenu" style="display:none" src="assets/Images/menu/Mauer_GameOver.png" alt="char">
+			<img id="unmutebutton" style="display:none" src="assets/Images/menu/new icons/Unmute Button.png" alt="char">
+			<img id="breakmenu" style="display:none" src="assets/Images/menu/Menu_Bricks/Pause_InGame_Menu.png" alt="char">
+			<img id="finishmenu" style="display:none" src="assets/Images/menu/Menu_Bricks/Finish_InGame_Menu.png" alt="char">
+			<img id="gameovermenu" style="display:none" src="assets/Images/menu/Menu_Bricks/GameOver_InGame_Menu.png" alt="char">
 			<img id="liveslabel" style="display:none" src="assets/Images/menu/new icons/Live Icon.png" alt="char">
 
+			<!--Coins-->
+			<img id="CP01" style="display:none" src="assets/Images/Objects/Collectables/CP_01.png" alt="CP">
+			<img id="CP02" style="display:none" src="assets/Images/Objects/Collectables/CP_02.png" alt="CP">
+			<img id="CP03" style="display:none" src="assets/Images/Objects/Collectables/CP_03.png" alt="CP">
+			<img id="CP04" style="display:none" src="assets/Images/Objects/Collectables/CP_04.png" alt="CP">
+			<img id="CP05" style="display:none" src="assets/Images/Objects/Collectables/CP_05.png" alt="CP">
+			<img id="CP06" style="display:none" src="assets/Images/Objects/Collectables/CP_06.png" alt="CP">
+			<img id="CP07" style="display:none" src="assets/Images/Objects/Collectables/CP_07.png" alt="CP">
+			<img id="CP08" style="display:none" src="assets/Images/Objects/Collectables/CP_08.png" alt="CP">
+			<img id="CP09" style="display:none" src="assets/Images/Objects/Collectables/CP_09.png" alt="CP">
+			<img id="CP10" style="display:none" src="assets/Images/Objects/Collectables/CP_10.png" alt="CP">
+			<img id="CP11" style="display:none" src="assets/Images/Objects/Collectables/CP_11.png" alt="CP">
+			<img id="CP12" style="display:none" src="assets/Images/Objects/Collectables/CP_12.png" alt="CP">
+
 			<!--Obstacles-->
-			<img id="book" style="display:none" src="assets/Images/Objects/books.gif" alt="book">
+			<img id="book" style="display:none" src="assets/Images/Objects/books.gif" alt="book">		
+			<img id="water" style="display:none; z-index:-10" src="assets/Images/Objects/water.png" alt="water">
 
 			<!--Sounds-->
-			<audio id="backgroundAudio" >
+			<audio id="backgroundAudio" autoplay loop>
 				<source src="assets/Sounds/backgroundAudio.wav" type="audio/mpeg" />
+			</audio>
+
+			<audio id="jumpdemo" >
+				<source src="assets/Sounds/jumpdemo.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="gameoversound" >
+				<source src="assets/Sounds/gameover.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="runningsound" >
+				<source src="assets/Sounds/runningsound.mp3" type="audio/mpeg" />
 			</audio>
 			
 			<!--Fonts-->

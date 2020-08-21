@@ -21,7 +21,14 @@ var backgroundIntervalHandle;															//lower = faster
 
 // Audio
 var audioPlayer;
-var playingBackgroundAudio = true;
+if(sessionStorage.getItem("mutedStatus") == 1){
+	var playingAudio = false;
+}else if (sessionStorage.getItem("mutedStatus") == 0){
+	var playingAudio = true;
+}
+
+
+
 
 //character		
 class Player {
@@ -46,7 +53,7 @@ class Player {
 		this.currentPictureIdxJL = 0;
 		this.currentPictureIdxIR = 0;
 		this.currentPictureIdxIL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
-		this.movementSpeed = 40;																//speed of how often an image changes (lower = faster)	
+		this.movementSpeed = 60;																//speed of how often an image changes (lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
@@ -58,7 +65,7 @@ class Player {
 		this.onPlatform = false; //tells whether the player is on a platform or not
 		this.playerWantsDownFromPlatform = false; //tells whether the player wants down from the platform
 		this.walkDirection = 0;	
-		var fallIntervalHandle;																	//1 = player go currently left, 0 = player go currently right
+		var fallIntervalHandle;															//1 = player go currently left, 0 = player go currently right
 
 	}
 
@@ -81,9 +88,9 @@ class Player {
 		return this.charY + this.charHeight;
 	}
 
-	detectCollision(obstacle) {
-		if (this.getBottom() > obstacle.getTop() && this.getRight() > obstacle.getLeft() && this.getLeft() < obstacle.getRight()) {
-			if(obstacle.type == "hole"){
+	detectCollision(object) {
+		if (this.getBottom() > object.getTop() && this.getRight() > object.getLeft() && this.getLeft() < object.getRight()) {
+			if(object.type == "hole"){
 				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
 				setTimeout(function(){gameState.current = gameState.over},500);
 			}else{
@@ -194,10 +201,49 @@ class Obstacle {
 var obstacles = [];
 var obstaclesIntervalHandle;
 
-//platforms 
-var platforms = [];
-var platformsIntervalHandle;
+//Items (for example: Credit-Points)
+class Item {
+	constructor( type, x,y = ground,width = 70,height = 70) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.type = type;																	//type coin = Creditpoint
+		this.currentPictureIdx = 0;
+	}
 
+	update(direcion) {
+		this.x += direcion;																	//movement of items when player goes to right
+	}
+
+	update(direcion) {
+		this.x += direcion;																	//movement of platform when player goes to right
+	}
+
+	getTop() {
+		return this.y;
+	}
+
+	getBottom() {
+		return this.y + this.height;
+	}
+
+	getLeft() {
+		return this.x;
+	}
+
+	getRight() {
+		return this.x + this.width;
+	}
+
+}
+var items = [];
+var itemsIntervalHandle;
+var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
+'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
+creditsPerCoin = 10;
+
+//platforms 
 class Platform {
 	constructor(x,y = ground,width,height) {
 		this.x = x;
@@ -225,7 +271,11 @@ class Platform {
 	getRight() {
 		return this.x + this.width;
 	}
+
 }
+var platforms = [];
+var platformsIntervalHandle;
+
 
 
 //control the game
@@ -241,20 +291,29 @@ const gameState = {
 var creditPoints = 0; 				//counter for the creditPoints
 var recordDistance = 0; 			//saves the furthest distance the player had made
 var nextCreditPointPosition = 0; 	// the next position in the game where the player can get a Creditpoint
-var maxCreditPoints = 180; 			//max Creditpoints a player can get in the game
+var maxCreditPoints = 60; 			//max Creditpoints a player can get in the game
 
 //*************** Level ******************//
 
 function createLevel1(){
 	background = document.getElementById("background");
 	audioPlayer = document.getElementById("backgroundAudio");
-	audioPlayer.loop = true;
+	audioPlayer.volume = 0.1;
+	var jumpsound = document.getElementById("jumpdemo");
+	var gameoversound = document.getElementById("gameoversound");
+	var runningsound = document.getElementById("runningsound");
+	
 
+
+	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
 	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
+	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
 	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
+	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
+
 
 	platforms.push(new Platform(gameWidth - 500, gameHeight*0.88 - 120, 120,120));
 }
@@ -288,7 +347,7 @@ function init(){
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));	
 
-	playBackgroundAudio(playingBackgroundAudio);
+	playBackgroundAudio(playingAudio);
 
 	setInterval(draw, 70);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -300,7 +359,8 @@ function draw(){
 
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
-	player.drawPlayer();																				//character Image
+	player.drawPlayer();																				//character Image																					
+	drawItems();																						
 	drawObstacles();
 	drawPlatforms();																					//Obstacle Images
 	checkGameState();
@@ -308,8 +368,8 @@ function draw(){
 	drawMenuIcon();
 	drawECTSLabel();
 	//drawLevelLabel();
-	drawMuteButton();
-	drawLivesLabel();
+	drawMuteButton(playingAudio);
+	
 }
 
 
@@ -321,11 +381,20 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function playBackgroundAudio(state) {
 	if (state) {
+		console.log("Hintergundaudio ja")
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
 	}
 }
+
+function playSoundFX(state, sound){
+	if(state){
+		sound.play();
+	}
+}
+
+
 function checkGameState(){
 
 	if(gameState.current === gameState.game)
@@ -342,7 +411,7 @@ function checkGameState(){
 		// }
 
 		//creditPoint Counter
-		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+		/*if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
 			recordDistance = backgroundX; // new Record
 			if (recordDistance <= nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
 				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
@@ -350,7 +419,7 @@ function checkGameState(){
 				nextCreditPointPosition += counterHelper; 
 				creditPoints++;
 			}
-		}
+		}*/
 
 	}else if(gameState.current === gameState.getReady)
 	{
@@ -376,6 +445,7 @@ function checkGameState(){
 		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		playSoundFX(playingAudio, gameoversound);
 	}
 }
 
@@ -385,6 +455,28 @@ function drawObstacles() {
 		var obstacle = obstacles[index];	
 		var picture = document.getElementById(obstacle.pictureId)
 		ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
+	}
+}
+
+function drawItems() {
+	for (index = 0; index < items.length; index++) {
+		var item = items[index];	
+		if(item.type === "coin"){
+			if(coinsPictures[item.currentPictureIdx] == coinsPictures[coinsPictures.length-1]){
+				item.currentPictureIdx = 0;
+			}else{
+				item.currentPictureIdx++;
+			}		
+			var picture = document.getElementById(coinsPictures[item.currentPictureIdx])
+			ctx.drawImage(picture, item.x, item.y, item.width, item.height)
+		}
+	}
+}
+
+function updateItems(direction) {
+	for (index = 0; index < items.length; index++) {
+		var item = items[index]
+		item.update(direction)
 	}
 }
 
@@ -399,8 +491,16 @@ function checkCollision() {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
-			console.log("Collision detected")
 			gameState.current = gameState.over					//sets the current game State to Game Over when a Collision with an obstacle is detected
+			break;
+		}
+	}
+	for (index = 0; index < items.length; index++) {
+		var item = items[index]
+		if (player.detectCollision(item)) {
+			items[index].x = -1000;								
+			items[index].y = -1000;
+			creditPoints += creditsPerCoin;
 			break;
 		}
 	}
@@ -443,6 +543,7 @@ function checkPlatforms() {
 
 
 function checkFinished() {
+	//player is at end of map
 	var end = backgroundWidth*(-1)+gameWidth+20
 
 	if(backgroundX <= end){
@@ -477,9 +578,11 @@ function jump(){
 }
 
 function fall(){
+	//player falls down in a hole
 	clearInterval(backgroundIntervalHandle);
 	clearInterval(obstaclesIntervalHandle);
 	clearInterval(platformsIntervalHandle);
+	clearInterval(itemsIntervalHandle);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
@@ -496,10 +599,15 @@ function moveBackground(direction){
 
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
+	}else{
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle);
 	}
 
-	checkFinished();
-	checkCollision();
+	checkFinished();																//player at end of map
+	checkCollision();																//obstacles + items
 	checkPlatforms();
 }
 
@@ -571,9 +679,11 @@ function changePlayerPicture(){
 
 function goLeft(){
 	if(player.isGoing === false){
-			player.isGoing = true;
+		player.isGoing = true;
+
 			backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 			obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed );
 			platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
@@ -582,9 +692,10 @@ function goRight(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			itemsIntervalHandle = setInterval(function() { updateItems(-backgroundMoveSpeed); }, backgroundUpdateSpeed )
+			platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);	
 	}
 }
 
@@ -599,19 +710,41 @@ function keyDown(event){
 			// Left-Arrow Pressed
 			player.walkDirection = 1;
 			goLeft();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 38:
 			// Up-Arrow Pressed
 			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			playSoundFX(playingAudio, jumpdemo);
 			break;
 		case 39:
 			// Right-Arrow Pressed
 			player.walkDirection = 0;
 			goRight();
+			playSoundFX(playingAudio, runningsound);
 			break;
 		case 40:
 			// Down-Arrow Pressed
 			break;
+		case 27:
+			// ESC-Key Pressed
+			if(gameState.current != gameState.break)
+			{
+				gameState.current = gameState.break;
+			}else if(gameState.current == gameState.break){
+				gameState.current = gameState.game; 
+			}
+			break;
+		case 77:
+			// M-Key Pressed
+			playingAudio = !playingAudio;
+			if(playingAudio)
+			{
+				sessionStorage.setItem("mutedStatus", 0);
+			}else{
+				sessionStorage.setItem("mutedStatus", 1);
+			}
+			playBackgroundAudio(playingAudio);
 		default:
 			//otherKey Pressed
 			break;
@@ -625,6 +758,7 @@ function keyUp(event){
 		player.isGoing = false
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
+		clearInterval(itemsIntervalHandle);
 		clearInterval(platformsIntervalHandle);
 	}
 }
@@ -668,9 +802,15 @@ function drawLevelLabel()
 }
 */
 
-function drawMuteButton() {
-	var muteButton = document.getElementById("mutebutton");
-	ctx.drawImage(muteButton, 1140, 5, 50, 50);
+function drawMuteButton(state) {
+	if (state) {
+		var audioButton = document.getElementById("mutebutton");
+		ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	} else {
+		var audioButton = document.getElementById("unmutebutton");
+	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	}
+	
 }
 
 function menuButtonClick(event)
@@ -692,8 +832,13 @@ function menuButtonClick(event)
 		}
 		//handler for muteButtonClicked
 	} else if (x > 1150 && y < 200) {
-		playingBackgroundAudio = !playingBackgroundAudio
-		playBackgroundAudio(playingBackgroundAudio)
+		playingAudio = !playingAudio
+		if(playingAudio){
+			sessionStorage.setItem("mutedStatus", 0);
+		}else{
+			sessionStorage.setItem("mutedStatus", 1);
+		}
+		playBackgroundAudio(playingAudio)
 	}
 }
 
