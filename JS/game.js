@@ -434,7 +434,11 @@ function checkGameState(){
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 500, 500, 500, 500);
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -442,6 +446,10 @@ function checkGameState(){
 		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -450,8 +458,12 @@ function checkGameState(){
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		playSoundFX(playingAudio, gameoversound);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 300, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 370, 200, 50);
 	}
-
+}
 
 function drawObstacles() {
 	
@@ -861,4 +873,3 @@ function drawLivesLabel() {
 	ctx.drawImage(livesLabel, middle, 10, 75, 40);
 	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
 }
-
