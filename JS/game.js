@@ -371,6 +371,7 @@ function draw(){
 	drawLivesLabel();
 	drawMuteButton(playingAudio);
 	
+	
 }
 
 
@@ -432,6 +433,8 @@ function checkGameState(){
 		clearInterval(platformsIntervalHandle);
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 500, 500, 500, 500);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -448,7 +451,7 @@ function checkGameState(){
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		playSoundFX(playingAudio, gameoversound);
 	}
-}
+
 
 function drawObstacles() {
 	
@@ -814,6 +817,14 @@ function drawMuteButton(state) {
 	
 }
 
+function drawContinueButton() {
+	if(gameState.current == gameState.break)
+	{
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 1000, 15, 50, 50);
+	}
+}
+
 function menuButtonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
@@ -850,3 +861,4 @@ function drawLivesLabel() {
 	ctx.drawImage(livesLabel, middle, 10, 75, 40);
 	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
 }
+
