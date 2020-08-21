@@ -652,10 +652,10 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Bangers";
+	ctx.font = "29px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
 /*
