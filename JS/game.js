@@ -543,6 +543,7 @@ function checkPlatforms() {
 
 
 function checkFinished() {
+	//player is at end of map
 	var end = backgroundWidth*(-1)+gameWidth+20
 
 	if(backgroundX <= end){
@@ -577,9 +578,11 @@ function jump(){
 }
 
 function fall(){
+	//player falls down in a hole
 	clearInterval(backgroundIntervalHandle);
 	clearInterval(obstaclesIntervalHandle);
 	clearInterval(platformsIntervalHandle);
+	clearInterval(itemsIntervalHandle);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
@@ -596,10 +599,15 @@ function moveBackground(direction){
 
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
+	}else{
+		clearInterval(backgroundIntervalHandle);
+		clearInterval(obstaclesIntervalHandle);
+		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle);
 	}
 
-	checkFinished();
-	checkCollision();
+	checkFinished();																//player at end of map
+	checkCollision();																//obstacles + items
 	checkPlatforms();
 }
 
@@ -673,10 +681,10 @@ function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-		backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed );
-		platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed );
+			platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -684,10 +692,10 @@ function goRight(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-		backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-		itemsIntervalHandle = setInterval(function() { updateItems(-backgroundMoveSpeed); }, backgroundUpdateSpeed )
-		platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			itemsIntervalHandle = setInterval(function() { updateItems(-backgroundMoveSpeed); }, backgroundUpdateSpeed )
+			platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);	
 	}
 }
 
