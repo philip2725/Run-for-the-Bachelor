@@ -368,6 +368,7 @@ function draw(){
 	drawMenuIcon();
 	drawECTSLabel();
 	//drawLevelLabel();
+	drawLivesLabel();
 	drawMuteButton(playingAudio);
 	
 }
