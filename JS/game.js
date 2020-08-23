@@ -57,7 +57,9 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 220;																	//high from the ground
+		var jumpHigh = 220;
+		this.jumpHigh = jumpHigh;																	//high from the ground
+		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -102,7 +104,7 @@ class Player {
 
 	detectPlatform(platform) {
 		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
-			//hier muss noch genauer geprüft werden. Wenn player gegen die Platform läuft kann er nicht weiter und nur wenn er auf der Plattform läuft wird hier auf true gesetzt!
+
 			return true;
 			}else{
 				return false;
@@ -245,7 +247,7 @@ creditsPerCoin = 10;
 
 //platforms 
 class Platform {
-	constructor(x,y = ground,width,height) {
+	constructor(x,y,width,height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -274,6 +276,7 @@ class Platform {
 
 }
 var platforms = [];
+var playersPlatform; // is the platform where the player is on top
 var platformsIntervalHandle;
 
 
@@ -315,7 +318,7 @@ function createLevel1(){
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
 
 
-	platforms.push(new Platform(gameWidth - 500, gameHeight*0.88 - 120, 120,120));
+	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
 }
 
 function createLevel2(){
@@ -545,10 +548,12 @@ function checkPlatforms() {
 		var platform = platforms[index]
 		if (player.detectPlatform(platform)) {
 			player.onPlatform = true;	
+			playersPlatform = platform;
 			break;
 		} else {
 			player.onPlatform = false;
-			if (player.charY != player.ground && player.jumping == 0) {
+			if (player.charY != player.ground && player.jumping == 0) { //player is going down from the platform
+				
 				player.playerWantsDownFromPlatform = true;
 				player.jumping = setInterval(jump, player.jumpSpeed);
 			}
@@ -579,6 +584,7 @@ function jump(){
 			checkCollision();
 			player.jumping = 0;
 			player.playerWantsDownFromPlatform = false
+			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 		} else {
 			if (player.onPlatform == false) {
 				player.goingDown = true;
@@ -588,6 +594,7 @@ function jump(){
 				clearInterval(player.jumping);
 				checkCollision();
 				player.jumping = 0;
+				player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 			}
 		}
 	}
@@ -730,6 +737,11 @@ function keyDown(event){
 			break;
 		case 38:
 			// Up-Arrow Pressed
+			// if (player.onPlatform && player.jumping == 0) {
+			// 	player.jumpHigh -= playersPlatform.height;
+			// } else {
+			// 	player.jumpHigh = player.helperJumpHigh;
+			// }
 			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
 			playSoundFX(playingAudio, jumpdemo);
 			break;
