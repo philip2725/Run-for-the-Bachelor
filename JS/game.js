@@ -57,7 +57,9 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		this.jumpHigh = 220;																	//high from the ground
+		var jumpHigh = 220;
+		this.jumpHigh = jumpHigh;																	//high from the ground
+		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 10;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
@@ -102,7 +104,7 @@ class Player {
 
 	detectPlatform(platform) {
 		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
-			//hier muss noch genauer geprüft werden. Wenn player gegen die Platform läuft kann er nicht weiter und nur wenn er auf der Plattform läuft wird hier auf true gesetzt!
+
 			return true;
 			}else{
 				return false;
@@ -245,7 +247,7 @@ creditsPerCoin = 10;
 
 //platforms 
 class Platform {
-	constructor(x,y = ground,width,height) {
+	constructor(x,y,width,height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -274,6 +276,7 @@ class Platform {
 
 }
 var platforms = [];
+var playersPlatform; // is the platform where the player is on top
 var platformsIntervalHandle;
 
 
@@ -302,7 +305,7 @@ function createLevel1(){
 	var jumpsound = document.getElementById("jumpdemo");
 	var gameoversound = document.getElementById("gameoversound");
 	var runningsound = document.getElementById("runningsound");
-	
+	var collectcoin = document.getElementById("collectcoin");
 
 	/*** 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
@@ -316,7 +319,7 @@ function createLevel1(){
 	***/
 
 
-	platforms.push(new Platform(gameWidth - 500, gameHeight*0.88 - 120, 120,120));
+	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
 }
 
 function createLevel2(){
@@ -354,6 +357,13 @@ function init(){
 	setInterval(changePlayerPicture, player.movementSpeed);
 
 	gameState.current = gameState.game;
+
+	//Loading completed --> disable loading screen
+	setTimeout(function(){
+		var load = document.getElementById("load");
+		load.setAttribute("style", "display:none");
+	},2000);
+	
 }
 
 function draw(){
@@ -372,6 +382,7 @@ function draw(){
 	drawLivesLabel();
 	drawMuteButton(playingAudio);
 	
+	
 }
 
 
@@ -383,15 +394,15 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function playBackgroundAudio(state) {
 	if (state) {
-		console.log("Hintergundaudio ja")
+		console.log("Hintergrundaudio ja")
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
 	}
 }
 
-function playSoundFX(state, sound){
-	if(state){
+function playSoundFX(sound){
+	if(playingAudio){
 		sound.play();
 	}
 }
@@ -431,23 +442,40 @@ function checkGameState(){
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		playSoundFX(playingAudio, gameoversound);
+		playSoundFX(gameoversound);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 300, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 370, 200, 50);
 	}
 }
 
@@ -490,6 +518,7 @@ function updateObstacles(direction) {
 }
 
 function checkCollision() {
+	//check for upstacles
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
@@ -497,12 +526,15 @@ function checkCollision() {
 			break;
 		}
 	}
+
+	//Collect Coin
 	for (index = 0; index < items.length; index++) {
 		var item = items[index]
 		if (player.detectCollision(item)) {
-			items[index].x = -1000;								
+			items[index].x = -1000;				
 			items[index].y = -1000;
 			creditPoints += creditsPerCoin;
+			playSoundFX(collectcoin)
 			break;
 		}
 	}
@@ -531,10 +563,12 @@ function checkPlatforms() {
 		var platform = platforms[index]
 		if (player.detectPlatform(platform)) {
 			player.onPlatform = true;	
+			playersPlatform = platform;
 			break;
 		} else {
 			player.onPlatform = false;
-			if (player.charY != player.ground && player.jumping == 0) {
+			if (player.charY != player.ground && player.jumping == 0) { //player is going down from the platform
+				
 				player.playerWantsDownFromPlatform = true;
 				player.jumping = setInterval(jump, player.jumpSpeed);
 			}
@@ -565,6 +599,7 @@ function jump(){
 			checkCollision();
 			player.jumping = 0;
 			player.playerWantsDownFromPlatform = false
+			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 		} else {
 			if (player.onPlatform == false) {
 				player.goingDown = true;
@@ -574,6 +609,7 @@ function jump(){
 				clearInterval(player.jumping);
 				checkCollision();
 				player.jumping = 0;
+				player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 			}
 		}
 	}
@@ -712,18 +748,23 @@ function keyDown(event){
 			// Left-Arrow Pressed
 			player.walkDirection = 1;
 			goLeft();
-			playSoundFX(playingAudio, runningsound);
+			playSoundFX(runningsound);
 			break;
 		case 38:
 			// Up-Arrow Pressed
+			// if (player.onPlatform && player.jumping == 0) {
+			// 	player.jumpHigh -= playersPlatform.height;
+			// } else {
+			// 	player.jumpHigh = player.helperJumpHigh;
+			// }
 			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
-			playSoundFX(playingAudio, jumpdemo);
+			playSoundFX(jumpdemo);
 			break;
 		case 39:
 			// Right-Arrow Pressed
 			player.walkDirection = 0;
 			goRight();
-			playSoundFX(playingAudio, runningsound);
+			playSoundFX(runningsound);
 			break;
 		case 40:
 			// Down-Arrow Pressed
@@ -788,10 +829,10 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Bangers";
+	ctx.font = "29px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
 /*
@@ -813,6 +854,14 @@ function drawMuteButton(state) {
 	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
 	}
 	
+}
+
+function drawContinueButton() {
+	if(gameState.current == gameState.break)
+	{
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 1000, 15, 50, 50);
+	}
 }
 
 function menuButtonClick(event)

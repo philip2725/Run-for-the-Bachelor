@@ -9,11 +9,12 @@
 		<script src="menu/menufunctions.js"></script>
 	</head>
 
-	<body	style="overflow:hidden; background-image: url(assets/Images/Backgrounds/MenuPageBackground.png);"	onload="getCharacterName();"> 	<!-- shows chosen user name for testreasons -->
+	<body	style="overflow:hidden; background-image: url(assets/Images/Backgrounds/MenuPageBackground.png);"	onload="getCharacterName();"> 	
+		<!-- shows chosen user name for testreasons -->
 
 		<center>
 			<h1 id="head" style="color:white; font-family: Arial;">Run for the Bachelor</h1>
-			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px;">
+			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px; ">
 				Your browser does not support the canvas element.
 			</canvas>
 			
@@ -282,7 +283,7 @@
 
 			<img id="background" style="display:none" src="assets/Images/Backgrounds/City_Demoversion_Zeichenfläche 1.png" alt="char">
 			
-			<!--Menu Button-->
+			<!--Menu Buttons-->
 			<img id="menuopen" style="display:none" src="assets/Images/menu/new icons/Menu Icon.png" alt="char">
 			<img id="menuclose" style="display:none" src="assets/Images/menu/new icons/Cancel Button.png" alt="char">
 			<img id="mutebutton" style="display:none" src="assets/Images/menu/new icons/Mute Button.png" alt="char">
@@ -292,6 +293,16 @@
 			<img id="gameovermenu" style="display:none" src="assets/Images/menu/Menu_Bricks/GameOver_InGame_Menu.png" alt="char">
 			<img id="liveslabel" style="display:none" src="assets/Images/menu/new icons/Live Icon.png" alt="char">
 
+
+			<img id="continuebutton" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Continue blue.png" alt="char">
+			<img id="continuehover" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Continue hover blue.png" alt="char">
+			<img id="restartbutton" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Restart blue.png" alt="char">
+			<img id="restarthover" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Restart hover blue.png" alt="char">
+			<img id="controlsbutton" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Controls blue.png" alt="char">
+			<img id="controlshover" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Controls hover blue.png" alt="char">
+			<img id="exitbutton" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Exit blue.png" alt="char">
+			<img id="exithover" style="display:none" src="assets/Images/Buttons/InGame_Buttons/Exit hover blue.png" alt="char">
+			
 			<!--Coins-->
 			<img id="CP01" style="display:none" src="assets/Images/Objects/Collectables/CP_01.png" alt="CP">
 			<img id="CP02" style="display:none" src="assets/Images/Objects/Collectables/CP_02.png" alt="CP">
@@ -308,7 +319,10 @@
 
 			<!--Obstacles-->
 			<img id="book" style="display:none" src="assets/Images/Objects/books.gif" alt="book">		
-			<img id="water" style="display:none; z-index:-10" src="assets/Images/Objects/water.png" alt="water">
+			<img id="water" style="display:none" src="assets/Images/Objects/water.png" alt="water">
+
+			<!--Loading Screen-->
+			<img id="load" style="position:absolute !important; margin-top:-710px; margin-left: -610px" width="1220" height="720" src="assets\Images\Backgrounds\loading.gif" alt="loading...">
 
 			<!--Sounds-->
 			<audio id="backgroundAudio" autoplay loop>
@@ -325,6 +339,10 @@
 
 			<audio id="runningsound" >
 				<source src="assets/Sounds/runningsound.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="collectcoin" >
+				<source src="assets/Sounds/collectcoin.mp3" type="audio/mpeg" />
 			</audio>
 			
 			<!--Fonts-->
