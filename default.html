@@ -13,7 +13,7 @@
 
 		<center>
 			<h1 id="head" style="color:white; font-family: Arial;">Run for the Bachelor</h1>
-			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px;">
+			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px; ">
 				Your browser does not support the canvas element.
 			</canvas>
 			
@@ -308,7 +308,10 @@
 
 			<!--Obstacles-->
 			<img id="book" style="display:none" src="assets/Images/Objects/books.gif" alt="book">		
-			<img id="water" style="display:none; z-index:-10" src="assets/Images/Objects/water.png" alt="water">
+			<img id="water" style="display:none" src="assets/Images/Objects/water.png" alt="water">
+
+			<!--Loading Screen-->
+			<img id="load" style="position:absolute !important; margin-top:-710px; margin-left: -610px" width="1220" height="720" src="assets\Images\Backgrounds\loading.gif" alt="loading...">
 
 			<!--Sounds-->
 			<audio id="backgroundAudio" autoplay loop>
@@ -325,6 +328,10 @@
 
 			<audio id="runningsound" >
 				<source src="assets/Sounds/runningsound.mp3" type="audio/mpeg" />
+			</audio>
+
+			<audio id="collectcoin" >
+				<source src="assets/Sounds/collectcoin.mp3" type="audio/mpeg" />
 			</audio>
 			
 			<!--Fonts-->

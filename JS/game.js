@@ -302,7 +302,7 @@ function createLevel1(){
 	var jumpsound = document.getElementById("jumpdemo");
 	var gameoversound = document.getElementById("gameoversound");
 	var runningsound = document.getElementById("runningsound");
-	
+	var collectcoin = document.getElementById("collectcoin");
 
 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
@@ -353,6 +353,13 @@ function init(){
 	setInterval(changePlayerPicture, player.movementSpeed);
 
 	gameState.current = gameState.game;
+
+	//Loading completed --> disable loading screen
+	setTimeout(function(){
+		var load = document.getElementById("load");
+		load.setAttribute("style", "display:none");
+	},2000);
+	
 }
 
 function draw(){
@@ -381,15 +388,15 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 
 function playBackgroundAudio(state) {
 	if (state) {
-		console.log("Hintergundaudio ja")
+		console.log("Hintergrundaudio ja")
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
 	}
 }
 
-function playSoundFX(state, sound){
-	if(state){
+function playSoundFX(sound){
+	if(playingAudio){
 		sound.play();
 	}
 }
@@ -429,6 +436,7 @@ function checkGameState(){
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.finish)
@@ -436,6 +444,7 @@ function checkGameState(){
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 	}else if (gameState.current == gameState.over)
@@ -443,9 +452,10 @@ function checkGameState(){
 		clearInterval(backgroundIntervalHandle);
 		clearInterval(obstaclesIntervalHandle);
 		clearInterval(platformsIntervalHandle);
+		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		playSoundFX(playingAudio, gameoversound);
+		playSoundFX(gameoversound);
 	}
 }
 
@@ -488,6 +498,7 @@ function updateObstacles(direction) {
 }
 
 function checkCollision() {
+	//check for upstacles
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
@@ -495,12 +506,15 @@ function checkCollision() {
 			break;
 		}
 	}
+
+	//Collect Coin
 	for (index = 0; index < items.length; index++) {
 		var item = items[index]
 		if (player.detectCollision(item)) {
-			items[index].x = -1000;								
+			items[index].x = -1000;				
 			items[index].y = -1000;
 			creditPoints += creditsPerCoin;
+			playSoundFX(collectcoin)
 			break;
 		}
 	}
@@ -710,18 +724,18 @@ function keyDown(event){
 			// Left-Arrow Pressed
 			player.walkDirection = 1;
 			goLeft();
-			playSoundFX(playingAudio, runningsound);
+			playSoundFX(runningsound);
 			break;
 		case 38:
 			// Up-Arrow Pressed
 			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
-			playSoundFX(playingAudio, jumpdemo);
+			playSoundFX(jumpdemo);
 			break;
 		case 39:
 			// Right-Arrow Pressed
 			player.walkDirection = 0;
 			goRight();
-			playSoundFX(playingAudio, runningsound);
+			playSoundFX(runningsound);
 			break;
 		case 40:
 			// Down-Arrow Pressed
