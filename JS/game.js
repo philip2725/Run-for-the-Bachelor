@@ -375,7 +375,9 @@ function draw(){
 	drawMenuIcon();
 	drawECTSLabel();
 	//drawLevelLabel();
+	drawLivesLabel();
 	drawMuteButton(playingAudio);
+	
 	
 }
 
@@ -439,6 +441,12 @@ function checkGameState(){
 		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -447,6 +455,10 @@ function checkGameState(){
 		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -456,6 +468,10 @@ function checkGameState(){
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		playSoundFX(gameoversound);
+		var restartButton = document.getElementById("restartbutton");
+		ctx.drawImage(restartButton, 500, 300, 200, 50);
+		var exitButton = document.getElementById("exitbutton");
+		ctx.drawImage(exitButton, 500, 370, 200, 50);
 	}
 }
 
@@ -800,10 +816,10 @@ function drawMenuIcon()
 
 function drawECTSLabel()
 {
-	ctx.font = "25px Bangers";
+	ctx.font = "29px Bangers";
 	ctx.fillStyle = "#f28e13";
 	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 200, 40);
+	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
 /*
@@ -825,6 +841,14 @@ function drawMuteButton(state) {
 	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
 	}
 	
+}
+
+function drawContinueButton() {
+	if(gameState.current == gameState.break)
+	{
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 1000, 15, 50, 50);
+	}
 }
 
 function menuButtonClick(event)

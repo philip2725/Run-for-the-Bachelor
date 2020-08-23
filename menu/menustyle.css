@@ -151,7 +151,6 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
   padding: 7px;
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
-    
 }
 
     .backButton:hover {
@@ -160,10 +159,8 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
         border-width: 0 7px 7px 0;
         padding: 9px;
         transform: rotate(135deg);
-        -webkit-transform: rotate(135deg)<
+        -webkit-transform: rotate(135deg);
     }
-    
-
 
 /***** popupstyles *****/   
 .popup {
