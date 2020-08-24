@@ -311,7 +311,7 @@ function createLevel1(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 
-
+	/*** 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
 	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
@@ -320,6 +320,7 @@ function createLevel1(){
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
+	***/
 	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
 	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
 	//items.push(new Item( "glasses", gameWidth + 2500,gameHeight*0.8))
