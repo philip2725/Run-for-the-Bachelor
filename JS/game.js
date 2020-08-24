@@ -243,9 +243,16 @@ class Item {
 }
 var items = [];
 var itemsIntervalHandle;
+
 var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
 'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
-creditsPerCoin = 10;
+var creditsPerCoin = 3;													//5 Coins a 3CreditPoints = 15 CP
+var walkCreditPoints = 0;												//counter for Creditpoints a playr can get by walk
+var collectCreditpoints = 0												//Counter for Creditpoints a player can get by collecting coins
+var creditPoints = walkCreditPoints + collectCreditpoints; 				//counter for the creditPoints
+var recordDistance = 0; 												//saves the furthest distance the player had made
+var nextCreditPointPosition = 0; 										// the next position in the game where the player can get a Creditpoint
+var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
 
 //platforms 
 class Platform {
@@ -293,11 +300,6 @@ const gameState = {
 	finish : 4
 }
 
-var creditPoints = 0; 				//counter for the creditPoints
-var recordDistance = 0; 			//saves the furthest distance the player had made
-var nextCreditPointPosition = 0; 	// the next position in the game where the player can get a Creditpoint
-var maxCreditPoints = 60; 			//max Creditpoints a player can get in the game
-
 //*************** Level ******************//
 
 function createLevel1(){
@@ -309,8 +311,8 @@ function createLevel1(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 
-
-	/*items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
+	/*** 
+	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
 	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
@@ -318,9 +320,12 @@ function createLevel1(){
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
+	***/
+	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
+	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
 
 
-	platforms.push(new Platform(gameWidth - 500, 400, 120,120));*/
+	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
 }
 
 function createLevel2(){
@@ -425,15 +430,15 @@ function checkGameState(){
 		// }
 
 		//creditPoint Counter
-		/*if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
+		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
 			recordDistance = backgroundX; // new Record
-			if (recordDistance <= nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
+			if (recordDistance < nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
 				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
-				var counterHelper = (end - recordDistance) / (maxCreditPoints - creditPoints); // calculate the next Position where a player gets a creditpoint
+				var counterHelper = (end - recordDistance) / (maxWalkCreditPoints - walkCreditPoints); // calculate the next Position where a player gets a creditpoint
 				nextCreditPointPosition += counterHelper; 
-				creditPoints++;
+				walkCreditPoints++;
 			}
-		}*/
+		}
 
 	}else if(gameState.current === gameState.getReady)
 	{
@@ -534,11 +539,12 @@ function checkCollision() {
 		if (player.detectCollision(item)) {
 			items[index].x = -1000;				
 			items[index].y = -1000;
-			creditPoints += creditsPerCoin;
+			collectCreditpoints += creditsPerCoin;
 			playSoundFX(collectcoin)
 			break;
 		}
 	}
+	creditPoints = walkCreditPoints + collectCreditpoints; 
 }
 
 function drawPlatforms() {
