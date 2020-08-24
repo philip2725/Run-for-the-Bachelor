@@ -57,10 +57,10 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		var jumpHigh = 220;
+		var jumpHigh = 280;
 		this.jumpHigh = jumpHigh;																	//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
-		this.jumpSpeed = 10;																	//lower = faster
+		this.jumpSpeed = 15;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
@@ -112,7 +112,8 @@ class Player {
 	}
 
 	setGender(gender){
-		if(gender == 0){												
+		if(gender == 1){		
+			//Boy 1										
 			this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
 			'BWR07', 'BWR08', 'BWR09', 'BWR10', 'BWR11', 'BWR12', 
 			'BWR13', 'BWR14', 'BWR15', 'BWR16', 'BWR17', 'BWR18', 
@@ -139,7 +140,8 @@ class Player {
 			'BIL19', 'BIL20'];	
 			}
 	
-		if(gender == 1){ 
+		if(gender == 4){ 
+			//Girl 1
 			this.charPictureWR = ['GWR01', 'GWR02', 'GWR03', 'GWR04', 'GWR05', 'GWR06', 
 			'GWR07', 'GWR08', 'GWR09', 'GWR10', 'GWR11', 'GWR12', 
 			'GWR13', 'GWR14', 'GWR15', 'GWR16'];
@@ -308,7 +310,7 @@ function createLevel1(){
 	var collectcoin = document.getElementById("collectcoin");
 
 
-	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
+	/*items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
 	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
@@ -318,7 +320,7 @@ function createLevel1(){
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
 
 
-	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
+	platforms.push(new Platform(gameWidth - 500, 400, 120,120));*/
 }
 
 function createLevel2(){

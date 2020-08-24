@@ -55,18 +55,30 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
     position: relative;
     border: 2px solid black;
     margin-top: 6%;
-    background-color: burlywood;
+    background-color: rgb(107, 107, 107);
     background-image: url('../assets/Images/Backgrounds/Menu\ Background.png');
     width: 1200px;
     height: 700px;
     
 }
 
-#showChosenCharacter {
+#chosenCharacterGraphic {
     width: 337px; 
     height:375px;
     margin-left: 300px;
     float: left;
+}
+
+.arrowLeft {
+    position: absolute;
+    left: 20%;
+    top: 70%;
+}
+
+.arrowRight {
+    position: absolute;
+    left: 45%;
+    top: 70%;
 }
 
 #nameInput {
