@@ -35,7 +35,7 @@ function setGender(int){
 
 function saveChosenCharacter(x)
 { 
-    //Arrow Button Function - changes character numbers stepwise form 1 to 3 in both directions (1 -> 2 -> 3 -> 1 and 3 -> 2 -> 1 -> 3)
+    //  Arrow Button Function - changes character numbers stepwise form 1 to 3 in both directions (1 -> 2 -> 3 -> 1 and 3 -> 2 -> 1 -> 3)
     var img = document.getElementById("chosenCharacterGraphic");
     if(gender == 0){
         if(x == 1){
@@ -67,8 +67,7 @@ function saveChosenCharacter(x)
          }  
     }    
     
-    console.log("Button Wert y ist" + y);
-    
+    //  sets Character Graphics and saves the chosen Character in the Session Storage (1-3 -> Boys; 4-6 Girls;)
     switch (y) {
         case 1: 
         sessionStorage.setItem("chosenCharacter", 1) //Boy 1

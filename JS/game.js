@@ -168,7 +168,7 @@ class Player {
 	}
 }
 
-var player;																				// object of Class Player
+var player;																					// object of Class Player
 
 //Obstacles
 class Obstacle {
