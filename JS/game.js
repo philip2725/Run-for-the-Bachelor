@@ -210,8 +210,9 @@ class Item {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.type = type;																	//type coin = Creditpoint
+		this.type = type;																	//type coin = Creditpoint, else name of image
 		this.currentPictureIdx = 0;
+		this.collected = false;
 	}
 
 	update(direcion) {
@@ -249,8 +250,9 @@ var walkCreditPoints = 0;												//counter for Creditpoints a playr can get 
 var collectCreditpoints = 0												//Counter for Creditpoints a player can get by collecting coins
 var creditPoints = walkCreditPoints + collectCreditpoints; 				//counter for the creditPoints
 var recordDistance = 0; 												//saves the furthest distance the player had made
-var nextCreditPointPosition = 0; 										// the next position in the game where the player can get a Creditpoint
+var nextCreditPointPosition = 0; 										//the next position in the game where the player can get a Creditpoint
 var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
+var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need for finish level
 
 //platforms 
 class Platform {
@@ -320,6 +322,7 @@ function createLevel1(){
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
 	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
 	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
+	//items.push(new Item( "glasses", gameWidth + 2500,gameHeight*0.8))
 
 
 	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
@@ -366,7 +369,6 @@ function init(){
 		var load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
-	
 }
 
 function draw(){
@@ -384,8 +386,6 @@ function draw(){
 	//drawLevelLabel();
 	drawLivesLabel();
 	drawMuteButton(playingAudio);
-	
-	
 }
 
 
@@ -427,10 +427,10 @@ function checkGameState(){
 		// }
 
 		//creditPoint Counter
-		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
-			recordDistance = backgroundX; // new Record
-			if (recordDistance < nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
-				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
+		if (backgroundX < recordDistance) { 					//checks whether the player has already achieved the distance
+			recordDistance = backgroundX; 						// new Record
+			if (recordDistance < nextCreditPointPosition) { 	//checks whether the position for the next Credit Point is achieved
+				var end = backgroundWidth*(-1)+gameWidth+20; 	// gets the gameWitdh
 				var counterHelper = (end - recordDistance) / (maxWalkCreditPoints - walkCreditPoints); // calculate the next Position where a player gets a creditpoint
 				nextCreditPointPosition += counterHelper; 
 				walkCreditPoints++;
@@ -493,15 +493,20 @@ function drawObstacles() {
 
 function drawItems() {
 	for (index = 0; index < items.length; index++) {
-		var item = items[index];	
-		if(item.type === "coin"){
-			if(coinsPictures[item.currentPictureIdx] == coinsPictures[coinsPictures.length-1]){
-				item.currentPictureIdx = 0;
+		var item = items[index];
+		if(item.collected == false){
+			if(item.type === "coin"){
+				if(coinsPictures[item.currentPictureIdx] == coinsPictures[coinsPictures.length-1]){
+					item.currentPictureIdx = 0;
+				}else{
+					item.currentPictureIdx++;
+				}		
+				var picture = document.getElementById(coinsPictures[item.currentPictureIdx])
+				ctx.drawImage(picture, item.x, item.y, item.width, item.height)
 			}else{
-				item.currentPictureIdx++;
-			}		
-			var picture = document.getElementById(coinsPictures[item.currentPictureIdx])
-			ctx.drawImage(picture, item.x, item.y, item.width, item.height)
+				var picture = document.getElementById(item.type)
+				ctx.drawImage(picture, item.x, item.y, item.width, item.height)
+			}
 		}
 	}
 }
@@ -530,15 +535,18 @@ function checkCollision() {
 		}
 	}
 
-	//Collect Coin
+	//Collect item
 	for (index = 0; index < items.length; index++) {
 		var item = items[index]
-		if (player.detectCollision(item)) {
-			items[index].x = -1000;				
-			items[index].y = -1000;
-			collectCreditpoints += creditsPerCoin;
-			playSoundFX(collectcoin)
-			break;
+		if(item.collected == false){
+			if (player.detectCollision(item)) {
+				item.collected = true;
+				if(item.type == "coin"){
+					collectCreditpoints += creditsPerCoin;
+					playSoundFX(collectcoin)
+				}
+				break;
+			}
 		}
 	}
 	creditPoints = walkCreditPoints + collectCreditpoints; 
@@ -586,8 +594,9 @@ function checkFinished() {
 	//player is at end of map
 	var end = backgroundWidth*(-1)+gameWidth+20
 
-	if(backgroundX <= end){
+	if(backgroundX <= end && creditPoints >= maxCreditPoints){
 		gameState.current = gameState.finish;
+		
 	}
 }
 
