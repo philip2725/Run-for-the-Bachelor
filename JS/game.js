@@ -243,8 +243,6 @@ class Item {
 var items = [];
 var itemsIntervalHandle;
 
-var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
-'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
 var creditsPerCoin = 3;													//5 Coins a 3CreditPoints = 15 CP
 var walkCreditPoints = 0;												//counter for Creditpoints a playr can get by walk
 var collectCreditpoints = 0												//Counter for Creditpoints a player can get by collecting coins
@@ -253,6 +251,16 @@ var recordDistance = 0; 												//saves the furthest distance the player had
 var nextCreditPointPosition = 0; 										//the next position in the game where the player can get a Creditpoint
 var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
 var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need for finish level
+
+var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
+'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
+
+var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06', 
+'GLS07', 'GLS08', 'GLS09', 'GLS10'];
+var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
+'GL07', 'GL08', 'GL09', 'GL10'];
+
+//TODO: other PictureArrays of the colecables 
 
 //platforms 
 class Platform {
@@ -311,20 +319,20 @@ function createLevel1(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 
-	/*** 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
-	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
+	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.86, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
 	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
-	***/
+	
 	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
 	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
-	//items.push(new Item( "glasses", gameWidth + 2500,gameHeight*0.8))
 
+	items.push(new Item( "glasses", gameWidth + 2600,gameHeight*0.8))
+	items.push(new Item( "glassesShadow", gameWidth + 2800,gameHeight*0.8))
 
 	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
 }
@@ -497,19 +505,26 @@ function drawItems() {
 		var item = items[index];
 		if(item.collected == false){
 			if(item.type === "coin"){
-				if(coinsPictures[item.currentPictureIdx] == coinsPictures[coinsPictures.length-1]){
-					item.currentPictureIdx = 0;
-				}else{
-					item.currentPictureIdx++;
-				}		
-				var picture = document.getElementById(coinsPictures[item.currentPictureIdx])
-				ctx.drawImage(picture, item.x, item.y, item.width, item.height)
-			}else{
-				var picture = document.getElementById(item.type)
-				ctx.drawImage(picture, item.x, item.y, item.width, item.height)
+				changeItemPicture(coinsPictures, item)
+			}else if(item.type === "glasses"){
+				changeItemPicture(glassesPictures, item)
+			}else if(item.type === "glassesShadow"){
+				changeItemPicture(glassesShadowPictures, item)
 			}
+			//TODO: Other Collectables...
 		}
 	}
+}
+
+function changeItemPicture(picrtureArray, item){
+	//draw next Picture of picrtureArray
+	if(picrtureArray[item.currentPictureIdx] == picrtureArray[picrtureArray.length-1]){
+		item.currentPictureIdx = 0;
+	}else{
+		item.currentPictureIdx++;
+	}		
+	var picture = document.getElementById(picrtureArray[item.currentPictureIdx])
+	ctx.drawImage(picture, item.x, item.y, item.width, item.height)
 }
 
 function updateItems(direction) {
