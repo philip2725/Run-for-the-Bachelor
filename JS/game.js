@@ -57,10 +57,10 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		var jumpHigh = 220;
+		var jumpHigh = 280;
 		this.jumpHigh = jumpHigh;																	//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
-		this.jumpSpeed = 10;																	//lower = faster
+		this.jumpSpeed = 15;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
@@ -112,7 +112,8 @@ class Player {
 	}
 
 	setGender(gender){
-		if(gender == 0){												
+		if(gender == 1){		
+			//Boy 1										
 			this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
 			'BWR07', 'BWR08', 'BWR09', 'BWR10', 'BWR11', 'BWR12', 
 			'BWR13', 'BWR14', 'BWR15', 'BWR16', 'BWR17', 'BWR18', 
@@ -139,7 +140,8 @@ class Player {
 			'BIL19', 'BIL20'];	
 			}
 	
-		if(gender == 1){ 
+		if(gender == 4){ 
+			//Girl 1
 			this.charPictureWR = ['GWR01', 'GWR02', 'GWR03', 'GWR04', 'GWR05', 'GWR06', 
 			'GWR07', 'GWR08', 'GWR09', 'GWR10', 'GWR11', 'GWR12', 
 			'GWR13', 'GWR14', 'GWR15', 'GWR16'];
@@ -166,7 +168,7 @@ class Player {
 	}
 }
 
-var player;																				// object of Class Player
+var player;																					// object of Class Player
 
 //Obstacles
 class Obstacle {
@@ -210,8 +212,9 @@ class Item {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.type = type;																	//type coin = Creditpoint
+		this.type = type;																	//type coin = Creditpoint, else name of image
 		this.currentPictureIdx = 0;
+		this.collected = false;
 	}
 
 	update(direcion) {
@@ -242,15 +245,24 @@ class Item {
 var items = [];
 var itemsIntervalHandle;
 
-var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
-'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
 var creditsPerCoin = 3;													//5 Coins a 3CreditPoints = 15 CP
 var walkCreditPoints = 0;												//counter for Creditpoints a playr can get by walk
 var collectCreditpoints = 0												//Counter for Creditpoints a player can get by collecting coins
 var creditPoints = walkCreditPoints + collectCreditpoints; 				//counter for the creditPoints
 var recordDistance = 0; 												//saves the furthest distance the player had made
-var nextCreditPointPosition = 0; 										// the next position in the game where the player can get a Creditpoint
+var nextCreditPointPosition = 0; 										//the next position in the game where the player can get a Creditpoint
 var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
+var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need for finish level
+
+var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
+'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
+
+var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06', 
+'GLS07', 'GLS08', 'GLS09', 'GLS10'];
+var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
+'GL07', 'GL08', 'GL09', 'GL10'];
+
+//TODO: other PictureArrays of the colecables 
 
 //platforms 
 class Platform {
@@ -309,19 +321,20 @@ function createLevel1(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 
-	/*** 
 	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
-	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.84, 200,120,"water","hole"));
+	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.86, 200,120,"water","hole"));
 	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
 	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
 	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
 	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
-	***/
+	
 	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
 	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
 
+	items.push(new Item( "glasses", gameWidth + 2600,gameHeight*0.8))
+	items.push(new Item( "glassesShadow", gameWidth + 2800,gameHeight*0.8))
 
 	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
 }
@@ -367,7 +380,6 @@ function init(){
 		var load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
-	
 }
 
 function draw(){
@@ -385,8 +397,6 @@ function draw(){
 	//drawLevelLabel();
 	drawLivesLabel();
 	drawMuteButton(playingAudio);
-	
-	
 }
 
 
@@ -428,10 +438,10 @@ function checkGameState(){
 		// }
 
 		//creditPoint Counter
-		if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
-			recordDistance = backgroundX; // new Record
-			if (recordDistance < nextCreditPointPosition) { //checks whether the position for the next Credit Point is achieved
-				var end = backgroundWidth*(-1)+gameWidth+20; // gets the gameWitdh
+		if (backgroundX < recordDistance) { 					//checks whether the player has already achieved the distance
+			recordDistance = backgroundX; 						// new Record
+			if (recordDistance < nextCreditPointPosition) { 	//checks whether the position for the next Credit Point is achieved
+				var end = backgroundWidth*(-1)+gameWidth+20; 	// gets the gameWitdh
 				var counterHelper = (end - recordDistance) / (maxWalkCreditPoints - walkCreditPoints); // calculate the next Position where a player gets a creditpoint
 				nextCreditPointPosition += counterHelper; 
 				walkCreditPoints++;
@@ -494,17 +504,29 @@ function drawObstacles() {
 
 function drawItems() {
 	for (index = 0; index < items.length; index++) {
-		var item = items[index];	
-		if(item.type === "coin"){
-			if(coinsPictures[item.currentPictureIdx] == coinsPictures[coinsPictures.length-1]){
-				item.currentPictureIdx = 0;
-			}else{
-				item.currentPictureIdx++;
-			}		
-			var picture = document.getElementById(coinsPictures[item.currentPictureIdx])
-			ctx.drawImage(picture, item.x, item.y, item.width, item.height)
+		var item = items[index];
+		if(item.collected == false){
+			if(item.type === "coin"){
+				changeItemPicture(coinsPictures, item)
+			}else if(item.type === "glasses"){
+				changeItemPicture(glassesPictures, item)
+			}else if(item.type === "glassesShadow"){
+				changeItemPicture(glassesShadowPictures, item)
+			}
+			//TODO: Other Collectables...
 		}
 	}
+}
+
+function changeItemPicture(picrtureArray, item){
+	//draw next Picture of picrtureArray
+	if(picrtureArray[item.currentPictureIdx] == picrtureArray[picrtureArray.length-1]){
+		item.currentPictureIdx = 0;
+	}else{
+		item.currentPictureIdx++;
+	}		
+	var picture = document.getElementById(picrtureArray[item.currentPictureIdx])
+	ctx.drawImage(picture, item.x, item.y, item.width, item.height)
 }
 
 function updateItems(direction) {
@@ -531,15 +553,18 @@ function checkCollision() {
 		}
 	}
 
-	//Collect Coin
+	//Collect item
 	for (index = 0; index < items.length; index++) {
 		var item = items[index]
-		if (player.detectCollision(item)) {
-			items[index].x = -1000;				
-			items[index].y = -1000;
-			collectCreditpoints += creditsPerCoin;
-			playSoundFX(collectcoin)
-			break;
+		if(item.collected == false){
+			if (player.detectCollision(item)) {
+				item.collected = true;
+				if(item.type == "coin"){
+					collectCreditpoints += creditsPerCoin;
+					playSoundFX(collectcoin)
+				}
+				break;
+			}
 		}
 	}
 	creditPoints = walkCreditPoints + collectCreditpoints; 
@@ -587,8 +612,9 @@ function checkFinished() {
 	//player is at end of map
 	var end = backgroundWidth*(-1)+gameWidth+20
 
-	if(backgroundX <= end){
+	if(backgroundX <= end && creditPoints >= maxCreditPoints){
 		gameState.current = gameState.finish;
+		
 	}
 }
 

@@ -50,8 +50,6 @@
              
         </div>
 
-<!--height: 40px; width: 97px;-->
-
         <!-- ********** Choose Character Page ********** -->
         <div id="chooseCharacterHTML" class ="box" style="display: none;">
             
@@ -70,13 +68,15 @@
                     <br> <br> <br> <br>
     
                     <!-- Character selection buttons -->
+                    <!-- Boy -->
                     <img    src="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif"     alt="character gif"     style="height:250px; width: 180px; margin-right: 50px;"  
-                            onclick="saveChosenCharacter(0); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')"
+                            onclick="setGender(0);showMenuPage('enterplayernameHTML','chooseCharacterHTML'); playSoundEffect('buttonclick')"
                             onmouseover="src='../assets/Images/Character/Boy/Gifs/Boy_Walk.gif'" 
                             onmouseout="src='../assets/Images/Character/Boy/Gifs/Boy_Idle.gif'"> 
-    
+                    
+                    <!-- Girl -->
                     <img    src="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif"   alt="character gif"     style="height: 246px; width: 150px; margin-left: 50px" 
-                            onclick="saveChosenCharacter(1); showMenuPage('enterplayernameHTML','chooseCharacterHTML'); getChosenCharGraphic(); playSoundEffect('buttonclick')" 
+                            onclick="setGender(1);showMenuPage('enterplayernameHTML','chooseCharacterHTML'); playSoundEffect('buttonclick')" 
                             onmouseover="src='../assets/Images/Character/Girl/Gifs/Girl_Walk_Left.gif'" 
                             onmouseout="src='../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif'">  
                     
@@ -105,7 +105,17 @@
                     <!-- show selected character graphic -->
                     <aside>
     
-                        <img   id="showChosenCharacter"   src=""   alt="character gif" style="height: 343.8px; width: 228px;">  
+                        <img id="chosenCharacterGraphic"   src=""   alt="character gif" style="height: 343.8px; width: 228px;">  
+                        
+                        <!-- Change Character Button backward -->
+                        <img class = "arrowLeft" src="../assets/Images/Buttons/Menu_Buttons/Left yellow.png" onclick="saveChosenCharacter(-1); playSoundEffect('buttonclick')"
+                        onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Left hover yellow.png'"
+                        onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Left yellow.png'">
+
+                        <!-- Change Character Button forward -->
+                        <img class = "arrowRight" src="../assets/Images/Buttons/Menu_Buttons/Right yellow.png" onclick="saveChosenCharacter(1); playSoundEffect('buttonclick')"
+                        onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Right hover yellow.png'"
+                        onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Right yellow.png'">
                             
                     </aside>
                     
