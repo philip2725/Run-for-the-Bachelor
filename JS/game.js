@@ -257,10 +257,40 @@ var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need 
 var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
 'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
 
+var coinsShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
+'CPS07', 'CPS08', 'CPS09', 'CPS10', 'CPS11', 'CPS12'];
+
 var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06', 
 'GLS07', 'GLS08', 'GLS09', 'GLS10'];
-var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
+
+var blackBerryShadowPictures = ['BBS01', 'BBS02', 'BBS03', 'BBS04', 'BBS05', 'BBS06', 
+'BBS07', 'BBS08', 'BBS09', 'BBS10'];
+
+var bluePrintShadowPictures = ['BPS01', 'BPS02', 'BPS03', 'BPS04', 'BPS05', 'BPS06', 
+'BPS07', 'BPS08', 'BPS09', 'BPS10'];
+
+var grammarShadowPictures = ['GRS01', 'GRS02', 'GRS03', 'GRS04', 'GRS05', 'GRS06', 
+'GRS07', 'GRS08', 'GRS09', 'GRS10'];
+
+var LaptopShadowPictures = ['LTS01', 'LTS02', 'LTS03', 'LTS04', 'LTS05', 'LTS06', 
+'LTS07', 'LTS08', 'LTS09', 'LTS10'];
+
+var certificateShadowPictures = ['CTS01', 'CTS02', 'CTS03', 'CTS04', 'CTS05', 'CTS06', 
+'CTS07', 'CTS08', 'CTS09', 'CTS10'];
+
+var LaptopShadowPictures = ['PPS01', 'PPS02', 'PPS03', 'PPS04', 'PPS05', 'PPS06', 
+'PPS07', 'PPS08', 'PPS09', 'PPS10'];
+
+var LaptopShadowPictures = ['PIS01', 'PIS02', 'PIS03', 'PIS04', 'PIS05', 'PIS06', 
+'PIS07', 'PIS08', 'PIS09', 'PIS10'];
+
+var LaptopShadowPictures = ['SCS01', 'SCS02', 'SCS03', 'SCS04', 'SCS05', 'SCS06', 
+'SCS07', 'SCS08', 'SCS09', 'SCS10'];
+
+var certificationPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
 'GL07', 'GL08', 'GL09', 'GL10'];
+
+
 
 
 //TODO: other PictureArrays of the colecables 
