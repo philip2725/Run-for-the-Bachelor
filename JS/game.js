@@ -84,6 +84,7 @@ class Lecturer {
 			'BRIL13', 'BRIL14', 'BRIL15', 'BRIL16', 'BRIL17', 'BRIL18', 
 			'BRIL19', 'BRIL20'];	
 			}
+	}
 }
 
 //character		
@@ -460,11 +461,12 @@ var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06',
 
 //platforms 
 class Platform {
-	constructor(x,y,width,height) {
+	constructor(pictureId,x,y,width,height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.pictureId = pictureId;
 	}
 
 	update(direcion) {
@@ -489,7 +491,7 @@ class Platform {
 
 }
 var platforms = [];
-var playersPlatform; // is the platform where the player is on top
+var playersPlatform; 																		// is the platform where the player is on top
 var platformsIntervalHandle;
 
 
@@ -530,7 +532,7 @@ function createLevel1(){
 	items.push(new Item( "glasses", gameWidth + 2600,gameHeight*0.8))
 	items.push(new Item( "glassesShadow", gameWidth + 2800,gameHeight*0.8))
 
-	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
+	platforms.push(new Platform("water",gameWidth - 500, 400, 120,120));
 }
 
 function createLevel2(){
@@ -783,9 +785,9 @@ function drawPlatforms() {
 	
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index];	
-		//var picture = document.getElementById(obstacle.pictureId)
-		//ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
-		drawRect(platform.x,platform.y,platform.width,platform.height)
+		var picture = document.getElementById(platform.pictureId)
+		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
+		//drawRect(platform.x,platform.y,platform.width,platform.height)
 	}
 }
 
