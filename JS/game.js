@@ -262,15 +262,17 @@ var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06
 var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
 'GL07', 'GL08', 'GL09', 'GL10'];
 
+
 //TODO: other PictureArrays of the colecables 
 
 //platforms 
 class Platform {
-	constructor(x,y,width,height) {
+	constructor(pictureId,x,y,width,height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.pictureId = pictureId;
 	}
 
 	update(direcion) {
@@ -295,7 +297,7 @@ class Platform {
 
 }
 var platforms = [];
-var playersPlatform; // is the platform where the player is on top
+var playersPlatform; 																		// is the platform where the player is on top
 var platformsIntervalHandle;
 
 
@@ -336,7 +338,7 @@ function createLevel1(){
 	items.push(new Item( "glasses", gameWidth + 2600,gameHeight*0.8))
 	items.push(new Item( "glassesShadow", gameWidth + 2800,gameHeight*0.8))
 
-	platforms.push(new Platform(gameWidth - 500, 400, 120,120));
+	platforms.push(new Platform("water",gameWidth - 500, 400, 120,120));
 }
 
 function createLevel2(){
@@ -574,9 +576,9 @@ function drawPlatforms() {
 	
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index];	
-		//var picture = document.getElementById(obstacle.pictureId)
-		//ctx.drawImage(picture, obstacle.x,obstacle.y,obstacle.width,obstacle.height)
-		drawRect(platform.x,platform.y,platform.width,platform.height)
+		var picture = document.getElementById(platform.pictureId)
+		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
+		//drawRect(platform.x,platform.y,platform.width,platform.height)
 	}
 }
 
