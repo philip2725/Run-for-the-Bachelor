@@ -14,10 +14,10 @@ var breakMenuY = breakMenuHeight*0.8/2;
 //Background
 var background;
 var backgroundWidth = 16358;																//Full lenght of the Background Image
-var backgroundX = 0;																	//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 30;															//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
-var backgroundIntervalHandle;															//lower = faster
+var backgroundX = 0;																		//Current X-point from the top left corner of the image
+var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move
+var backgroundIntervalHandle;																//lower = faster
 
 // Audio
 var audioPlayer;
@@ -30,8 +30,10 @@ if(sessionStorage.getItem("mutedStatus") == 1){
 //lecturer
 class Lecturer {
 	constructor() {
-		this.charWidth = 109;						
-		this.charHeight = 152;						
+		var charWidth = 109;
+		var charHeight = 152;
+		this.charWidth = charWidth;																	
+		this.charHeight = charHeight;						
 		this.charX = gameWidth*0.5-(charWidth/2);	
 		this.charY = gameHeight*0.87-charHeight;	
 		this.charPictureWL = [];
@@ -90,8 +92,10 @@ class Lecturer {
 //character		
 class Player {
 	constructor() {
-		this.charWidth = 109;																	//width of character image
-		this.charHeight = 152;																	//height of character image
+		var charWidth = 109;
+		var charHeight = 152;
+		this.charWidth = charWidth;																	//width of character image
+		this.charHeight = charHeight;																	//height of character image
 		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
 		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
@@ -535,6 +539,7 @@ function createLevel1(){
 	platforms.push(new Platform("water",gameWidth - 500, 400, 120,120));
 }
 
+/*
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -554,6 +559,7 @@ function createLevel3(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 }
+*/
 
 //************* Initialisierung ******************//
 function init(){
@@ -952,9 +958,6 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxJL]);
 	}
 
-	
-	//Movment: duck
-	//...
 }
 
 function goLeft(){
@@ -1123,7 +1126,8 @@ function menuButtonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
-		//handler for muteButtonClicked
+
+	//handler for muteButtonClicked
 	} else if (x > 1150 && y < 200) {
 		playingAudio = !playingAudio
 		if(playingAudio){
