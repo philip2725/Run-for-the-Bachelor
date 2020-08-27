@@ -22,12 +22,12 @@ function setGender(int){
     var img = document.getElementById("chosenCharacterGraphic");
     if(int == 0){
         gender = 0; //Male
-        img.src="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif";
+        img.src="../assets/Images/Character/Player/Boys/Boy 1/Gifs/Boy_Idle.gif";
         sessionStorage.setItem("chosenCharacter", 1); //save as Boy 1
         y = 1;
     }else if (int == 1){
         gender = 1; //Female
-        img.src="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif";
+        img.src="../assets/Images/Character/Player/Girls/Girl 1/Gifs/Girl_Idle_Left.gif";
         sessionStorage.setItem("chosenCharacter", 4); //save as Girl 1
         y = 4;
     }
@@ -71,7 +71,7 @@ function saveChosenCharacter(x)
     switch (y) {
         case 1: 
         sessionStorage.setItem("chosenCharacter", 1) //Boy 1
-        img.src ="../assets/Images/Character/Boy/Gifs/Boy_Idle.gif";
+        img.src ="../assets/Images/Character/Player/Boys/Boy 1/Gifs/Boy_Idle.gif";
         break;
     
         case 2:
@@ -86,7 +86,7 @@ function saveChosenCharacter(x)
 
         case 4:
         sessionStorage.setItem("chosenCharacter", 4) //Girl 1
-        img.src ="../assets/Images/Character/Girl/Gifs/Girl_Idle_Left.gif";
+        img.src ="../assets/Images/Character/Player/Girls/Girl 1/Gifs/Girl_Idle_Left.gif";
         break;
 
         case 5:
