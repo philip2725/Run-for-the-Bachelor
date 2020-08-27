@@ -27,16 +27,71 @@ if(sessionStorage.getItem("mutedStatus") == 1){
 	var playingAudio = true;
 }
 
+//lecturer
+class Lecturer {
+	constructor() {
+		this.charWidth = 109;						
+		this.charHeight = 152;						
+		this.charX = gameWidth*0.5-(charWidth/2);	
+		this.charY = gameHeight*0.87-charHeight;	
+		this.charPictureWL = [];
+		this.charPictureIL = [];					
+		this.currentPictureIdxWL = 0;
+		this.currentPictureIdxIL = 0;				
+		this.movementSpeed = 60;					
+		this.lecturerImg;								
+		//move Option	
+		this.ground = this.charY;																															
+	}
+	
+	drawLecturer() {
+		ctx.drawImage(this.lecturerImg, this.charX, this.charY, this.charWidth, this.charHeight);
+	}
 
+	setProf(level){
+		if(level == 1){		
+			//Muesch
+			this.charPictureWL = ['MUWL01', 'MUWL02', 'MUWL03', 'MUWL04', 'MUWL05', 'MUWL06', 
+			'MUWL07', 'MUWL08', 'MUWL09', 'MUWL10', 'MUWL11', 'MUWL12', 
+			'MUWL13', 'MUWL14', 'MUWL15', 'MUWL16', 'MUWL17', 'MUWL18', 
+			'MUWL19', 'MUWL20'];
+			this.charPictureIL = ['MUIL01', 'MUIL02', 'MUIL03', 'MUIL04', 'MUIL05', 'MUIL06', 
+			'MUIL07', 'MUIL08', 'MUIL09', 'MUIL10', 'MUIL11', 'MUIL12', 
+			'MUIL13', 'MUIL14', 'MUIL15', 'MUIL16', 'MUIL17', 'MUIL18', 
+			'MUIL19', 'MUIL20'];
+			}
 
+		if(level == 2){		
+			//Baeumle-Courth								
+			this.charPictureWL = ['BCWL01', 'BCWL02', 'BCWL03', 'BCWL04', 'BCWL05', 'BCWL06', 
+			'BCWL07', 'BCWL08', 'BCWL09', 'BCWL10', 'BCWL11', 'BCWL12', 
+			'BCWL13', 'BCWL14', 'BCWL15', 'BCWL16', 'BCWL17', 'BCWL18', 
+			'BCWL19', 'BCWL20'];
+			this.charPictureIL = ['BCIL01', 'BCIL02', 'BCIL03', 'BCIL04', 'BCIL05', 'BCIL06', 
+			'BCIL07', 'BCIL08', 'BCIL09', 'BCIL10', 'BCIL11', 'BCIL12', 
+			'BCIL13', 'BCIL14', 'BCIL15', 'BCIL16', 'BCIL17', 'BCIL18', 
+			'BCIL19', 'BCIL20'];	
+			}
+
+		if(level == 3){		
+			//Braendle										
+			this.charPictureWL = ['BRWL01', 'BRWL02', 'BRWL03', 'BRWL04', 'BRWL05', 'BRWL06', 
+			'BRWL07', 'BRWL08', 'BRWL09', 'BRWL10', 'BRWL11', 'BRWL12', 
+			'BRWL13', 'BRWL14', 'BRWL15', 'BRWL16', 'BRWL17', 'BRWL18', 
+			'BRWL19', 'BRWL20'];
+			this.charPictureIL = ['BRIL01', 'BRIL02', 'BRIL03', 'BRIL04', 'BRIL05', 'BRIL06', 
+			'BRIL07', 'BRIL08', 'BRIL09', 'BRIL10', 'BRIL11', 'BRIL12', 
+			'BRIL13', 'BRIL14', 'BRIL15', 'BRIL16', 'BRIL17', 'BRIL18', 
+			'BRIL19', 'BRIL20'];	
+			}
+	}
+}
 
 //character		
 class Player {
 	constructor() {
-		var charWidth = 109;
-		var charHeight = 152;
-		this.charWidth = charWidth;																//width of character image
-		this.charHeight = charHeight;															//height of character image
+		this.charWidth = 109;																	//width of character image
+		this.charHeight = 152;																	//height of character image
 		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
 		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
@@ -46,7 +101,7 @@ class Player {
 		this.charPictureJR = [];
 		this.charPictureJL = [];
 		this.charPictureIR = [];
-		this.charPictureIL = [];																		//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
+		this.charPictureIL = [];																//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
 		this.currentPictureIdxWR = 0;
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxJR = 0;
@@ -58,17 +113,16 @@ class Player {
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
 		var jumpHigh = 280;
-		this.jumpHigh = jumpHigh;																	//high from the ground
+		this.jumpHigh = jumpHigh;																//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 15;																	//lower = faster
 		this.jumping = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
-		this.onPlatform = false; //tells whether the player is on a platform or not
-		this.playerWantsDownFromPlatform = false; //tells whether the player wants down from the platform
-		this.walkDirection = 0;	
-		var fallIntervalHandle;															//1 = player go currently left, 0 = player go currently right
-
+		this.onPlatform = false; 																//tells whether the player is on a platform or not
+		this.playerWantsDownFromPlatform = false; 												//tells whether the player wants down from the platform
+		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
+		var fallIntervalHandle;																	
 	}
 
 	drawPlayer() {
@@ -139,6 +193,62 @@ class Player {
 			'BIL13', 'BIL14', 'BIL15', 'BIL16', 'BIL17', 'BIL18', 
 			'BIL19', 'BIL20'];	
 			}
+
+		if(gender == 2){		
+			//Boy 2									
+			this.charPictureWR = ['BWR21', 'BWR22', 'BWR23', 'BWR24', 'BWR25', 'BWR26', 
+			'BWR27', 'BWR28', 'BWR29', 'BWR30', 'BWR31', 'BWR32', 
+			'BWR33', 'BWR34', 'BWR35', 'BWR36', 'BWR37', 'BWR38', 
+			'BWR39', 'BWR40'];
+			this.charPictureWL = ['BWL21', 'BWL22', 'BWL23', 'BWL24', 'BWL25', 'BWL26', 
+			'BWL27', 'BWL28', 'BWL29', 'BWL30', 'BWL31', 'BWL32', 
+			'BWL33', 'BWL34', 'BWL35', 'BWL36', 'BWL37', 'BWL38', 
+			'BWL39', 'BWL40'];
+			this.charPictureJR = ['BJR21', 'BJR22', 'BJR23', 'BJR24', 'BJR25', 'BJR26', 
+			'BJR27', 'BJR28', 'BJR29', 'BJR30', 'BJR31', 'BJR32', 
+			'BJR33', 'BJR34', 'BJR35', 'BJR36', 'BJR37', 'BJR38', 
+			'BJR39', 'BJR40'];
+			this.charPictureJL = ['BJL21', 'BJL22', 'BJL23', 'BJL24', 'BJL25', 'BJL26', 
+			'BJL27', 'BJL28', 'BJL29', 'BJL30', 'BJL31', 'BJL32', 
+			'BJL33', 'BJL34', 'BJL35', 'BJL36', 'BJL37', 'BJL38', 
+			'BJL39', 'BJL40'];
+			this.charPictureIR = ['BIR21', 'BIR22', 'BIR23', 'BIR24', 'BIR25', 'BIR26', 
+			'BIR27', 'BIR28', 'BIR29', 'BIR30', 'BIR31', 'BIR32', 
+			'BIR13', 'BIR14', 'BIR15', 'BIR16', 'BIR17', 'BIR18', 
+			'BIR19', 'BIR20'];
+			this.charPictureIL = ['BIL21', 'BIL22', 'BIL23', 'BIL24', 'BIL25', 'BIL26', 
+			'BIL27', 'BIL28', 'BIL29', 'BIL30', 'BIL31', 'BIL32', 
+			'BIL33', 'BIL34', 'BIL35', 'BIL36', 'BIL37', 'BIL38', 
+			'BIL39', 'BIL40'];	
+			}
+
+		if(gender == 3){		
+			//Boy 3										
+			this.charPictureWR = ['BWR41', 'BWR42', 'BWR43', 'BWR44', 'BWR45', 'BWR46', 
+			'BWR47', 'BWR48', 'BWR49', 'BWR50', 'BWR51', 'BWR52', 
+			'BWR53', 'BWR54', 'BWR55', 'BWR56', 'BWR57', 'BWR58', 
+			'BWR59', 'BWR60'];
+			this.charPictureWL = ['BWL41', 'BWL42', 'BWL43', 'BWL44', 'BWL45', 'BWL46', 
+			'BWL47', 'BWL48', 'BWL49', 'BWL50', 'BWL51', 'BWL52', 
+			'BWL53', 'BWL54', 'BWL55', 'BWL56', 'BWL57', 'BWL58', 
+			'BWL59', 'BWL60'];
+			this.charPictureJR = ['BJR41', 'BJR42', 'BJR43', 'BJR44', 'BJR45', 'BJR46', 
+			'BJR47', 'BJR48', 'BJR49', 'BJR50', 'BJR51', 'BJR52', 
+			'BJR53', 'BJR54', 'BJR55', 'BJR56', 'BJR57', 'BJR58', 
+			'BJR59', 'BJR60'];
+			this.charPictureJL = ['BJL41', 'BJL42', 'BJL43', 'BJL44', 'BJL45', 'BJL46', 
+			'BJL47', 'BJL48', 'BJL49', 'BJL50', 'BJL51', 'BJL52', 
+			'BJL53', 'BJL54', 'BJL55', 'BJL56', 'BJL57', 'BJL58', 
+			'BJL59', 'BJL60'];
+			this.charPictureIR = ['BIR41', 'BIR42', 'BIR43', 'BIR44', 'BIR45', 'BIR46', 
+			'BIR47', 'BIR48', 'BIR49', 'BIR50', 'BIR51', 'BIR52', 
+			'BIR53', 'BIR54', 'BIR55', 'BIR56', 'BIR57', 'BIR58', 
+			'BIR59', 'BIR60'];
+			this.charPictureIL = ['BIL41', 'BIL42', 'BIL43', 'BIL44', 'BIL45', 'BIL46', 
+			'BIL47', 'BIL48', 'BIL49', 'BIL50', 'BIL51', 'BIL52', 
+			'BIL53', 'BIL54', 'BIL55', 'BIL56', 'BIL57', 'BIL58', 
+			'BIL59', 'BIL60'];	
+			}
 	
 		if(gender == 4){ 
 			//Girl 1
@@ -164,6 +274,62 @@ class Player {
 			'GIL07', 'GIL08', 'GIL09', 'GIL10', 'GIL11', 'GIL12', 
 			'GIL13', 'GIL14', 'GIL15', 'GIL16', 'GIL17', 'GIL18', 
 			'GIL19', 'GIL20'];	
+			}
+
+		if(gender == 5){ 
+			//Girl 2
+			this.charPictureWR = ['GWR21', 'GWR22', 'GWR23', 'GWR24', 'GWR25', 'GWR26', 
+			'GWR27', 'GWR28', 'GWR29', 'GWR30', 'GWR31', 'GWR32', 
+			'GWR33', 'GWR34', 'GWR35', 'GWR36', 'GWR37', 'GWR38', 
+			'GWR39', 'GWR40'];
+			this.charPictureWL = ['GWL21', 'GWL22', 'GWL23', 'GWL24', 'GWL25', 'GWL26', 
+			'GWL27', 'GWL28', 'GWL29', 'GWL30', 'GWL31', 'GWL32', 
+			'GWL33', 'GWL34', 'GWL35', 'GWL36', 'GWL37', 'GWL38', 
+			'GWL39', 'GWL40'];
+			this.charPictureJR = ['GJR21', 'GJR22', 'GJR23', 'GJR24', 'GJR25', 'GJR26', 
+			'GJR27', 'GJR28', 'GJR29', 'GJR30', 'GJR31', 'GJR32', 
+			'GJR33', 'GJR34', 'GJR35', 'GJR36', 'GJR37', 'GJR38', 
+			'GJR39', 'GJR40'];
+			this.charPictureJL = ['GJL21', 'GJL22', 'GJL23', 'GJL24', 'GJL25', 'GJL26', 
+			'GJL27', 'GJL28', 'GJL29', 'GJL30', 'GJL31', 'GJL32', 
+			'GJL33', 'GJL34', 'GJL35', 'GJL36', 'GJL37', 'GJL38', 
+			'GJL39', 'GJL40'];
+			this.charPictureIR = ['GIR21', 'GIR22', 'GIR23', 'GIR24', 'GIR25', 'GIR26', 
+			'GIR27', 'GIR28', 'GIR29', 'GIR30', 'GIR31', 'GIR32', 
+			'GIR33', 'GIR34', 'GIR35', 'GIR36', 'GIR37', 'GIR38', 
+			'GIR39', 'GIR40'];
+			this.charPictureIL = ['GIL21', 'GIL22', 'GIL23', 'GIL24', 'GIL25', 'GIL26', 
+			'GIL27', 'GIL28', 'GIL29', 'GIL30', 'GIL31', 'GIL32', 
+			'GIL33', 'GIL34', 'GIL35', 'GIL36', 'GIL37', 'GIL38', 
+			'GIL39', 'GIL40'];	
+			}
+
+		if(gender == 6){ 
+			//Girl 3
+			this.charPictureWR = ['GWR41', 'GWR42', 'GWR43', 'GWR44', 'GWR45', 'GWR46', 
+			'GWR47', 'GWR48', 'GWR49', 'GWR50', 'GWR51', 'GWR52', 
+			'GWR53', 'GWR54', 'GWR55', 'GWR56', 'GWR57', 'GWR58', 
+			'GWR59', 'GWR60'];
+			this.charPictureWL = ['GWL41', 'GWL42', 'GWL43', 'GWL44', 'GWL45', 'GWL46', 
+			'GWL47', 'GWL48', 'GWL49', 'GWL50', 'GWL51', 'GWL52', 
+			'GWL53', 'GWL54', 'GWL55', 'GWL56', 'GWL57', 'GWL58', 
+			'GWL59', 'GWL60'];
+			this.charPictureJR = ['GJR41', 'GJR42', 'GJR43', 'GJR44', 'GJR45', 'GJR46', 
+			'GJR47', 'GJR48', 'GJR49', 'GJR50', 'GJR51', 'GJR52', 
+			'GJR53', 'GJR54', 'GJR55', 'GJR56', 'GJR57', 'GJR58', 
+			'GJR59', 'GJR60'];
+			this.charPictureJL = ['GJL41', 'GJL42', 'GJL43', 'GJL44', 'GJL45', 'GJL46', 
+			'GJL47', 'GJL48', 'GJL49', 'GJL50', 'GJL51', 'GJL52', 
+			'GJL53', 'GJL54', 'GJL55', 'GJL56', 'GJL57', 'GJL58', 
+			'GJL59', 'GJL60'];
+			this.charPictureIR = ['GIR41', 'GIR42', 'GIR43', 'GIR44', 'GIR45', 'GIR46', 
+			'GIR47', 'GIR48', 'GIR49', 'GIR50', 'GIR51', 'GIR52', 
+			'GIR53', 'GIR54', 'GIR55', 'GIR56', 'GIR57', 'GIR58', 
+			'GIR59', 'GIR60'];
+			this.charPictureIL = ['GIL41', 'GIL42', 'GIL43', 'GIL44', 'GIL45', 'GIL46', 
+			'GIL47', 'GIL48', 'GIL49', 'GIL50', 'GIL51', 'GIL52', 
+			'GIL53', 'GIL54', 'GIL55', 'GIL56', 'GIL57', 'GIL58', 
+			'GIL59', 'GIL60'];	
 			}
 	}
 }
@@ -254,10 +420,8 @@ var nextCreditPointPosition = 0; 										//the next position in the game where
 var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
 var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need for finish level
 
-var coinsPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
-'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
-
-var coinsShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
+//Collectables with shadow
+var coinShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
 'CPS07', 'CPS08', 'CPS09', 'CPS10', 'CPS11', 'CPS12'];
 
 var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06', 
@@ -281,15 +445,42 @@ var certificateShadowPictures = ['CTS01', 'CTS02', 'CTS03', 'CTS04', 'CTS05', 'C
 var LaptopShadowPictures = ['PPS01', 'PPS02', 'PPS03', 'PPS04', 'PPS05', 'PPS06', 
 'PPS07', 'PPS08', 'PPS09', 'PPS10'];
 
-var LaptopShadowPictures = ['PIS01', 'PIS02', 'PIS03', 'PIS04', 'PIS05', 'PIS06', 
+var passportShadowPictures = ['PIS01', 'PIS02', 'PIS03', 'PIS04', 'PIS05', 'PIS06', 
 'PIS07', 'PIS08', 'PIS09', 'PIS10'];
 
 var LaptopShadowPictures = ['SCS01', 'SCS02', 'SCS03', 'SCS04', 'SCS05', 'SCS06', 
 'SCS07', 'SCS08', 'SCS09', 'SCS10'];
 
-var certificationPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
+//Collectables without shadow
+var coinPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
+'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
+
+var blackberryPictures = ['BB01', 'BB02', 'BB03', 'BB04', 'BB05', 'BB06', 
+'BB07', 'BB08', 'BB09', 'BB10'];
+
+var blueprintPictures = ['BP01', 'BP02', 'BP03', 'BP04', 'BP05', 'BP06', 
+'BP07', 'BP08', 'BP09', 'BP10'];
+
+var certificatePictures = ['CT01', 'CT02', 'CT03', 'CT04', 'CT05', 'CT06', 
+'CT07', 'CT08', 'CT09', 'CT10'];
+
+var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
 'GL07', 'GL08', 'GL09', 'GL10'];
 
+var grammarPictures = ['GR01', 'GR02', 'GR03', 'GR04', 'GR05', 'GR06', 
+'GR07', 'GR08', 'GR09', 'GR10'];
+
+var laptopPictures = ['LT01', 'LT02', 'LT03', 'LT04', 'LT05', 'LT06', 
+'LT07', 'LT08', 'LT09', 'LT10'];
+
+var passportPictures = ['PP01', 'PP02', 'PP03', 'PP04', 'PP05', 'PP06', 
+'PP07', 'PP08', 'PP09', 'PP10'];
+
+var piPictures = ['PI01', 'PI02', 'PI03', 'PI04', 'PI05', 'PI06', 
+'PI07', 'PI08', 'PI09', 'PI10'];
+
+var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06', 
+'SC07', 'SC08', 'SC09', 'SC10'];
 
 
 
@@ -345,7 +536,7 @@ const gameState = {
 //*************** Level ******************//
 
 function createLevel1(){
-	background = document.getElementById("background");
+	background = document.getElementById("cityImage");
 	audioPlayer = document.getElementById("backgroundAudio");
 	audioPlayer.volume = 0.1;
 	var jumpsound = document.getElementById("jumpdemo");
@@ -372,11 +563,23 @@ function createLevel1(){
 }
 
 function createLevel2(){
-	//TODO
+	background = document.getElementById("jungleImage");
+	audioPlayer = document.getElementById("backgroundAudio");
+	audioPlayer.volume = 0.1;
+	var jumpsound = document.getElementById("jumpdemo");
+	var gameoversound = document.getElementById("gameoversound");
+	var runningsound = document.getElementById("runningsound");
+	var collectcoin = document.getElementById("collectcoin");
 }
 
 function createLevel3(){
-	//TODO
+	background = document.getElementById("spaceImage");
+	audioPlayer = document.getElementById("backgroundAudio");
+	audioPlayer.volume = 0.1;
+	var jumpsound = document.getElementById("jumpdemo");
+	var gameoversound = document.getElementById("gameoversound");
+	var runningsound = document.getElementById("runningsound");
+	var collectcoin = document.getElementById("collectcoin");
 }
 
 //************* Initialisierung ******************//
@@ -398,7 +601,10 @@ function init(){
 	}
 
 	player = new Player();
-	player.setGender(sessionStorage.getItem("chosenCharacter"));	
+	player.setGender(sessionStorage.getItem("chosenCharacter"));
+	
+	lecturer = new Lecturer()
+	lecturer.setProf(sessionStorage.getItem("level"))
 
 	playBackgroundAudio(playingAudio);
 
