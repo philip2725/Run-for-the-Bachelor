@@ -618,43 +618,81 @@ function createLevel2(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 3. SEMESTER
-	// platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
-	// obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
-	// platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
-	// obstacles.push(new Obstacle(1400, gameGround, 150, 35,"jungleSpikesL","box"));
-	// platforms.push(new Platform("junglePlatS", 1510, 320, 85, 85));
-	// obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
-	// platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
-	// obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
-	// platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
-	// items.push(new Item("coin",2150, 95, 60, 60));
-	// obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
-	// obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
-	// obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
-	// platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
-	// obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
-	// obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
-	// platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
-	// obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
-	// platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
-	// platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
-	// platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
-	// items.push(new Item("coin",4540, 50, 60, 60));
-	// platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
-	// obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
-	// obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
-	// platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
-	// obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
-	// obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
-	// platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
-	// obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
-	// obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
-	// platforms.push(new Platform("junglePlatL", 6080, 175, 360, 85));
-	// obstacles.push(new Obstacle(6290, 180, 50, 35,"jungleSpikesS","box"));
-	// obstacles.push(new Obstacle(6145, 180, 50, 35,"jungleSpikesS","box"));
-	// items.push(new Item("coin",6070, 80, 60, 60));
+	platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
+	obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
+	obstacles.push(new Obstacle(1400, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1510, 320, 85, 85));
+	obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
+	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
+	items.push(new Item("coin",2150, 300, 60, 60));
+	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
+	obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
+	obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
+	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
+	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
+	items.push(new Item("coin",4540, 50, 60, 60));
+	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
+	obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
+	obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
+	obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatL", 6080, 175, 360, 85));
+	obstacles.push(new Obstacle(6290, 180, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6145, 180, 50, 35,"jungleSpikesS","box"));
+	items.push(new Item("coin",6070, 80, 60, 60));
 
 	// 4. SEMESTER
+	obstacles.push(new Obstacle(8260, 410, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatM", 8260, 400, 220, 85));
+	// INSERT LAPTOP
+	obstacles.push(new Obstacle(8430, 410, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatS", 8550, 280, 85, 85));
+	platforms.push(new Platform("junglePlatS", 8760, 365, 85, 85));
+	platforms.push(new Platform("junglePlatS", 8985, 365, 85, 85));
+	obstacles.push(new Obstacle(9040, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 9200, 365, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9425, 430, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9575, 515, 85, 85));
+	obstacles.push(new Obstacle(9480, gameHeight, 285, 96,"jungleWaterS","hole"));
+	platforms.push(new Platform("junglePlatS", 9745, 420, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9880, 343, 85, 85));
+	platforms.push(new Platform("junglePlatS", 10035, 265, 85, 85));
+	obstacles.push(new Obstacle(9990, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(10135, gameHeight, 555, 96,"jungleWaterM","hole"));
+	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
+	platforms.push(new Platform("junglePlatS", 10633, 265, 85, 85));
+	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
+	items.push(new Item("coin",10880, 175, 60, 60));
+	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
+	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
+	platforms.push(new Platform("junglePlatS", 11885, 485, 85, 85));
+	obstacles.push(new Obstacle(12550, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(12875, gameGround, 150, 35,"jungleSpikesL","box"));
+	items.push(new Item("coin",12915, 400, 60, 60));
+	obstacles.push(new Obstacle(13200, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(13600, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatM", 13725, 500, 220, 85)); //movable
+	platforms.push(new Platform("junglePlatS", 13975, 350, 85, 85));
+	// INSERT BLACKBERRY
+	obstacles.push(new Obstacle(14560, gameGround, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(14735, gameGround, 50, 35,"jungleSpikesS","box"));
+
+
+
+
 
 
 
@@ -679,7 +717,7 @@ function init(){
 	ctx = canvas.getContext("2d");
 
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 1)
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
