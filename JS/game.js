@@ -150,7 +150,9 @@ class Player {
 	}
 
 	detectCollision(object) {
-		if (this.getBottom() > object.getTop() && this.getRight() > object.getLeft() && this.getLeft() < object.getRight()) {
+		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )
+		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))
+		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
 			if(object.type == "hole"){
 				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
 				setTimeout(function(){gameState.current = gameState.over},500);
@@ -550,6 +552,7 @@ function createLevel1(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 1. SEMESTER
+	items.push(new Item("coin",900, 300, 60, 60));
 	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin",2295, 390, 60, 60));
@@ -934,6 +937,7 @@ function fall(){
 	clearInterval(obstaclesIntervalHandle);
 	clearInterval(platformsIntervalHandle);
 	clearInterval(itemsIntervalHandle);
+	clearInterval(player.jumping);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
