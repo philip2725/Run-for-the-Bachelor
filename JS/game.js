@@ -604,7 +604,7 @@ function createLevel1(){
 	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
-/*
+
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -613,8 +613,50 @@ function createLevel2(){
 	var gameoversound = document.getElementById("gameoversound");
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
-}
 
+	// 3. SEMESTER
+	// platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
+	// obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
+	// platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
+	// obstacles.push(new Obstacle(1400, gameGround, 150, 35,"jungleSpikesL","box"));
+	// platforms.push(new Platform("junglePlatS", 1510, 320, 85, 85));
+	// obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
+	// platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
+	// obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
+	// platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
+	// items.push(new Item("coin",2150, 95, 60, 60));
+	// obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
+	// obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
+	// obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
+	// platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
+	// obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
+	// obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
+	// platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
+	// obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
+	// platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
+	// platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
+	// platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
+	// items.push(new Item("coin",4540, 50, 60, 60));
+	// platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
+	// obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
+	// obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
+	// platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
+	// obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
+	// obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
+	// platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
+	// obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
+	// obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
+	// platforms.push(new Platform("junglePlatL", 6080, 175, 360, 85));
+	// obstacles.push(new Obstacle(6290, 180, 50, 35,"jungleSpikesS","box"));
+	// obstacles.push(new Obstacle(6145, 180, 50, 35,"jungleSpikesS","box"));
+	// items.push(new Item("coin",6070, 80, 60, 60));
+
+	// 4. SEMESTER
+
+
+
+}
+/*
 function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -634,7 +676,7 @@ function init(){
 	ctx = canvas.getContext("2d");
 
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 2)
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
