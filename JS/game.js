@@ -672,14 +672,13 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
 	drawItems();																						
-	drawPlatforms();																					//Obstacle Images
-	drawObstacles();
+	drawPlatforms();																					
+	drawObstacles();																					//Obstacle Images
 	player.drawPlayer();																				//character Image																					
 	checkGameState();
 
 	drawMenuIcon();
 	drawECTSLabel();
-	//drawLevelLabel();
 	drawLivesLabel();
 	drawMuteButton(playingAudio);
 }
@@ -750,6 +749,7 @@ function checkGameState(){
 		ctx.drawImage(restartButton, 500, 370, 200, 50);
 		var exitButton = document.getElementById("exitbutton");
 		ctx.drawImage(exitButton, 500, 440, 200, 50);
+
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -758,10 +758,13 @@ function checkGameState(){
 		clearInterval(itemsIntervalHandle)
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		var continueButton = document.getElementById("continuebutton");
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
 		var restartButton = document.getElementById("restartbutton");
 		ctx.drawImage(restartButton, 500, 370, 200, 50);
 		var exitButton = document.getElementById("exitbutton");
 		ctx.drawImage(exitButton, 500, 440, 200, 50);
+
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(backgroundIntervalHandle);
@@ -889,7 +892,6 @@ function checkPlatforms() {
 			}
 		}
 	}
-	
 }
 
 
@@ -1124,7 +1126,7 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
-document.addEventListener("click", menuButtonClick, false);
+document.addEventListener("click", buttonClick, false);
 
 function drawMenuIcon()
 {
@@ -1149,16 +1151,6 @@ function drawECTSLabel()
 	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
-/*
-function drawLevelLabel()
-{
-	ctx.font = "25px Bangers";
-	ctx.fillStyle = "#0c65f5";
-	ctx.textAlign = "center";
-	ctx.fillText("Level: 1", 200, 80);
-}
-*/
-
 function drawMuteButton(state) {
 	if (state) {
 		var audioButton = document.getElementById("mutebutton");
@@ -1167,7 +1159,6 @@ function drawMuteButton(state) {
 		var audioButton = document.getElementById("unmutebutton");
 	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
 	}
-	
 }
 
 function drawContinueButton() {
@@ -1178,7 +1169,7 @@ function drawContinueButton() {
 	}
 }
 
-function menuButtonClick(event)
+function buttonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
 	let x = event.clientX - rect.left; 
@@ -1195,9 +1186,11 @@ function menuButtonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
+	}
 
 	//handler for muteButtonClicked
-	} else if (x > 1150 && y < 200) {
+	else if (x > 1150 && y < 200) 
+	{
 		playingAudio = !playingAudio
 		if(playingAudio){
 			sessionStorage.setItem("mutedStatus", 0);
@@ -1207,6 +1200,7 @@ function menuButtonClick(event)
 		playBackgroundAudio(playingAudio)
 	}
 }
+
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");

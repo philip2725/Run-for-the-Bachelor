@@ -193,8 +193,8 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
 /* close popup */
 .close{
     display: block;
-    color: lightgrey;
-    position: relative;
+    color: rgb(129, 129, 129);
+    position: absolute;
     text-align: center;
     font-family: fantasy;
   }

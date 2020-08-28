@@ -63,7 +63,7 @@
     
                     <br>
     
-                    <img    src="../assets/Images/menu/Text/ChooseYourCharacter.png"    style="width: 408px; height: 59px; margin-bottom: -30px;">
+                    <img    src="../assets/Images/menu/Text/ChooseYourGender.png"    style="width: 408px; height: 59px; margin-bottom: -30px;">
     
                     <br> <br> <br> <br>
     
@@ -141,30 +141,12 @@
 
 
         <!-- content of the control popup window -->
-            <div id="cntrl" class = "popup" style="display:none;">
-                <p style="text-align: center; "><b><ins>CONTROLS</ins></b><br> 
-                    <pre style="text-align: left;">
-                [&#8592;]        walk left 
-            
-                [&#8594;]        walk right 
-            
-                [&#8593;]        jump 
-
-                [M]        (un)mute
-
-                [F5]       restart
-            
-                [ESC]      pause the game
-                     
-                     
-                      
-                    
-                    </pre>    
-                </p>
+            <div id="cntrl" style="display:none; position: absolute; bottom: 11%; left: 40.5%;">
+                <img src="../assets/Images/menu/Text/Controlsheet.png" style="height: 360px; width: 360px;"> 
 
             <br> <br>
 
-            <a href="#" class="close" onClick="toggle('cntrl'); playSoundEffect('buttonclick')"> schließen </a>
+        <a href="#" class="close" style="bottom: 20%; left: 44%;" onClick="toggle('cntrl'); playSoundEffect('buttonclick')"> close </a>
         </div>
 
         <!-- content of the privacy and imprint popup window  -->
@@ -196,7 +178,7 @@
             
             <br> <br>
 
-            <a href="#" class="close" onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> schließen </a>
+            <a href="#" class="close"  style="bottom: 10%; left: 47%;" onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> close </a>
         </div>
 
         <p class="windowSizeAlert"> Browser window is too small! <br> 
