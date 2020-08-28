@@ -221,8 +221,8 @@ class Player {
 			'BJL39', 'BJL40'];
 			this.charPictureIR = ['BIR21', 'BIR22', 'BIR23', 'BIR24', 'BIR25', 'BIR26', 
 			'BIR27', 'BIR28', 'BIR29', 'BIR30', 'BIR31', 'BIR32', 
-			'BIR13', 'BIR14', 'BIR15', 'BIR16', 'BIR17', 'BIR18', 
-			'BIR19', 'BIR20'];
+			'BIR33', 'BIR34', 'BIR35', 'BIR36', 'BIR37', 'BIR38', 
+			'BIR39', 'BIR40'];
 			this.charPictureIL = ['BIL21', 'BIL22', 'BIL23', 'BIL24', 'BIL25', 'BIL26', 
 			'BIL27', 'BIL28', 'BIL29', 'BIL30', 'BIL31', 'BIL32', 
 			'BIL33', 'BIL34', 'BIL35', 'BIL36', 'BIL37', 'BIL38', 
