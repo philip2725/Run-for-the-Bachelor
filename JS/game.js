@@ -16,9 +16,9 @@ var breakMenuY = breakMenuHeight*0.8/2;
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
 var backgroundX = 0;																		//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move
-var backgroundIntervalHandle;																//lower = faster
+var backgroundUpdateSpeed = 40;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 20;																//steps in pixel that backgound Move															//lower = faster
+var environmentIntervalHandle;
 
 // Audio
 var audioPlayer;
@@ -121,7 +121,7 @@ class Player {
 		this.jumpHigh = jumpHigh;																//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 15;																	//lower = faster
-		this.jumping = 0;							  											//jumping Intervall ID
+		this.jumpingIntervalHandle = 0;							  											//jumping Intervall ID
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
 		this.onPlatform = false; 																//tells whether the player is on a platform or not
@@ -376,7 +376,6 @@ class Obstacle {
 
 }
 var obstacles = [];
-var obstaclesIntervalHandle;
 
 //Items (for example: Credit-Points)
 class Item {
@@ -392,10 +391,6 @@ class Item {
 
 	update(direcion) {
 		this.x += direcion;																	//movement of items when player goes to right
-	}
-
-	update(direcion) {
-		this.x += direcion;																	//movement of platform when player goes to right
 	}
 
 	getTop() {
@@ -416,7 +411,6 @@ class Item {
 
 }
 var items = [];
-var itemsIntervalHandle;
 
 var creditsPerCoin = 3;													//5 Coins a 3CreditPoints = 15 CP
 var walkCreditPoints = 0;												//counter for Creditpoints a playr can get by walk
@@ -526,8 +520,6 @@ class Platform {
 }
 var platforms = [];
 var playersPlatform; 																		// is the platform where the player is on top
-var platformsIntervalHandle;
-
 
 
 //control the game
@@ -655,7 +647,7 @@ function init(){
 
 	playBackgroundAudio(playingAudio);
 
-	setInterval(draw, 70);
+	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
 
 	gameState.current = gameState.game;
@@ -737,10 +729,7 @@ function checkGameState(){
 		//TODO
 	}else if (gameState.current == gameState.break)
 	{
-		clearInterval(backgroundIntervalHandle);
-		clearInterval(obstaclesIntervalHandle);
-		clearInterval(platformsIntervalHandle);
-		clearInterval(itemsIntervalHandle)
+		clearInterval(environmentIntervalHandle);
 		var menubackground = document.getElementById("breakmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		var continueButton = document.getElementById("continuebutton");
@@ -752,10 +741,7 @@ function checkGameState(){
 
 	}else if (gameState.current == gameState.finish)
 	{
-		clearInterval(backgroundIntervalHandle);
-		clearInterval(obstaclesIntervalHandle);
-		clearInterval(platformsIntervalHandle);
-		clearInterval(itemsIntervalHandle)
+		clearInterval(environmentIntervalHandle);
 		var menubackground = document.getElementById("finishmenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		var continueButton = document.getElementById("continuebutton");
@@ -767,10 +753,7 @@ function checkGameState(){
 
 	}else if (gameState.current == gameState.over)
 	{
-		clearInterval(backgroundIntervalHandle);
-		clearInterval(obstaclesIntervalHandle);
-		clearInterval(platformsIntervalHandle);
-		clearInterval(itemsIntervalHandle)
+		clearInterval(environmentIntervalHandle);
 		var menubackground = document.getElementById("gameovermenu");
 		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 		playSoundFX(gameoversound);
@@ -885,10 +868,10 @@ function checkPlatforms() {
 			break;
 		} else {
 			player.onPlatform = false;
-			if (player.charY != player.ground && player.jumping == 0) { //player is going down from the platform
+			if (player.charY != player.ground && player.jumpingIntervalHandle == 0) { //player is going down from the platform
 				
 				player.playerWantsDownFromPlatform = true;
-				player.jumping = setInterval(jump, player.jumpSpeed);
+				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
 			}
 		}
 	}
@@ -913,9 +896,9 @@ function jump(){
 		if(player.charY > player.ground){
 			player.goingDown = false;
 			player.charY = player.ground;
-			clearInterval(player.jumping);
+			clearInterval(player.jumpingIntervalHandle);
 			checkCollision();
-			player.jumping = 0;
+			player.jumpingIntervalHandle = 0;
 			player.playerWantsDownFromPlatform = false
 			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 		} else {
@@ -924,9 +907,9 @@ function jump(){
 				player.charY += 9
 			} else {
 				player.goingDown = false;
-				clearInterval(player.jumping);
+				clearInterval(player.jumpingIntervalHandle);
 				checkCollision();
-				player.jumping = 0;
+				player.jumpingIntervalHandle = 0;
 				player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 			}
 		}
@@ -935,11 +918,8 @@ function jump(){
 
 function fall(){
 	//player falls down in a hole
-	clearInterval(backgroundIntervalHandle);
-	clearInterval(obstaclesIntervalHandle);
-	clearInterval(platformsIntervalHandle);
-	clearInterval(itemsIntervalHandle);
-	clearInterval(player.jumping);
+	clearInterval(environmentIntervalHandle);
+	clearInterval(player.jumpingIntervalHandle);
 	if(player.charY < gameHeight){
 		player.charY += 5
 	}else{
@@ -957,10 +937,7 @@ function moveBackground(direction){
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
 	}else{
-		clearInterval(backgroundIntervalHandle);
-		clearInterval(obstaclesIntervalHandle);
-		clearInterval(platformsIntervalHandle);
-		clearInterval(itemsIntervalHandle);
+		clearInterval(environmentIntervalHandle);
 	}
 
 	checkFinished();																//player at end of map
@@ -971,7 +948,7 @@ function moveBackground(direction){
 function changePlayerPicture(){
 	
 	//Movement: Stay Right
-	if (player.jumping === 0 && player.walkDirection === 0 && player.isGoing === false) {
+	if (player.jumpingIntervalHandle === 0 && player.walkDirection === 0 && player.isGoing === false) {
 		if(player.charPictureIR[player.currentPictureIdxIR] == player.charPictureIR[player.charPictureIR.length - 1]){
 			player.currentPictureIdxIR = 0;
 		}else{
@@ -981,7 +958,7 @@ function changePlayerPicture(){
 	}
 
 	//Movement: Stay Left
-	else if (player.jumping === 0 && player.walkDirection === 1 && player.isGoing === false) {
+	else if (player.jumpingIntervalHandle === 0 && player.walkDirection === 1 && player.isGoing === false) {
 		if(player.charPictureIL[player.currentPictureIdxIL] == player.charPictureIL[player.charPictureIL.length - 1]){
 			player.currentPictureIdxIL = 0;
 		}else{
@@ -991,7 +968,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Walk Right
-	else if(player.jumping === 0 && player.walkDirection === 0 && player.isGoing === true){
+	else if(player.jumpingIntervalHandle === 0 && player.walkDirection === 0 && player.isGoing === true){
 		if(player.charPictureWR[player.currentPictureIdxWR] == player.charPictureWR[player.charPictureWR.length - 1]){
 			player.currentPictureIdxWR = 0;
 		}else{
@@ -1000,7 +977,7 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxWR]);
 	}
 	//Movement: Walk Left
-	else if(player.jumping === 0 && player.walkDirection === 1 && player.isGoing === true){
+	else if(player.jumpingIntervalHandle === 0 && player.walkDirection === 1 && player.isGoing === true){
 		if(player.charPictureWL[player.currentPictureIdxWL] == player.charPictureWL[player.charPictureWL.length - 1]){
 			player.currentPictureIdxWL = 0;
 		}else{
@@ -1010,7 +987,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Right
-	else if(player.jumping != 0 && player.walkDirection === 0) {
+	else if(player.jumpingIntervalHandle != 0 && player.walkDirection === 0) {
 		if(player.charPictureJR[player.currentPictureIdxJR] == player.charPictureJR[player.charPictureJR.length - 1]){
 			player.currentPictureIdxJR = 0;
 		} else{
@@ -1020,7 +997,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Left
-	else if(player.jumping != 0 && player.walkDirection === 1){
+	else if(player.jumpingIntervalHandle != 0 && player.walkDirection === 1){
 		if(player.charPictureJL[player.currentPictureIdxJL] == player.charPictureJL[player.charPictureJL.length - 1]){
 			player.currentPictureIdxJL = 0;
 		}else{
@@ -1031,14 +1008,18 @@ function changePlayerPicture(){
 
 }
 
+function updateEnvironment(backgroundMoveSpeed){
+	moveBackground(backgroundMoveSpeed);
+	updateObstacles(backgroundMoveSpeed);
+	updateItems(backgroundMoveSpeed);
+	updatePlatforms(backgroundMoveSpeed);
+}
+
 function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-			backgroundIntervalHandle = setInterval(function() { moveBackground(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-			obstaclesIntervalHandle = setInterval(function() { updateObstacles(backgroundMoveSpeed); }, backgroundUpdateSpeed);
-			itemsIntervalHandle = setInterval(function() { updateItems(backgroundMoveSpeed); }, backgroundUpdateSpeed );
-			platformsIntervalHandle = setInterval(function() { updatePlatforms(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+			environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -1046,10 +1027,7 @@ function goRight(){
 	if(player.isGoing === false){
 		player.isGoing = true;
 
-			backgroundIntervalHandle = setInterval(function() { moveBackground(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-			obstaclesIntervalHandle = setInterval(function() { updateObstacles(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
-			itemsIntervalHandle = setInterval(function() { updateItems(-backgroundMoveSpeed); }, backgroundUpdateSpeed )
-			platformsIntervalHandle = setInterval(function() { updatePlatforms(-backgroundMoveSpeed); }, backgroundUpdateSpeed);	
+		environmentIntervalHandle = setInterval(function() { updateEnvironment(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
@@ -1073,7 +1051,7 @@ function keyDown(event){
 			// } else {
 			// 	player.jumpHigh = player.helperJumpHigh;
 			// }
-			if(player.jumping == 0) player.jumping = setInterval(jump, player.jumpSpeed)
+			if(player.jumpingIntervalHandle == 0) player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed)
 			playSoundFX(jumpdemo);
 			break;
 		case 39:
@@ -1115,10 +1093,7 @@ function keyUp(event){
 	changePlayerPicture()
 	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
-		clearInterval(backgroundIntervalHandle);
-		clearInterval(obstaclesIntervalHandle);
-		clearInterval(itemsIntervalHandle);
-		clearInterval(platformsIntervalHandle);
+		clearInterval(environmentIntervalHandle);
 	}
 }
 
