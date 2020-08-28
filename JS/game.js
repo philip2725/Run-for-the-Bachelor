@@ -3,6 +3,7 @@
 var canvas, ctx;
 var gameWidth = 1200;
 var gameHeight = 700;
+var gameGround = gameHeight * 0.88;
 
 //Break-Menu
 var breakMenuRect;
@@ -13,11 +14,11 @@ var breakMenuY = breakMenuHeight*0.8/2;
 
 //Background
 var background;
-var backgroundWidth = 16358;																//Full lenght of the Background Image
-var backgroundX = 0;																	//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 30;															//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 15;															//steps in pixel that backgound Move
-var backgroundIntervalHandle;															//lower = faster
+var backgroundWidth = 16273;																//Full lenght of the Background Image
+var backgroundX = 0;																		//Current X-point from the top left corner of the image
+var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move
+var backgroundIntervalHandle;																//lower = faster
 
 // Audio
 var audioPlayer;
@@ -30,8 +31,10 @@ if(sessionStorage.getItem("mutedStatus") == 1){
 //lecturer
 class Lecturer {
 	constructor() {
-		this.charWidth = 109;						
-		this.charHeight = 152;						
+		var charWidth = 109;
+		var charHeight = 152;
+		this.charWidth = charWidth;																	
+		this.charHeight = charHeight;						
 		this.charX = gameWidth*0.5-(charWidth/2);	
 		this.charY = gameHeight*0.87-charHeight;	
 		this.charPictureWL = [];
@@ -90,8 +93,10 @@ class Lecturer {
 //character		
 class Player {
 	constructor() {
-		this.charWidth = 109;																	//width of character image
-		this.charHeight = 152;																	//height of character image
+		var charWidth = 109;
+		var charHeight = 152;
+		this.charWidth = charWidth;																	//width of character image
+		this.charHeight = charHeight;																	//height of character image
 		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
 		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
@@ -112,7 +117,7 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		var jumpHigh = 280;
+		var jumpHigh = 300;
 		this.jumpHigh = jumpHigh;																//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 15;																	//lower = faster
@@ -340,7 +345,7 @@ var player;																					// object of Class Player
 class Obstacle {
 	constructor(x,y = ground,width,height,pictureId,type) {
 		this.x = x;
-		this.y = y;
+		this.y = y - height;
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
@@ -422,7 +427,7 @@ var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need 
 
 //Collectables with shadow
 var coinShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
-'CPS07', 'CPS08', 'CPS09', 'CPS10', 'CPS11', 'CPS12'];
+'CPS07', 'CPS08', 'CPS09', 'CPS10'];
 
 var glassesShadowPictures = ['GLS01', 'GLS02', 'GLS03', 'GLS04', 'GLS05', 'GLS06', 
 'GLS07', 'GLS08', 'GLS09', 'GLS10'];
@@ -453,7 +458,7 @@ var LaptopShadowPictures = ['SCS01', 'SCS02', 'SCS03', 'SCS04', 'SCS05', 'SCS06'
 
 //Collectables without shadow
 var coinPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
-'CP07', 'CP08', 'CP09', 'CP10', 'CP11', 'CP12'];
+'CP07', 'CP08', 'CP09', 'CP10'];
 
 var blackberryPictures = ['BB01', 'BB02', 'BB03', 'BB04', 'BB05', 'BB06', 
 'BB07', 'BB08', 'BB09', 'BB10'];
@@ -544,24 +549,62 @@ function createLevel1(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 
-	items.push(new Item( "coin", gameWidth - 100,gameHeight*0.75));
-	obstacles.push(new Obstacle(gameWidth + 50,gameHeight*0.86, 200,120,"water","hole"));
-	obstacles.push(new Obstacle(gameWidth + 500,gameHeight*0.88 - 100, 100,100,"book","box"));
-	items.push(new Item( "coin", gameWidth + 700,gameHeight*0.65));
-	obstacles.push(new Obstacle(gameWidth + 900,gameHeight*0.88 - 100, 100,100,"book","box"));
-	obstacles.push(new Obstacle(gameWidth + 1300,gameHeight*0.88 - 100, 100,100,"book","box"));
-	obstacles.push(new Obstacle(gameWidth + 1600,gameHeight*0.88 - 100, 100,100,"book","box"));
-	items.push(new Item( "coin", gameWidth + 2100,gameHeight*0.8));
-	
-	items.push(new Item( "coin", gameWidth + 2300,gameHeight*0.8));
-	items.push(new Item( "coin", gameWidth + 2500,gameHeight*0.8));
+	// 1. SEMESTER
+	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
+	items.push(new Item("coin",2295, 390, 60, 60));
+	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
+	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
+	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
+	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
+	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
+	// INSERT GRAMMARBOOK 
+	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
+	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
+	items.push(new Item("coin",4990, 440, 60, 60));
+	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
+	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
+	items.push(new Item("coin",6410, 215, 60, 60));
+	platforms.push(new Platform("cityPlatM", 6720, 180, 220, 65));
+	obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
+	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
+	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
+	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
 
-	items.push(new Item( "glasses", gameWidth + 2600,gameHeight*0.8))
-	items.push(new Item( "glassesShadow", gameWidth + 2800,gameHeight*0.8))
-
-	platforms.push(new Platform("water",gameWidth - 500, 400, 120,120));
+	// 2. SEMESTER
+	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
+	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
+	platforms.push(new Platform("cityPlatS", 8840, 370, 85, 65));
+	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
+	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
+	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
+	// INSERT GLASSES
+	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
+	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
+	items.push(new Item("coin", 10920, 165, 60, 60));
+	platforms.push(new Platform("cityPlatS", 11080, 290, 85, 65));
+	platforms.push(new Platform("cityPlatM", 11210, 385, 220, 65));
+	platforms.push(new Platform("cityPlatM", 11490, 500, 220, 65));
+	platforms.push(new Platform("cityPlatS", 11780, 375, 85, 65));
+	obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
+	platforms.push(new Platform("cityPlatS", 11990, 275, 85, 65));
+	platforms.push(new Platform("cityPlatL", 12250, 220, 360, 65));	
+	obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
+	platforms.push(new Platform("cityPlatS", 12550, 490, 85, 65));
+	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
+	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
+	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
+	// INSERT SCRIPT
+	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
+	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
+	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
+	items.push(new Item("coin", 13930, 375, 60, 60));
+	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
+/*
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -581,6 +624,7 @@ function createLevel3(){
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
 }
+*/
 
 //************* Initialisierung ******************//
 function init(){
@@ -624,10 +668,10 @@ function draw(){
 
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
-	player.drawPlayer();																				//character Image																					
 	drawItems();																						
-	drawObstacles();
 	drawPlatforms();																					//Obstacle Images
+	drawObstacles();
+	player.drawPlayer();																				//character Image																					
 	checkGameState();
 
 	drawMenuIcon();
@@ -745,7 +789,7 @@ function drawItems() {
 		var item = items[index];
 		if(item.collected == false){
 			if(item.type === "coin"){
-				changeItemPicture(coinsPictures, item)
+				changeItemPicture(coinPictures, item)
 			}else if(item.type === "glasses"){
 				changeItemPicture(glassesPictures, item)
 			}else if(item.type === "glassesShadow"){
@@ -756,14 +800,14 @@ function drawItems() {
 	}
 }
 
-function changeItemPicture(picrtureArray, item){
+function changeItemPicture(pictureArray, item){
 	//draw next Picture of picrtureArray
-	if(picrtureArray[item.currentPictureIdx] == picrtureArray[picrtureArray.length-1]){
+	if(pictureArray[item.currentPictureIdx] == pictureArray[pictureArray.length-1]){
 		item.currentPictureIdx = 0;
 	}else{
 		item.currentPictureIdx++;
 	}		
-	var picture = document.getElementById(picrtureArray[item.currentPictureIdx])
+	var picture = document.getElementById(pictureArray[item.currentPictureIdx])
 	ctx.drawImage(picture, item.x, item.y, item.width, item.height)
 }
 
@@ -979,9 +1023,6 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxJL]);
 	}
 
-	
-	//Movment: duck
-	//...
 }
 
 function goLeft(){
@@ -1150,7 +1191,8 @@ function menuButtonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
-		//handler for muteButtonClicked
+
+	//handler for muteButtonClicked
 	} else if (x > 1150 && y < 200) {
 		playingAudio = !playingAudio
 		if(playingAudio){
