@@ -63,8 +63,6 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
 }
 
 #chosenCharacterGraphic {
-    width: 337px; 
-    height:375px;
     margin-left: 300px;
     float: left;
 }
