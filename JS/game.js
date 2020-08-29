@@ -5,6 +5,10 @@ var gameWidth = 1200;
 var gameHeight = 700;
 var gameGround = gameHeight * 0.88;
 
+//Mouse Position
+var mousePosX = 0;
+var mousePosY = 0;
+
 //Break-Menu
 var breakMenuRect;
 var breakMenuWidth = gameWidth/2;
@@ -16,8 +20,8 @@ var breakMenuY = breakMenuHeight*0.8/2;
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
 var backgroundX = 0;																		//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 40;																//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 20;																//steps in pixel that backgound Move															//lower = faster
+var backgroundUpdateSpeed = 20;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 10;																//steps in pixel that backgound Move															//lower = faster
 var environmentIntervalHandle;
 
 // Audio
@@ -725,7 +729,7 @@ function init(){
 	lecturer = new Lecturer()
 	lecturer.setProf(sessionStorage.getItem("level"))
 
-	playBackgroundAudio(playingAudio);
+	playBackgroundAudio();
 
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -751,9 +755,8 @@ function draw(){
 
 	drawMenuIcon();
 	drawECTSLabel();
-	//drawLevelLabel();
 	drawLivesLabel();
-	drawMuteButton(playingAudio);
+	drawMuteButton();
 }
 
 
@@ -763,9 +766,8 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	return ctx.fillRect(rx, ry, rw, rh);
 }
 
-function playBackgroundAudio(state) {
-	if (state) {
-		console.log("Hintergrundaudio ja")
+function playBackgroundAudio() {
+	if (playingAudio) {
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
@@ -1180,20 +1182,29 @@ document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pf
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
 document.addEventListener("click", menuButtonClick, false);
+document.addEventListener("mousemove", getMousePos, false);
 
 function drawMenuIcon()
 {
-	if(gameState.current == gameState.game)
+	if(gameState.current == gameState.game) //Menu Open Button
 	{
-		var menuiconopen = document.getElementById("menuopen");
-		ctx.drawImage(menuiconopen, 15, 5, 50, 50);
+		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
+			var menuicon = document.getElementById("menuopen_hover");
+		}else{
+			var menuicon = document.getElementById("menuopen");
+		
+		}
 	}
 	
-	if(gameState.current == gameState.break)
+	if(gameState.current == gameState.break) //Menu Close Button
 	{
-		var menuiconclose = document.getElementById("menuclose");
-		ctx.drawImage(menuiconclose, 15, 5, 50, 50);
+		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
+			var menuicon = document.getElementById("menuclose_hover");
+		}else{
+			var menuicon = document.getElementById("menuclose");
+		}
 	}
+	ctx.drawImage(menuicon, 15, 5, 50, 50);
 }
 
 function drawECTSLabel()
@@ -1204,24 +1215,22 @@ function drawECTSLabel()
 	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
-/*
-function drawLevelLabel()
-{
-	ctx.font = "25px Bangers";
-	ctx.fillStyle = "#0c65f5";
-	ctx.textAlign = "center";
-	ctx.fillText("Level: 1", 200, 80);
-}
-*/
-
-function drawMuteButton(state) {
-	if (state) {
-		var audioButton = document.getElementById("mutebutton");
-		ctx.drawImage(audioButton, 1140, 5, 50, 50);
+function drawMuteButton() {
+	if (playingAudio) {
+		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
+			var audioButton = document.getElementById("mutebutton_hover");
+		}else {
+			var audioButton = document.getElementById("mutebutton");
+		}
+		
 	} else {
+		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
+			var audioButton = document.getElementById("unmutebutton_hover");
+		}else{
 		var audioButton = document.getElementById("unmutebutton");
-	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
+		}
 	}
+	ctx.drawImage(audioButton, 1140, 5, 50, 50);
 	
 }
 
@@ -1240,7 +1249,7 @@ function menuButtonClick(event)
 	let y = event.clientY - rect.top;
 
 	// handler for breakButtonClicked
-	if (x <= 50 && y <= 50)
+	if (x >= 20 && x <= 60 && y >= 5 && y <= 50)
 	{
 		if(gameState.current == gameState.break)
 		{
@@ -1252,7 +1261,7 @@ function menuButtonClick(event)
 		}
 
 	//handler for muteButtonClicked
-	} else if (x > 1150 && y < 200) {
+	} else if (x >= 1150 && x <= 1200 && y <= 55 && y >= 5){
 		playingAudio = !playingAudio
 		if(playingAudio){
 			sessionStorage.setItem("mutedStatus", 0);
@@ -1261,6 +1270,12 @@ function menuButtonClick(event)
 		}
 		playBackgroundAudio(playingAudio)
 	}
+}
+
+function getMousePos(event){
+	mousePosX = event.clientX - canvas.offsetLeft;
+	mousePosY = event.clientY - canvas.offsetTop;
+	//console.log ("X:" + mouseX + "Y: " + mouseY);
 }
 
 function drawLivesLabel() {
