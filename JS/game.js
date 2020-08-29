@@ -168,12 +168,27 @@ class Player {
 	}	
 
 	detectPlatform(platform) {
-		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
-
-			return true;
-			}else{
-				return false;
+		if (this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
+			if (this.getBottom() <= platform.getTop() && platform.getTop() - this.getBottom() < 100) {
+					player.onPlatform = true;
+					playersPlatform = platform;
+					return true;	
+			} 
+			return false;
+		} else {
+			if (player.jumpingIntervalHandle == 0 && player.charY == platform.getTop() - player.charHeight) {
+				player.onPlatform = false;
+				player.playerWantsDownFromPlatform = true;
+				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
 			}
+
+			if (playersPlatform != 0) {
+				if (player.getBottom() < playersPlatform.getTop()) {
+					player.onPlatform = false
+				}
+			}
+			return false;
+		}
 	}
 
 	setGender(gender){
@@ -523,7 +538,7 @@ class Platform {
 
 }
 var platforms = [];
-var playersPlatform; 																		// is the platform where the player is on top
+var playersPlatform = 0; 																	// is the platform where the player is on top
 
 
 //control the game
@@ -938,23 +953,12 @@ function updatePlatforms(direction) {
 }
 
 function checkPlatforms() {
-	
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
 		if (player.detectPlatform(platform)) {
-			player.onPlatform = true;	
-			playersPlatform = platform;
 			break;
-		} else {
-			player.onPlatform = false;
-			if (player.charY != player.ground && player.jumpingIntervalHandle == 0) { //player is going down from the platform
-				
-				player.playerWantsDownFromPlatform = true;
-				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
-			}
-		}
-	}
-	
+		} 
+	}	
 }
 
 
@@ -969,29 +973,38 @@ function checkFinished() {
 }
 
 function jump(){
-	 checkPlatforms()
+	 
 	if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 		player.charY -= 6
-	}else {
+	} else {
 		if(player.charY > player.ground){
 			player.goingDown = false;
 			player.charY = player.ground;
 			clearInterval(player.jumpingIntervalHandle);
 			checkCollision();
 			player.jumpingIntervalHandle = 0;
-			player.playerWantsDownFromPlatform = false
+			player.playerWantsDownFromPlatform = false;
 			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 		} else {
-			if (player.onPlatform == false) {
+			if (player.onPlatform) {
+				if (player.getBottom() < playersPlatform.getTop()) { // if the player bottom  is not at the platform top
+					player.goingDown = true;
+					player.charY += 9
+					checkPlatforms()
+				} else { // if the player lands on the platform
+					player.goingDown = false;
+					clearInterval(player.jumpingIntervalHandle);
+					checkCollision();
+					player.jumpingIntervalHandle = 0;
+					player.playerWantsDownFromPlatform = false;
+					player.charY = playersPlatform.getTop() - player.charHeight;
+					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+				}
+			} else {
 				player.goingDown = true;
 				player.charY += 9
-			} else {
-				player.goingDown = false;
-				clearInterval(player.jumpingIntervalHandle);
-				checkCollision();
-				player.jumpingIntervalHandle = 0;
-				player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
-			}
+				checkPlatforms()
+			}	
 		}
 	}
 }
