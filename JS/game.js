@@ -134,7 +134,8 @@ class Player {
 		this.onPlatform = false; 																//tells whether the player is on a platform or not
 		this.playerWantsDownFromPlatform = false; 												//tells whether the player wants down from the platform
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
-		var fallIntervalHandle;																	
+		var fallIntervalHandle;	
+		this.lives = 3;																
 	}
 
 	drawPlayer() {
@@ -567,58 +568,58 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	items.push(new Item("coin",900, 300, 60, 60));
-	//obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
-	//obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin",2295, 390, 60, 60));
-	//obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
 	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
 	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
 	// INSERT GRAMMARBOOK 
-	//obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
+	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
 	items.push(new Item("coin",4990, 440, 60, 60));
-	//obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
 	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
 	items.push(new Item("coin",6410, 215, 60, 60));
 	platforms.push(new Platform("cityPlatM", 6720, 180, 220, 65));
-	//obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
 	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
 	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
 
 	// 2. SEMESTER
 	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
-	//obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
+	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
 	platforms.push(new Platform("cityPlatS", 8840, 370, 85, 65));
-	//obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
 	// INSERT GLASSES
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
-	//obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
-	//obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin", 10920, 165, 60, 60));
 	platforms.push(new Platform("cityPlatS", 11080, 290, 85, 65));
 	platforms.push(new Platform("cityPlatM", 11210, 385, 220, 65));
 	platforms.push(new Platform("cityPlatM", 11490, 500, 220, 65));
 	platforms.push(new Platform("cityPlatS", 11780, 375, 85, 65));
-	//obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatS", 11990, 275, 85, 65));
 	platforms.push(new Platform("cityPlatL", 12250, 220, 360, 65));	
-	//obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
-	//obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
+	obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
 	platforms.push(new Platform("cityPlatS", 12550, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
 	// INSERT SCRIPT
-	//obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
+	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
-	//obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin", 13930, 375, 60, 60));
-	//obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
 
@@ -1278,15 +1279,16 @@ function drawFinishMenu() {
 function drawGameOverMenu() {
 	var menubackground = document.getElementById("gameovermenu");
 	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-
-	//restartButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
-		var restartButton = document.getElementById("restarthover");
-	}	
-	ctx.drawImage(restartButton, 500, 300, 200, 50);
-
+	if (player.lives > 1) {
+		//restartButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+			var restartButton = document.getElementById("restartbutton");
+		} else {
+			var restartButton = document.getElementById("restarthover");
+		}	
+		ctx.drawImage(restartButton, 500, 300, 200, 50);
+	}
+	
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
 		var exitButton = document.getElementById("exitbutton");
@@ -1384,6 +1386,7 @@ function menuButtonClick(event)
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Restart Button Pressed");
+			player.lives -=1;
 			restartGame()	
 		}
 		
@@ -1445,7 +1448,20 @@ function getMousePos(event){
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
 	var middle = gameWidth / 2 - 37.5;
-	ctx.drawImage(livesLabel, middle - 100, 10, 75, 40);
-	ctx.drawImage(livesLabel, middle, 10, 75, 40);
-	ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
+	if (player.lives == 0) {
+		gameState.current = gameState.over;
+	} else {
+		if (player.lives >= 1) {
+			ctx.drawImage(livesLabel, middle - 100, 10, 75, 40);
+		}
+		if (player.lives >= 2) {
+			ctx.drawImage(livesLabel, middle, 10, 75, 40);
+		}
+		if (player.lives >= 3) {
+			ctx.drawImage(livesLabel, middle + 100, 10, 75, 40);
+		} 
+
+	}
+	
+
 }
