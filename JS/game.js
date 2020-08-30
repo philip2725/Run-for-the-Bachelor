@@ -16,6 +16,9 @@ var breakMenuHeight = gameHeight/2;
 var breakMenuX = breakMenuWidth/2;
 var breakMenuY = breakMenuHeight*0.8/2;
 
+//load
+var load;
+
 //Background
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
@@ -564,58 +567,58 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	items.push(new Item("coin",900, 300, 60, 60));
-	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
+	//obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin",2295, 390, 60, 60));
-	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
 	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
 	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
 	// INSERT GRAMMARBOOK 
-	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
+	//obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
 	items.push(new Item("coin",4990, 440, 60, 60));
-	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
+	//obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
 	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
 	items.push(new Item("coin",6410, 215, 60, 60));
 	platforms.push(new Platform("cityPlatM", 6720, 180, 220, 65));
-	obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
 	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
 	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
 
 	// 2. SEMESTER
 	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
-	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
+	//obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
 	platforms.push(new Platform("cityPlatS", 8840, 370, 85, 65));
-	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
 	// INSERT GLASSES
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
-	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
+	//obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin", 10920, 165, 60, 60));
 	platforms.push(new Platform("cityPlatS", 11080, 290, 85, 65));
 	platforms.push(new Platform("cityPlatM", 11210, 385, 220, 65));
 	platforms.push(new Platform("cityPlatM", 11490, 500, 220, 65));
 	platforms.push(new Platform("cityPlatS", 11780, 375, 85, 65));
-	obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatS", 11990, 275, 85, 65));
 	platforms.push(new Platform("cityPlatL", 12250, 220, 360, 65));	
-	obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
+	//obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
 	platforms.push(new Platform("cityPlatS", 12550, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
 	// INSERT SCRIPT
-	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
+	//obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
-	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
+	//obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item("coin", 13930, 375, 60, 60));
-	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
+	//obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
 
@@ -753,7 +756,7 @@ function init(){
 
 	//Loading completed --> disable loading screen
 	setTimeout(function(){
-		var load = document.getElementById("load");
+		load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
 }
@@ -800,16 +803,6 @@ function checkGameState(){
 
 	if(gameState.current === gameState.game)
 	{
-		//TODO
-		// var end = backgroundWidth*(-1)+gameWidth+20
-		// console.log("ENd: " + end); 
-		
-		// if (backgroundX < recordDistance) { //checks whether the player has already achieved the distance
-		// 	recordDistance = backgroundX; 
-		// 	if ((backgroundX - recordDistance) <= -84) {
-		// 		creditPoints++;
-		// 	}
-		// }
 
 		//creditPoint Counter
 		if (backgroundX < recordDistance) { 					//checks whether the player has already achieved the distance
@@ -828,33 +821,16 @@ function checkGameState(){
 	}else if (gameState.current == gameState.break)
 	{
 		clearInterval(environmentIntervalHandle);
-		var menubackground = document.getElementById("breakmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 500, 300, 200, 50);
-		var restartButton = document.getElementById("restartbutton");
-		ctx.drawImage(restartButton, 500, 370, 200, 50);
-		var exitButton = document.getElementById("exitbutton");
-		ctx.drawImage(exitButton, 500, 440, 200, 50);
+		drawBreakMenu()
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(environmentIntervalHandle);
-		var menubackground = document.getElementById("finishmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		var restartButton = document.getElementById("restartbutton");
-		ctx.drawImage(restartButton, 500, 370, 200, 50);
-		var exitButton = document.getElementById("exitbutton");
-		ctx.drawImage(exitButton, 500, 440, 200, 50);
+		drawFinishMenu()
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(environmentIntervalHandle);
-		var menubackground = document.getElementById("gameovermenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+		drawGameOverMenu()
 		playSoundFX(gameoversound);
-		var restartButton = document.getElementById("restartbutton");
-		ctx.drawImage(restartButton, 500, 300, 200, 50);
-		var exitButton = document.getElementById("exitbutton");
-		ctx.drawImage(exitButton, 500, 370, 200, 50);
 	}
 }
 
@@ -1108,6 +1084,24 @@ function updateEnvironment(backgroundMoveSpeed){
 	updatePlatforms(backgroundMoveSpeed);
 }
 
+function restartGame() {
+	clearInterval(environmentIntervalHandle);
+	backgroundX = 0;
+	player.charY = gameHeight*0.87-player.charHeight;
+	items = []
+	obstacles = []
+	platforms = []
+
+	if(sessionStorage.getItem("level") == 1){
+		createLevel1();
+	}else if(sessionStorage.getItem("level") == 2){
+		createLevel2();
+	}else if(sessionStorage.getItem("level") == 3){
+		createLevel3();
+	}
+	gameState.current = gameState.game;
+}
+
 function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
@@ -1220,6 +1214,89 @@ function drawMenuIcon()
 	ctx.drawImage(menuicon, 15, 5, 50, 50);
 }
 
+function drawBreakMenu() {
+	var menubackground = document.getElementById("breakmenu");
+	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+
+	//continueButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+		var continueButton = document.getElementById("continuebutton");
+	} else {
+		var continueButton = document.getElementById("continuehover");
+	}	
+	ctx.drawImage(continueButton, 500, 300, 200, 50);
+
+	//restartButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
+		var restartButton = document.getElementById("restartbutton");
+	} else {
+		var restartButton = document.getElementById("restarthover");
+	}	
+	ctx.drawImage(restartButton, 500, 370, 200, 50);
+
+	//exitButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
+		var exitButton = document.getElementById("exitbutton");
+	} else {
+		var exitButton = document.getElementById("exithover");
+	}	
+	ctx.drawImage(exitButton, 500, 440, 200, 50);
+	
+}
+
+function drawFinishMenu() {
+	var menubackground = document.getElementById("finishmenu");
+	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+
+
+	//continueButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+		var continueButton = document.getElementById("continuebutton");
+	} else {
+		var continueButton = document.getElementById("continuehover");
+	}	
+	ctx.drawImage(continueButton, 500, 300, 200, 50);
+
+	//restartButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
+		var restartButton = document.getElementById("restartbutton");
+	} else {
+		var restartButton = document.getElementById("restarthover");
+	}	
+	ctx.drawImage(restartButton, 500, 370, 200, 50);
+
+	//exitButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
+		var exitButton = document.getElementById("exitbutton");
+	} else {
+		var exitButton = document.getElementById("exithover");
+	}	
+	ctx.drawImage(exitButton, 500, 440, 200, 50);
+
+}
+
+function drawGameOverMenu() {
+	var menubackground = document.getElementById("gameovermenu");
+	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+
+	//restartButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+		var restartButton = document.getElementById("restartbutton");
+	} else {
+		var restartButton = document.getElementById("restarthover");
+	}	
+	ctx.drawImage(restartButton, 500, 300, 200, 50);
+
+	//exitButton
+	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
+		var exitButton = document.getElementById("exitbutton");
+	} else {
+		var exitButton = document.getElementById("exithover");
+	}	
+	ctx.drawImage(exitButton, 500, 370, 200, 50);
+		
+}
+
 function drawECTSLabel()
 {
 	ctx.font = "29px Bangers";
@@ -1247,14 +1324,6 @@ function drawMuteButton() {
 	
 }
 
-function drawContinueButton() {
-	if(gameState.current == gameState.break)
-	{
-		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 1000, 15, 50, 50);
-	}
-}
-
 function menuButtonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
@@ -1274,7 +1343,9 @@ function menuButtonClick(event)
 		}
 
 	//handler for muteButtonClicked
-	} else if (x >= 1150 && x <= 1200 && y <= 55 && y >= 5){
+	} 
+	
+	if (x >= 1150 && x <= 1200 && y <= 55 && y >= 5){
 		playingAudio = !playingAudio
 		if(playingAudio){
 			sessionStorage.setItem("mutedStatus", 0);
@@ -1283,6 +1354,86 @@ function menuButtonClick(event)
 		}
 		playBackgroundAudio(playingAudio)
 	}
+
+	//handler for all events when GameState is on break
+	if (gameState.current == gameState.break) {
+
+		//handler for continueButton
+		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
+			console.log("Continue Button Pressed");
+			gameState.current = gameState.game;
+		}
+
+		//handler for restartbutton
+		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
+			console.log("Restart Button Pressed");
+			restartGame()	
+		}	
+		
+		//handler for exitbutton
+		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
+			console.log("Exit Button Pressed");
+			window.open("../menu/menu_onepage.html","_self");
+		}
+
+
+	}
+//handler for all the events when game state is game over
+	if (gameState.current == gameState.over) {
+
+		//handler for restartbutton
+		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
+			console.log("Restart Button Pressed");
+			restartGame()	
+		}
+		
+			//handler for exitbutton
+		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
+			console.log("Exit Button Pressed");
+			window.open("../menu/menu_onepage.html","_self");
+		}
+		
+	}
+
+	//handler for all the events when game state is finished
+	if (gameState.current == gameState.finish) {
+
+		//handler for continueButton
+		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
+			console.log("Continue Button Pressed");
+			clearInterval(environmentIntervalHandle);
+			backgroundX = 0;
+			player.charY = gameHeight*0.87-player.charHeight;
+			items = []
+			obstacles = []
+			platforms = []
+
+			if(sessionStorage.getItem("level") == 1){
+				sessionStorage.setItem("level", 2)
+				createLevel2();
+			}else if(sessionStorage.getItem("level") == 2){
+				sessionStorage.setItem("level", 3)
+				createLevel3();
+			}else if(sessionStorage.getItem("level") == 3){
+				
+			}
+			gameState.current = gameState.game;
+		}
+
+		//handler for restartbutton
+		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
+			console.log("Restart Button Pressed");
+			restartGame()	
+		}
+		
+			//handler for exitbutton
+		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
+			console.log("Exit Button Pressed");
+			window.open("../menu/menu_onepage.html","_self");
+		}
+		
+	}
+
 }
 
 function getMousePos(event){
