@@ -23,8 +23,8 @@ var load;
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
 var backgroundX = 0;																		//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 20;																//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 10;																//steps in pixel that backgound Move															//lower = faster
+var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move															//lower = faster
 var environmentIntervalHandle;
 
 // Audio
@@ -124,7 +124,7 @@ class Player {
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
-		var jumpHigh = 300;
+		var jumpHigh = 290;
 		this.jumpHigh = jumpHigh;																//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
 		this.jumpSpeed = 15;																	//lower = faster
@@ -704,13 +704,6 @@ function createLevel2(){
 	// INSERT BLACKBERRY
 	obstacles.push(new Obstacle(14560, gameGround, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(14735, gameGround, 50, 35,"jungleSpikesS","box"));
-
-
-
-
-
-
-
 }
 /*
 function createLevel3(){
@@ -721,8 +714,25 @@ function createLevel3(){
 	var gameoversound = document.getElementById("gameoversound");
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
+
+	obstacles.push(new Obstacle(800, gameGround, 160, 45,"spaceCraterBS","box"));
+	platforms.push(new Platform("spacePlatS", 1070, 525, 85, 65));
+	obstacles.push(new Obstacle(1160, gameGround, 160, 95,"spaceCraterBL","box"));	
+	obstacles.push(new Obstacle(1480, gameHeight, 840, 100,"spaceWaterL","hole"));
+	platforms.push(new Platform("spacePlatS", 1525, 515, 85, 65));
+	platforms.push(new Platform("spacePlatS", 1515, 185, 85, 65));
+	platforms.push(new Platform("spacePlatM", 1740, 270, 220, 65));
+	obstacles.push(new Obstacle(1825, 270, 55, 60,"spaceEngineS","box"));	
+	platforms.push(new Platform("spacePlatM", 1745, 530, 220, 65));
+	platforms.push(new Platform("spacePlatS", 2080, 405, 85, 65));
+	platforms.push(new Platform("spacePlatS", 2345, 350, 85, 65));
+	platforms.push(new Platform("spacePlatM", 2425, 510, 220, 65));
+	obstacles.push(new Obstacle(2480, 520, 120, 85,"spaceEngineL","box"));
+	platforms.push(new Platform("spacePlatS", 2655, 420, 85, 65));
+	obstacles.push(new Obstacle(2820, 615, 55, 60,"spaceEngineS","box"));	
 }
 */
+
 
 //************* Initialisierung ******************//
 function init(){
@@ -732,7 +742,7 @@ function init(){
 	ctx = canvas.getContext("2d");
 
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 3)
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
@@ -767,8 +777,8 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
 	drawItems();																						
-	drawPlatforms();																					
-	drawObstacles();																					//Obstacle Images
+	drawPlatforms();																					//Obstacle Images
+	drawObstacles();
 	player.drawPlayer();																				//character Image																					
 	checkGameState();
 
@@ -822,27 +832,6 @@ function checkGameState(){
 	}else if (gameState.current == gameState.break)
 	{
 		clearInterval(environmentIntervalHandle);
-		var menubackground = document.getElementById("breakmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 500, 300, 200, 50);
-		var restartButton = document.getElementById("restartbutton");
-		ctx.drawImage(restartButton, 500, 370, 200, 50);
-		var exitButton = document.getElementById("exitbutton");
-		ctx.drawImage(exitButton, 500, 440, 200, 50);
-
-	}else if (gameState.current == gameState.finish)
-	{
-		clearInterval(environmentIntervalHandle);
-		var menubackground = document.getElementById("finishmenu");
-		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 500, 300, 200, 50);
-		var restartButton = document.getElementById("restartbutton");
-		ctx.drawImage(restartButton, 500, 370, 200, 50);
-		var exitButton = document.getElementById("exitbutton");
-		ctx.drawImage(exitButton, 500, 440, 200, 50);
-
 		drawBreakMenu()
 	}else if (gameState.current == gameState.finish)
 	{
@@ -955,15 +944,8 @@ function checkPlatforms() {
 		var platform = platforms[index]
 		if (player.detectPlatform(platform)) {
 			break;
-		} else {
-			player.onPlatform = false;
-			if (player.charY != player.ground && player.jumpingIntervalHandle == 0) { //player is going down from the platform
-				
-				player.playerWantsDownFromPlatform = true;
-				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
-			}
-		}
-	}
+		} 
+	}	
 }
 
 
@@ -1217,7 +1199,6 @@ function keyUp(event){
 document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
-document.addEventListener("click", buttonClick, false);
 document.addEventListener("click", menuButtonClick, false);
 document.addEventListener("mousemove", getMousePos, false);
 
@@ -1336,10 +1317,6 @@ function drawECTSLabel()
 	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
 }
 
-function drawMuteButton(state) {
-	if (state) {
-		var audioButton = document.getElementById("mutebutton");
-		ctx.drawImage(audioButton, 1140, 5, 50, 50);
 function drawMuteButton() {
 	if (playingAudio) {
 		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
@@ -1359,15 +1336,7 @@ function drawMuteButton() {
 	
 }
 
-function drawContinueButton() {
-	if(gameState.current == gameState.break)
-	{
-		var continueButton = document.getElementById("continuebutton");
-		ctx.drawImage(continueButton, 1000, 15, 50, 50);
-	}
-}
-
-function buttonClick(event)
+function menuButtonClick(event)
 {
 	let rect = canvas.getBoundingClientRect(); 
 	let x = event.clientX - rect.left; 
@@ -1384,10 +1353,10 @@ function buttonClick(event)
 		{
 			gameState.current = gameState.break;
 		}
-	}
-} 
 
 	//handler for muteButtonClicked
+	} 
+	
 	if (x >= 1150 && x <= 1200 && y <= 55 && y >= 5){
 		playingAudio = !playingAudio
 		if(playingAudio){
@@ -1416,7 +1385,7 @@ function buttonClick(event)
 		//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 			console.log("Exit Button Pressed");
-			window.open("../menu/menu_onepage.html","_self");
+			window.open("./menu/menu_onepage.html","_self");
 		}
 
 
@@ -1434,7 +1403,7 @@ function buttonClick(event)
 			//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 			console.log("Exit Button Pressed");
-			window.open("../menu/menu_onepage.html","_self");
+			window.open("./menu/menu_onepage.html","_self");
 		}
 		
 	}
@@ -1473,7 +1442,7 @@ function buttonClick(event)
 			//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 			console.log("Exit Button Pressed");
-			window.open("../menu/menu_onepage.html","_self");
+			window.open("./menu/menu_onepage.html","_self");
 		}
 		
 	}
