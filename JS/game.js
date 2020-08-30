@@ -5,6 +5,10 @@ var gameWidth = 1200;
 var gameHeight = 700;
 var gameGround = gameHeight * 0.88;
 
+//Mouse Position
+var mousePosX = 0;
+var mousePosY = 0;
+
 //Break-Menu
 var breakMenuRect;
 var breakMenuWidth = gameWidth/2;
@@ -16,8 +20,8 @@ var breakMenuY = breakMenuHeight*0.8/2;
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
 var backgroundX = 0;																		//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 40;																//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 20;																//steps in pixel that backgound Move															//lower = faster
+var backgroundUpdateSpeed = 20;																//miliseconds how often the background will be updated
+var backgroundMoveSpeed = 10;																//steps in pixel that backgound Move															//lower = faster
 var environmentIntervalHandle;
 
 // Audio
@@ -164,12 +168,27 @@ class Player {
 	}	
 
 	detectPlatform(platform) {
-		if (this.getBottom() > platform.getTop() && this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
-
-			return true;
-			}else{
-				return false;
+		if (this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
+			if (this.getBottom() <= platform.getTop() && platform.getTop() - this.getBottom() < 100) {
+					player.onPlatform = true;
+					playersPlatform = platform;
+					return true;	
+			} 
+			return false;
+		} else {
+			if (player.jumpingIntervalHandle == 0 && player.charY == platform.getTop() - player.charHeight) {
+				player.onPlatform = false;
+				player.playerWantsDownFromPlatform = true;
+				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
 			}
+
+			if (playersPlatform != 0) {
+				if (player.getBottom() < playersPlatform.getTop()) {
+					player.onPlatform = false
+				}
+			}
+			return false;
+		}
 	}
 
 	setGender(gender){
@@ -519,7 +538,7 @@ class Platform {
 
 }
 var platforms = [];
-var playersPlatform; 																		// is the platform where the player is on top
+var playersPlatform = 0; 																	// is the platform where the player is on top
 
 
 //control the game
@@ -599,7 +618,7 @@ function createLevel1(){
 	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
-/*
+
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -608,8 +627,88 @@ function createLevel2(){
 	var gameoversound = document.getElementById("gameoversound");
 	var runningsound = document.getElementById("runningsound");
 	var collectcoin = document.getElementById("collectcoin");
-}
 
+	// 3. SEMESTER
+	platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
+	obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
+	obstacles.push(new Obstacle(1400, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1510, 320, 85, 85));
+	obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
+	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
+	items.push(new Item("coin",2150, 300, 60, 60));
+	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
+	obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
+	obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
+	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
+	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
+	items.push(new Item("coin",4540, 50, 60, 60));
+	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
+	obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
+	obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
+	obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatL", 6080, 175, 360, 85));
+	obstacles.push(new Obstacle(6290, 180, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6145, 180, 50, 35,"jungleSpikesS","box"));
+	items.push(new Item("coin",6070, 80, 60, 60));
+
+	// 4. SEMESTER
+	obstacles.push(new Obstacle(8260, 410, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatM", 8260, 400, 220, 85));
+	// INSERT LAPTOP
+	obstacles.push(new Obstacle(8430, 410, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatS", 8550, 280, 85, 85));
+	platforms.push(new Platform("junglePlatS", 8760, 365, 85, 85));
+	platforms.push(new Platform("junglePlatS", 8985, 365, 85, 85));
+	obstacles.push(new Obstacle(9040, gameGround, 150, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 9200, 365, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9425, 430, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9575, 515, 85, 85));
+	obstacles.push(new Obstacle(9480, gameHeight, 285, 96,"jungleWaterS","hole"));
+	platforms.push(new Platform("junglePlatS", 9745, 420, 85, 85));
+	platforms.push(new Platform("junglePlatS", 9880, 343, 85, 85));
+	platforms.push(new Platform("junglePlatS", 10035, 265, 85, 85));
+	obstacles.push(new Obstacle(9990, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(10135, gameHeight, 555, 96,"jungleWaterM","hole"));
+	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
+	platforms.push(new Platform("junglePlatS", 10633, 265, 85, 85));
+	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
+	items.push(new Item("coin",10880, 175, 60, 60));
+	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
+	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
+	platforms.push(new Platform("junglePlatS", 11885, 485, 85, 85));
+	obstacles.push(new Obstacle(12550, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(12875, gameGround, 150, 35,"jungleSpikesL","box"));
+	items.push(new Item("coin",12915, 400, 60, 60));
+	obstacles.push(new Obstacle(13200, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(13600, gameHeight, 830, 96,"jungleWaterL","hole"));
+	platforms.push(new Platform("junglePlatM", 13725, 500, 220, 85)); //movable
+	platforms.push(new Platform("junglePlatS", 13975, 350, 85, 85));
+	// INSERT BLACKBERRY
+	obstacles.push(new Obstacle(14560, gameGround, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(14735, gameGround, 50, 35,"jungleSpikesS","box"));
+
+
+
+
+
+
+
+}
+/*
 function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("backgroundAudio");
@@ -645,7 +744,7 @@ function init(){
 	lecturer = new Lecturer()
 	lecturer.setProf(sessionStorage.getItem("level"))
 
-	playBackgroundAudio(playingAudio);
+	playBackgroundAudio();
 
 	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -672,7 +771,7 @@ function draw(){
 	drawMenuIcon();
 	drawECTSLabel();
 	drawLivesLabel();
-	drawMuteButton(playingAudio);
+	drawMuteButton();
 }
 
 
@@ -682,9 +781,8 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	return ctx.fillRect(rx, ry, rw, rh);
 }
 
-function playBackgroundAudio(state) {
-	if (state) {
-		console.log("Hintergrundaudio ja")
+function playBackgroundAudio() {
+	if (playingAudio) {
 		audioPlayer.play()
 	} else {
 		audioPlayer.pause();
@@ -859,12 +957,9 @@ function updatePlatforms(direction) {
 }
 
 function checkPlatforms() {
-	
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
 		if (player.detectPlatform(platform)) {
-			player.onPlatform = true;	
-			playersPlatform = platform;
 			break;
 		} else {
 			player.onPlatform = false;
@@ -889,29 +984,38 @@ function checkFinished() {
 }
 
 function jump(){
-	 checkPlatforms()
+	 
 	if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 		player.charY -= 6
-	}else {
+	} else {
 		if(player.charY > player.ground){
 			player.goingDown = false;
 			player.charY = player.ground;
 			clearInterval(player.jumpingIntervalHandle);
 			checkCollision();
 			player.jumpingIntervalHandle = 0;
-			player.playerWantsDownFromPlatform = false
+			player.playerWantsDownFromPlatform = false;
 			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 		} else {
-			if (player.onPlatform == false) {
+			if (player.onPlatform) {
+				if (player.getBottom() < playersPlatform.getTop()) { // if the player bottom  is not at the platform top
+					player.goingDown = true;
+					player.charY += 9
+					checkPlatforms()
+				} else { // if the player lands on the platform
+					player.goingDown = false;
+					clearInterval(player.jumpingIntervalHandle);
+					checkCollision();
+					player.jumpingIntervalHandle = 0;
+					player.playerWantsDownFromPlatform = false;
+					player.charY = playersPlatform.getTop() - player.charHeight;
+					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+				}
+			} else {
 				player.goingDown = true;
 				player.charY += 9
-			} else {
-				player.goingDown = false;
-				clearInterval(player.jumpingIntervalHandle);
-				checkCollision();
-				player.jumpingIntervalHandle = 0;
-				player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
-			}
+				checkPlatforms()
+			}	
 		}
 	}
 }
@@ -1102,20 +1206,30 @@ document.addEventListener("keydown", keyDown, false); 			//Not the down arrow(Pf
 document.addEventListener("keyup", keyUp, false); 				//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 document.addEventListener("DOMContentLoaded", init, false);
 document.addEventListener("click", buttonClick, false);
+document.addEventListener("click", menuButtonClick, false);
+document.addEventListener("mousemove", getMousePos, false);
 
 function drawMenuIcon()
 {
-	if(gameState.current == gameState.game)
+	if(gameState.current == gameState.game) //Menu Open Button
 	{
-		var menuiconopen = document.getElementById("menuopen");
-		ctx.drawImage(menuiconopen, 15, 5, 50, 50);
+		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
+			var menuicon = document.getElementById("menuopen_hover");
+		}else{
+			var menuicon = document.getElementById("menuopen");
+		
+		}
 	}
 	
-	if(gameState.current == gameState.break)
+	if(gameState.current == gameState.break) //Menu Close Button
 	{
-		var menuiconclose = document.getElementById("menuclose");
-		ctx.drawImage(menuiconclose, 15, 5, 50, 50);
+		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
+			var menuicon = document.getElementById("menuclose_hover");
+		}else{
+			var menuicon = document.getElementById("menuclose");
+		}
 	}
+	ctx.drawImage(menuicon, 15, 5, 50, 50);
 }
 
 function drawECTSLabel()
@@ -1130,10 +1244,23 @@ function drawMuteButton(state) {
 	if (state) {
 		var audioButton = document.getElementById("mutebutton");
 		ctx.drawImage(audioButton, 1140, 5, 50, 50);
+function drawMuteButton() {
+	if (playingAudio) {
+		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
+			var audioButton = document.getElementById("mutebutton_hover");
+		}else {
+			var audioButton = document.getElementById("mutebutton");
+		}
+		
 	} else {
+		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
+			var audioButton = document.getElementById("unmutebutton_hover");
+		}else{
 		var audioButton = document.getElementById("unmutebutton");
-	    ctx.drawImage(audioButton, 1140, 5, 50, 50);
+		}
 	}
+	ctx.drawImage(audioButton, 1140, 5, 50, 50);
+	
 }
 
 function drawContinueButton() {
@@ -1151,7 +1278,7 @@ function buttonClick(event)
 	let y = event.clientY - rect.top;
 
 	// handler for breakButtonClicked
-	if (x <= 50 && y <= 50)
+	if (x >= 20 && x <= 60 && y >= 5 && y <= 50)
 	{
 		if(gameState.current == gameState.break)
 		{
@@ -1164,8 +1291,7 @@ function buttonClick(event)
 	}
 
 	//handler for muteButtonClicked
-	else if (x > 1150 && y < 200) 
-	{
+	else if (x >= 1150 && x <= 1200 && y <= 55 && y >= 5){
 		playingAudio = !playingAudio
 		if(playingAudio){
 			sessionStorage.setItem("mutedStatus", 0);
@@ -1176,6 +1302,11 @@ function buttonClick(event)
 	}
 }
 
+function getMousePos(event){
+	mousePosX = event.clientX - canvas.offsetLeft;
+	mousePosY = event.clientY - canvas.offsetTop;
+	//console.log ("X:" + mouseX + "Y: " + mouseY);
+}
 
 function drawLivesLabel() {
 	var livesLabel = document.getElementById("liveslabel");
