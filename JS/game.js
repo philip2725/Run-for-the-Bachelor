@@ -518,16 +518,55 @@ var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06',
 
 //platforms 
 class Platform {
-	constructor(pictureId,x,y,width,height) {
-		this.x = x;
-		this.y = y;
+	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {
+		var xPos = x;
+		this.x = xPos;
+		this.helperX = xPos;
+		var yPos = y;
+		this.y = yPos;
+		this.helperY = yPos;
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
+		this.moveArea = moveArea;
+		this.moveToRight = false;
+		this.moveToBottom = false;
+		this.moveDirection = moveDirection;
 	}
 
 	update(direcion) {
-		this.x += direcion;																	//movement of platform when player goes to right
+		this.x += direcion;	
+		this.helperX += direcion;																//movement of platform when player goes to right
+	}
+
+	movePlatform(direction) {
+		if (this.moveDirection == 0) {
+			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) {
+				this.x -= direction;
+				if (this.helperX - this.x == this.moveArea) {
+					this.moveToRight = true;
+				}
+			} else {
+				this.x += direction;
+				if (this.x - this.helperX == this.moveArea) {
+					this.moveToRight = false;
+				}
+				
+			} 
+		} else {
+			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
+				this.y -= direction;
+				if (this.helperY - this.y == this.moveArea || this.y == 0) {
+					this.moveToBottom = true;
+				}
+			} else {
+				this.y += direction;
+				if (this.y - this.helperY == this.moveArea || this.y == gameHeight*0.87- this.height) {
+					this.moveToBottom = false;
+				}
+			} 
+		}
+		
 	}
 
 	getTop() {
@@ -574,6 +613,10 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	checkpoints.push(0);
+	//demo for moving platforms
+	platforms.push(new Platform("cityPlatS", 1300, 500, 85, 65, 400, 1));
+	platforms.push(new Platform("cityPlatS", 700, 500, 85, 65, 100, 0));
+	//
 	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
@@ -1044,6 +1087,17 @@ function drawPlatforms() {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index];	
 		var picture = document.getElementById(platform.pictureId)
+		if (platform.moveArea != 0) {
+			platform.movePlatform(2)
+			if (playersPlatform == platform) {
+			
+				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.onPlatform == true && player.playerWantsDownFromPlatform == false) {
+					player.charY = platform.y - player.charHeight;
+					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+				}
+				checkPlatforms()
+			}
+		}
 		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
 		//drawRect(platform.x,platform.y,platform.width,platform.height)
 	}
