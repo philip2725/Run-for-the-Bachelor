@@ -153,6 +153,12 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
         background-color: transparent;
         color: #636363;
     }
+
+.licenseButton {
+    position: absolute;
+    bottom: 1%;
+    right: 5%;
+}
    
 .backButton {  
   border: solid #454545;
@@ -193,7 +199,8 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
 /* close popup */
 .close{
     display: block;
-    color: rgb(129, 129, 129);
+    color: white;
+    text-shadow: -1px 0 black, 0 1px Black, 1px 0 black, 0 -1px black;
     position: absolute;
     text-align: center;
     font-family: fantasy;

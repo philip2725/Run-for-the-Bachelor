@@ -750,7 +750,7 @@ function createLevel3(){
 	obstacles.push(new Obstacle(4695, 295, 55, 60,"spaceEngineS2","box"));
 	obstacles.push(new Obstacle(4870, 295, 55, 60,"spaceEngineS1","box"));	
 	platforms.push(new Platform("spacePlatS", 5000, 205, 85, 65));
-	items.push(new Item(bluePrintShadowPictures, 5045, 210, 60, 70));
+	items.push(new Item(blueprintShadowPictures, 5045, 210, 60, 70));
 	obstacles.push(new Obstacle(5230, gameGround, 160, 45,"spaceCraterBS","box"));
 	platforms.push(new Platform("spacePlatS", 5350, 520, 85, 65));
 	obstacles.push(new Obstacle(5425, gameGround, 160, 95,"spaceCraterBL","box"));
