@@ -573,11 +573,7 @@ function createLevel1(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 1. SEMESTER
-	checkpoints.push(0)
-	items.push(new Item(coinPictures,700, 300, 60, 60));
-	checkpoints.push(800);
-	items.push(new Item(coinPictures,900, 300, 60, 60));
-	checkpoints.push(1000);
+	checkpoints.push(0);
 	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
@@ -585,12 +581,12 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
 	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
+	items.push(new Item(grammarShadowPictures,3985, 85, 60, 80));
 	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
-	// INSERT GRAMMARBOOK 
 	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
-	items.push(new Item("coin",4990, 440, 60, 60));
-	// checkpoints.push(5570);
+	items.push(new Item(coinPictures,4990, 440, 60, 60));
+	checkpoints.push(5070);
 	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
 	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
 	items.push(new Item(coinPictures,6410, 215, 60, 60));
@@ -607,8 +603,8 @@ function createLevel1(){
 	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
-	// INSERT GLASSES
-	//checkpoints.push(10050);
+	items.push(new Item(glassesShadowPictures,9315, 490, 60, 70));
+	checkpoints.push(9550);
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
 	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
@@ -626,8 +622,8 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
-	//checkpoints.push(13135);
-	// INSERT SCRIPT
+	checkpoints.push(13135);
+	items.push(new Item(scriptPictures,13300, 65, 60, 70));
 	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
 	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
@@ -646,6 +642,7 @@ function createLevel2(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 3. SEMESTER
+	checkpoints.push(0)
 	platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
 	obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
 	platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
@@ -654,9 +651,9 @@ function createLevel2(){
 	obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
 	platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
 	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
-	items.push(new Item("coin",1850, 120, 60, 60));
+	items.push(new Item(coinPictures,1850, 120, 60, 60));
 	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
-	//checkpoints.push(2180);
+	checkpoints.push(2180);
 	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
@@ -671,7 +668,7 @@ function createLevel2(){
 	items.push(new Item(coinPictures,4540, 50, 60, 60));
 	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
 	obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
-	// checkpoints.push(4940);
+	checkpoints.push(4940);
 	obstacles.push(new Obstacle(5290, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
@@ -681,7 +678,7 @@ function createLevel2(){
 	obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
 	platforms.push(new Platform("junglePlatL", 6080, 200, 360, 85));
-	items.push(new Item("coin",6070, 100, 60, 60));
+	items.push(new Item(coinPictures,6070, 100, 60, 60));
 	//checkpoints.push(7820);
 
 	// 4. SEMESTER
@@ -707,7 +704,7 @@ function createLevel2(){
 	// INSERT DUMMIES CODING
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
-	items.push(new Item("coin",10880, 175, 60, 60));
+	items.push(new Item(coinPictures,10880, 175, 60, 60));
 	//checkpoints.push(11180);
 	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
 	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
@@ -735,7 +732,7 @@ function createLevel3(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 5. SEMESTER
-
+	checkpoints.push(0)
 	obstacles.push(new Obstacle(800, gameGround, 160, 45,"spaceCraterBS","box"));
 	platforms.push(new Platform("spacePlatS", 1050, 525, 85, 65));
 	obstacles.push(new Obstacle(1160, gameGround, 160, 95,"spaceCraterBL","box"));	
@@ -753,7 +750,7 @@ function createLevel3(){
 	platforms.push(new Platform("spacePlatS", 2655, 420, 85, 65));
 	obstacles.push(new Obstacle(2750, gameGround, 160, 95,"spaceCraterBL","box"));
 	obstacles.push(new Obstacle(2940, gameGround, 160, 45,"spaceCraterBS","box"));
-	//checkpoints.push(3160)
+	checkpoints.push(3160)
 	//obstacles.push(new Obstacle(3815, gameHeight, 840, 100,"spaceWaterL","hole"));
 	platforms.push(new Platform("spacePlatS", 3495, 535, 85, 65));//movable
 	platforms.push(new Platform("spacePlatS", 4060, 535, 85, 65));//movable
@@ -778,7 +775,7 @@ function createLevel3(){
 	items.push(new Item(coinShadowPictures,6460, 540, 60, 70));
 	obstacles.push(new Obstacle(6530, gameHeight, 280, 100,"spaceWaterS","hole"));
 	platforms.push(new Platform("spacePlatS", 6635, 510, 85, 65));
-	//checkpoints.push(6910)
+	checkpoints.push(6910)
 	obstacles.push(new Obstacle(7035, gameGround, 160, 45,"spaceCraterBS","box"));
 	obstacles.push(new Obstacle(7400, gameGround, 160, 45,"spaceCraterBS","box"));
 	obstacles.push(new Obstacle(7735, gameGround, 160, 45,"spaceCraterBS","box"));
@@ -807,7 +804,7 @@ function createLevel3(){
 	platforms.push(new Platform("spacePlatS", 10420, 520, 85, 65));
 	platforms.push(new Platform("spacePlatL", 10480, 210, 360, 65));
 	obstacles.push(new Obstacle(10585, 220, 55, 60,"spaceEngineS2","box"));
-	//checkpoints.push(10680)
+	checkpoints.push(10680)
 	obstacles.push(new Obstacle(10740, 220, 55, 60,"spaceEngineS1","box"));	
 	//items.push(new Item(passportShadowPictures, 10810, 220, 55, 70));
 	obstacles.push(new Obstacle(10880, gameGround, 160, 45,"spaceCraterBS","box"));
@@ -878,9 +875,9 @@ function init(){
 function draw(){
 
 	ctx.clearRect(0,0,gameWidth,gameHeight)
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background	
-	drawItems();																						
-	drawPlatforms();																					//Obstacle Images
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background																						
+	drawPlatforms();	
+	drawItems();																				//Obstacle Images
 	drawObstacles();
 	player.drawPlayer();																				//character Image																					
 	checkGameState();
@@ -1428,7 +1425,7 @@ function drawFinishMenu() {
 function drawGameOverMenu() {
 	var menubackground = document.getElementById("gameovermenu");
 	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
-	if (player.lives > 1) {
+	
 		//restartButton
 		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
 			var restartButton = document.getElementById("restarthover");
@@ -1436,7 +1433,7 @@ function drawGameOverMenu() {
 			var restartButton = document.getElementById("restartbutton");
 		}	
 		ctx.drawImage(restartButton, 500, 300, 200, 50);
-	}
+
 	
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
