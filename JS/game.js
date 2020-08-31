@@ -26,6 +26,7 @@ var backgroundX = 0;																		//Current X-point from the top left corner
 var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
 var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move															//lower = faster
 var environmentIntervalHandle;
+var checkpoints = [];
 
 // Audio
 var audioPlayer;
@@ -163,7 +164,14 @@ class Player {
 		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
 			if(object.type == "hole"){
 				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
-				setTimeout(function(){gameState.current = gameState.over},500);
+				setTimeout(function(){
+					player.lives -= 1;
+					if(player.lives == 0){
+						gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
+					}else{
+						restartAtCheckpoint();
+					}				
+				},500);
 			}else{
 				return true;
 			}
@@ -402,12 +410,12 @@ var obstacles = [];
 
 //Items (for example: Credit-Points)
 class Item {
-	constructor( type, x,y = ground,width = 70,height = 70) {
+	constructor( pictures, x,y = ground,width = 70,height = 70) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.type = type;																	//type coin = Creditpoint, else name of image
+		this.pictures = pictures;																	//Name of PictureArray with all images of the item
 		this.currentPictureIdx = 0;
 		this.collected = false;
 	}
@@ -442,7 +450,8 @@ var creditPoints = walkCreditPoints + collectCreditpoints; 				//counter for the
 var recordDistance = 0; 												//saves the furthest distance the player had made
 var nextCreditPointPosition = 0; 										//the next position in the game where the player can get a Creditpoint
 var maxWalkCreditPoints = 45; 											//max Creditpoints a player can get by walk (45CP + 15CP = 60 per Semester)
-var maxCreditPoints = 60;												//sum of walk- and collectCPwhich you need for finish level
+var maxCreditPoints = 60;												//sum of walk- and collectCP which you need for finish level
+var moveSpeedHelper = 0;												//helps changeItemsPicture() to draw Items just every second times
 
 //Collectables with shadow
 var coinShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
@@ -507,9 +516,6 @@ var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06',
 'SC07', 'SC08', 'SC09', 'SC10'];
 
 
-
-//TODO: other PictureArrays of the colecables 
-
 //platforms 
 class Platform {
 	constructor(pictureId,x,y,width,height) {
@@ -567,10 +573,14 @@ function createLevel1(){
 	var collectcoin = document.getElementById("collectcoin");
 
 	// 1. SEMESTER
-	items.push(new Item("coin",900, 300, 60, 60));
+	checkpoints.push(0)
+	items.push(new Item(coinPictures,700, 300, 60, 60));
+	checkpoints.push(800);
+	items.push(new Item(coinPictures,900, 300, 60, 60));
+	checkpoints.push(1000);
 	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
-	items.push(new Item("coin",2295, 390, 60, 60));
+	items.push(new Item(coinPictures,2295, 390, 60, 60));
 	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
@@ -580,9 +590,10 @@ function createLevel1(){
 	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
 	items.push(new Item("coin",4990, 440, 60, 60));
+	// checkpoints.push(5570);
 	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
 	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
-	items.push(new Item("coin",6410, 215, 60, 60));
+	items.push(new Item(coinPictures,6410, 215, 60, 60));
 	platforms.push(new Platform("cityPlatM", 6720, 180, 220, 65));
 	obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
@@ -597,10 +608,11 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
 	// INSERT GLASSES
+	//checkpoints.push(10050);
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
 	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
-	items.push(new Item("coin", 10920, 165, 60, 60));
+	items.push(new Item(coinPictures, 10920, 165, 60, 60));
 	platforms.push(new Platform("cityPlatS", 11080, 290, 85, 65));
 	platforms.push(new Platform("cityPlatM", 11210, 385, 220, 65));
 	platforms.push(new Platform("cityPlatM", 11490, 500, 220, 65));
@@ -614,11 +626,12 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
+	//checkpoints.push(13135);
 	// INSERT SCRIPT
 	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
 	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
-	items.push(new Item("coin", 13930, 375, 60, 60));
+	items.push(new Item(coinPictures, 13930, 375, 60, 60));
 	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
@@ -641,22 +654,25 @@ function createLevel2(){
 	obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
 	platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
 	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
+	items.push(new Item("coin",1850, 120, 60, 60));
 	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
-	items.push(new Item("coin",2150, 300, 60, 60));
+	//checkpoints.push(2180);
 	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
-	obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(3855, 530, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
 	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
-	obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(4170, 420, 150, 35,"jungleSpikesL","box"));
 	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
-	items.push(new Item("coin",4540, 50, 60, 60));
+	items.push(new Item(coinPictures,4540, 50, 60, 60));
 	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
 	obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
+	// checkpoints.push(4940);
+	obstacles.push(new Obstacle(5290, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
 	obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
@@ -664,18 +680,17 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
 	obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
-	platforms.push(new Platform("junglePlatL", 6080, 175, 360, 85));
-	obstacles.push(new Obstacle(6290, 180, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(6145, 180, 50, 35,"jungleSpikesS","box"));
-	items.push(new Item("coin",6070, 80, 60, 60));
+	platforms.push(new Platform("junglePlatL", 6080, 200, 360, 85));
+	items.push(new Item("coin",6070, 100, 60, 60));
+	//checkpoints.push(7820);
 
 	// 4. SEMESTER
-	obstacles.push(new Obstacle(8260, 410, 50, 35,"jungleSpikesS","box"));
-	platforms.push(new Platform("junglePlatM", 8260, 400, 220, 85));
+	obstacles.push(new Obstacle(8260, 380, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatM", 8260, 370, 220, 85));
 	// INSERT LAPTOP
-	obstacles.push(new Obstacle(8430, 410, 50, 35,"jungleSpikesS","box"));
-	platforms.push(new Platform("junglePlatS", 8550, 280, 85, 85));
-	platforms.push(new Platform("junglePlatS", 8760, 365, 85, 85));
+	obstacles.push(new Obstacle(8430, 380, 50, 35,"jungleSpikesS","box"));
+	platforms.push(new Platform("junglePlatS", 8550, 240, 85, 85));
+	platforms.push(new Platform("junglePlatS", 8760, 290, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8985, 365, 85, 85));
 	obstacles.push(new Obstacle(9040, gameGround, 150, 35,"jungleSpikesL","box"));
 	platforms.push(new Platform("junglePlatS", 9200, 365, 85, 85));
@@ -688,16 +703,20 @@ function createLevel2(){
 	obstacles.push(new Obstacle(9990, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(10135, gameHeight, 555, 96,"jungleWaterM","hole"));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
-	platforms.push(new Platform("junglePlatS", 10633, 265, 85, 85));
+	platforms.push(new Platform("junglePlatS", 10520, 500, 85, 85));
+	// INSERT DUMMIES CODING
+	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
 	items.push(new Item("coin",10880, 175, 60, 60));
+	//checkpoints.push(11180);
 	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
 	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
 	platforms.push(new Platform("junglePlatS", 11885, 485, 85, 85));
 	obstacles.push(new Obstacle(12550, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(12875, gameGround, 150, 35,"jungleSpikesL","box"));
-	items.push(new Item("coin",12915, 400, 60, 60));
+	items.push(new Item(coinPictures,12915, 400, 60, 60));
 	obstacles.push(new Obstacle(13200, gameGround, 150, 35,"jungleSpikesL","box"));
+	//checkpoints.push(13430);
 	obstacles.push(new Obstacle(13600, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatM", 13725, 500, 220, 85)); //movable
 	platforms.push(new Platform("junglePlatS", 13975, 350, 85, 85));
@@ -824,8 +843,14 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
+	sessionStorage.setItem("level", 1)
 
-	sessionStorage.setItem("level", 3)
+	player = new Player();
+	player.setGender(sessionStorage.getItem("chosenCharacter"));
+	
+	lecturer = new Lecturer()
+	lecturer.setProf(sessionStorage.getItem("level"))
+
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
@@ -835,18 +860,13 @@ function init(){
 		createLevel3();
 	}
 
-	player = new Player();
-	player.setGender(sessionStorage.getItem("chosenCharacter"));
-	
-	lecturer = new Lecturer()
-	lecturer.setProf(sessionStorage.getItem("level"))
+	gameState.current = gameState.game;
+
 
 	playBackgroundAudio();
 
-	setInterval(draw, 40);
 	setInterval(changePlayerPicture, player.movementSpeed);
-
-	gameState.current = gameState.game;
+	setInterval(draw, 40);
 
 	//Loading completed --> disable loading screen
 	setTimeout(function(){
@@ -858,7 +878,7 @@ function init(){
 function draw(){
 
 	ctx.clearRect(0,0,gameWidth,gameHeight)
-	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background		
+	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background	
 	drawItems();																						
 	drawPlatforms();																					//Obstacle Images
 	drawObstacles();
@@ -892,6 +912,19 @@ function playSoundFX(sound){
 	}
 }
 
+function getLastCheckpoint(){
+	var i;
+	for( i = 0; i < checkpoints.length ; i++){
+		if((backgroundX*(-1)) < checkpoints[i]){
+			if(i == 0) {
+				return 0										//havent reach the first checkpoint
+			}else{
+				return checkpoints[i-1]							//returns the last checkpoint			
+			} 
+		}
+	}
+	return checkpoints[checkpoints.length-1]					//returns the last checkpoint
+}
 
 function checkGameState(){
 
@@ -941,24 +974,23 @@ function drawItems() {
 	for (index = 0; index < items.length; index++) {
 		var item = items[index];
 		if(item.collected == false){
-			if(item.type === "coin"){
-				changeItemPicture(coinPictures, item)
-			}else if(item.type === "glasses"){
-				changeItemPicture(glassesPictures, item)
-			}else if(item.type === "glassesShadow"){
-				changeItemPicture(glassesShadowPictures, item)
-			}
-			//TODO: Other Collectables...
+			changeItemPicture(item.pictures, item)
 		}
-	}
+	}	
 }
 
 function changeItemPicture(pictureArray, item){
 	//draw next Picture of picrtureArray
 	if(pictureArray[item.currentPictureIdx] == pictureArray[pictureArray.length-1]){
-		item.currentPictureIdx = 0;
+			item.currentPictureIdx = 0;	
+		
 	}else{
-		item.currentPictureIdx++;
+		if(moveSpeedHelper == 0){						//draw Items just every second time 
+			item.currentPictureIdx++;
+			moveSpeedHelper = 1;
+		}else{
+			moveSpeedHelper = 0
+		}
 	}		
 	var picture = document.getElementById(pictureArray[item.currentPictureIdx])
 	ctx.drawImage(picture, item.x, item.y, item.width, item.height)
@@ -983,7 +1015,12 @@ function checkCollision() {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
-			gameState.current = gameState.over					//sets the current game State to Game Over when a Collision with an obstacle is detected
+			player.lives -= 1;
+			if(player.lives == 0){
+				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
+			}else{
+				restartAtCheckpoint();
+			}				
 			break;
 		}
 	}
@@ -1180,8 +1217,10 @@ function updateEnvironment(backgroundMoveSpeed){
 
 function restartGame() {
 	clearInterval(environmentIntervalHandle);
+	clearInterval(player.fallIntervalHandle);
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
+	player.lives = 3
 	items = []
 	obstacles = []
 	platforms = []
@@ -1195,6 +1234,22 @@ function restartGame() {
 	}
 	gameState.current = gameState.game;
 }
+
+function restartAtCheckpoint() {
+	clearInterval(environmentIntervalHandle);
+	clearInterval(player.fallIntervalHandle);
+	player.charY = gameHeight*0.87-player.charHeight;
+
+	var difference = backgroundX+getLastCheckpoint();
+	backgroundX = getLastCheckpoint()*(-1);
+
+	updateObstacles(-difference);
+	updateItems(-difference);
+	updatePlatforms(-difference);
+	
+	player.charY = gameHeight*0.87-player.charHeight;
+}
+
 
 function goLeft(){
 	if(player.isGoing === false){
@@ -1290,22 +1345,23 @@ function drawMenuIcon()
 	if(gameState.current == gameState.game) //Menu Open Button
 	{
 		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
-			var menuicon = document.getElementById("menuopen_hover");
+			var menuicon = document.getElementById("menuopenhover");
 		}else{
 			var menuicon = document.getElementById("menuopen");
 		
 		}
+		ctx.drawImage(menuicon, 15, 5, 50, 50);
 	}
 	
 	if(gameState.current == gameState.break) //Menu Close Button
 	{
 		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
-			var menuicon = document.getElementById("menuclose_hover");
+			var menuicon = document.getElementById("menuclosehover");
 		}else{
 			var menuicon = document.getElementById("menuclose");
 		}
+		ctx.drawImage(menuicon, 15, 5, 50, 50);
 	}
-	ctx.drawImage(menuicon, 15, 5, 50, 50);
 }
 
 function drawBreakMenu() {
@@ -1314,25 +1370,25 @@ function drawBreakMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 	
@@ -1345,25 +1401,25 @@ function drawFinishMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 
@@ -1375,18 +1431,18 @@ function drawGameOverMenu() {
 	if (player.lives > 1) {
 		//restartButton
 		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-			var restartButton = document.getElementById("restartbutton");
-		} else {
 			var restartButton = document.getElementById("restarthover");
+		} else {
+			var restartButton = document.getElementById("restartbutton");
 		}	
 		ctx.drawImage(restartButton, 500, 300, 200, 50);
 	}
 	
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 370, 200, 50);
 		
@@ -1403,14 +1459,14 @@ function drawECTSLabel()
 function drawMuteButton() {
 	if (playingAudio) {
 		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
-			var audioButton = document.getElementById("mutebutton_hover");
+			var audioButton = document.getElementById("mutebuttonhover");
 		}else {
 			var audioButton = document.getElementById("mutebutton");
 		}
 		
 	} else {
 		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
-			var audioButton = document.getElementById("unmutebutton_hover");
+			var audioButton = document.getElementById("unmutebuttonhover");
 		}else{
 		var audioButton = document.getElementById("unmutebutton");
 		}
@@ -1479,8 +1535,7 @@ function menuButtonClick(event)
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Restart Button Pressed");
-			player.lives -=1;
-			restartGame()	
+			restartGame()
 		}
 		
 			//handler for exitbutton
@@ -1497,22 +1552,15 @@ function menuButtonClick(event)
 		//handler for continueButton
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Continue Button Pressed");
-			clearInterval(environmentIntervalHandle);
-			backgroundX = 0;
-			player.charY = gameHeight*0.87-player.charHeight;
-			items = []
-			obstacles = []
-			platforms = []
 
 			if(sessionStorage.getItem("level") == 1){
 				sessionStorage.setItem("level", 2)
-				createLevel2();
 			}else if(sessionStorage.getItem("level") == 2){
 				sessionStorage.setItem("level", 3)
-				createLevel3();
 			}else if(sessionStorage.getItem("level") == 3){
 				
 			}
+			restartGame();
 			gameState.current = gameState.game;
 		}
 
