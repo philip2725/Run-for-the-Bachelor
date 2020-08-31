@@ -118,7 +118,9 @@ function saveCharacterName() {
 
 // gets the chosen character out of the session storge and replace it at the given paragraph id
 function getCharacterName(){
-    document.getElementById("head").innerHTML = "Hallo " + sessionStorage.getItem("characterName");
+    var header = document.getElementById("head")
+    header.innerHTML = "Run " + sessionStorage.getItem("characterName") + " RUN!!!";
+    header.setAttribute("style", "font: 60px Bangers; color: #233769; margin-bottom: -15px; text-shadow: -1px 0 #F39F21, 0 1px #F39F21, 1px 0 #F39F21, 0 -1px #F39F21;")
 }
 
 //changes the display property of the given div-tag ID's to show and hide several parts of the HTML page
