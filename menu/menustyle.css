@@ -1,6 +1,7 @@
 @charset "utf-8";
 
-/***** Windows Size Alert ****/
+/***** Window Size Alert ****/
+/* Window must be at least 1250x800px large*/
 .windowSizeAlert{
     display: none;
 
@@ -160,23 +161,6 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
     right: 5%;
 }
    
-.backButton {  
-  border: solid #454545;
-  border-width: 0 7px 7px 0;
-  display: inline-block;
-  padding: 7px;
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
-}
-
-    .backButton:hover {
-        border: solid #202020;
-        display: inline-block;
-        border-width: 0 7px 7px 0;
-        padding: 9px;
-        transform: rotate(135deg);
-        -webkit-transform: rotate(135deg);
-    }
 
 /***** popupstyles *****/   
 .popup {
@@ -184,7 +168,7 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
     position: absolute;
     height: 350px;
     width: 320px;
-    bottom: 17%;
+    top: 44%;
     left: 40%;
     border-radius: 10px;
     background-color: rgb(26, 25, 25,0.96);

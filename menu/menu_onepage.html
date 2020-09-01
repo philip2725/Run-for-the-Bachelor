@@ -29,7 +29,7 @@
                     <br> <br>                                        
     
                     <!-- Opens a popup with ingame controls -->
-                    <img   class="buttonImgScale"      onclick="toggle('cntrl'); playSoundEffect('buttonclick')" src="../assets/Images/Buttons/Menu_Buttons/Controls yellow.png"
+                    <img   class="buttonImgScale"      onclick="visSwitch('cntrl'); playSoundEffect('buttonclick')" src="../assets/Images/Buttons/Menu_Buttons/Controls yellow.png"
                             onmouseover="src='../assets/Images/Buttons/Menu_Buttons/Controls hover yellow.png'"
                             onmouseout="src='../assets/Images/Buttons/Menu_Buttons/Controls yellow.png'">                                              
     
@@ -46,11 +46,13 @@
                     <!--***** Footer Buttons *****-->
     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a> 
+                    <a      href="#"   class="footerButton"   onClick="visSwitch('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a> 
                     
                     <!-- License Icon 
                     <a rel="license" class="licenseButton"  style="margin-top: 50px;" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons Lizenzvertrag"  src="https://i.creativecommons.org/l/by-nd/4.0/88x31.png" /></a><br />
                     -->
+
+             
         </div>
 
         <!-- ********** Choose Character Page ********** -->
@@ -87,11 +89,13 @@
                     <br> <br> <br>            
                     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"     onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>
+                    <a      href="#"   class="footerButton"     onClick="visSwitch('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>
 
                     <!-- License Icon 
                     <a rel="license" class="licenseButton" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons Lizenzvertrag" style="position: absolute; margin-top: 41px; " src="https://i.creativecommons.org/l/by-nd/4.0/88x31.png" /></a><br />
                     -->
+
+            
         </div>
           
 
@@ -141,7 +145,7 @@
                     <br> <br> <br>
     
                     <!-- Opens a popup with the privacy and imprint text -->
-                    <a      href="#"   class="footerButton"   onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>        
+                    <a      href="#"   class="footerButton"   onClick="visSwitch('prvcy'); playSoundEffect('buttonclick')"> Privacy / Imprint </a>        
             
                     <!-- License Icon
                     <a rel="license" class="licenseButton" href="http://creativecommons.org/licenses/by-nd/4.0/"><img alt="Creative Commons Lizenzvertrag" style="position: absolute;" src="https://i.creativecommons.org/l/by-nd/4.0/88x31.png" /></a><br />
@@ -155,7 +159,7 @@
 
             <br> <br>
 
-        <a href="#" class="close" style="bottom: 20%; left: 44%;" onClick="toggle('cntrl'); playSoundEffect('buttonclick')"> close </a>
+        <a href="#" class="close" style="bottom: 20%; left: 44%;" onClick="visSwitch('cntrl'); playSoundEffect('buttonclick')"> close </a>
         </div>
 
         <!-- content of the privacy and imprint popup window  -->
@@ -187,7 +191,7 @@
             
             <br> <br>
 
-            <a href="#" class="close"  style="bottom: 10%; left: 47%;" onClick="toggle('prvcy'); playSoundEffect('buttonclick')"> close </a>
+            <a href="#" class="close"  style="bottom: 10%; left: 47%;" onClick="visSwitch('prvcy'); playSoundEffect('buttonclick')"> close </a>
         </div>
 
         <p class="windowSizeAlert"> Browser window is too small! <br> 
@@ -202,7 +206,7 @@
         </audio>
 
         <audio id="buttonclick" >
-            <source src="../assets/Sounds/clicksound2.mp3" type="audio/mpeg" />
+            <source src="../assets/Sounds/clicksound.mp3" type="audio/mpeg" />
         </audio>
 
     </body>
