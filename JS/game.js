@@ -610,7 +610,7 @@ const gameState = {
 function createLevel1(){
 	background = document.getElementById("cityImage");
 	audioPlayer = document.getElementById("cityMusic");
-	audioPlayer.volume = 0.4;
+	audioPlayer.volume = 0.3;
 
 
 	// 1. SEMESTER
@@ -619,7 +619,7 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 1300, 500, 85, 65, 400, 1));
 	platforms.push(new Platform("cityPlatS", 700, 500, 85, 65, 100, 0));
 	//
-	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle(1225, gameGround, 140, 50,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
 	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
@@ -681,7 +681,7 @@ function createLevel1(){
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("jungleMusic");
-	audioPlayer.volume = 0.4;
+	audioPlayer.volume = 0.3;
 
 
 	// 3. SEMESTER
@@ -771,7 +771,7 @@ function createLevel2(){
 function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("spaceMusic");
-	audioPlayer.volume = 0.35;
+	audioPlayer.volume = 0.25;
 
 
 	// 5. SEMESTER
@@ -883,7 +883,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 2)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
