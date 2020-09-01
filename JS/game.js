@@ -376,7 +376,7 @@ var player;																					// object of Class Player
 
 //Obstacles
 class Obstacle {
-	constructor(x,y = ground,width,height,pictureId,type) {
+	constructor(pictureId, type, x, y = ground, width, height) {
 		this.x = x;
 		this.y = y - height;
 		this.width = width;
@@ -534,14 +534,18 @@ class Platform {
 		this.moveDirection = moveDirection;
 	}
 
-	update(direcion) {
-		this.x += direcion;	
-		this.helperX += direcion;																//movement of platform when player goes to right
+
+	
+	update(direction) {
+		this.x += direction;	
+		this.helperX += direction;																//movement of platform when player goes to right
 	}
 
 	movePlatform(direction) {
 		if (this.moveDirection == 0) {
+
 			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) {
+				
 				this.x -= direction;
 				if (this.helperX - this.x == this.moveArea) {
 					this.moveToRight = true;
@@ -551,7 +555,7 @@ class Platform {
 				if (this.x - this.helperX == this.moveArea) {
 					this.moveToRight = false;
 				}
-				
+
 			} 
 		} else {
 			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
@@ -773,103 +777,106 @@ function createLevel3(){
 
 	// 5. SEMESTER
 	checkpoints.push(0)
-	obstacles.push(new Obstacle(800, gameGround, 160, 45,"spaceCraterBS","box"));
+
+	obstacles.push(new Obstacle("spaceCraterBS","box", 800, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 1050, 525, 85, 65));
-	obstacles.push(new Obstacle(1160, gameGround, 160, 95,"spaceCraterBL","box"));	
-	obstacles.push(new Obstacle(1480, gameHeight, 840, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 1525, 515, 85, 65));
+	obstacles.push(new Obstacle("spaceCraterBL","box", 1160, gameGround, 160, 95));	
+	//obstacles.push(new Obstacle("spaceWaterL", "hole", 1480, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatS", 1650, 515, 85, 65, 220, 0));			//movable
 	platforms.push(new Platform("spacePlatS", 1515, 185, 85, 65));
-	items.push(new Item(coinShadowPictures,1555, 190, 60, 70));
-	platforms.push(new Platform("spacePlatM", 1740, 270, 220, 65));
-	obstacles.push(new Obstacle(1825, 270, 55, 60,"spaceEngineS2","box"));	
-	platforms.push(new Platform("spacePlatM", 1745, 530, 220, 65));
+	items.push(new Item(coinShadowPictures,1530, 125, 60, 70));
+	obstacles.push(new Obstacle("spaceEngineS2","box", 1825, 245, 55, 60));	
+	platforms.push(new Platform("spacePlatM", 1745, 245, 220, 65));
 	platforms.push(new Platform("spacePlatS", 2080, 405, 85, 65));
 	platforms.push(new Platform("spacePlatS", 2345, 350, 85, 65));
 	platforms.push(new Platform("spacePlatM", 2425, 510, 220, 65));
-	obstacles.push(new Obstacle(2480, 520, 120, 85,"spaceEngineL","box"));
+	obstacles.push(new Obstacle("spaceEngineL","box", 2480, 520, 120, 85));
 	platforms.push(new Platform("spacePlatS", 2655, 420, 85, 65));
-	obstacles.push(new Obstacle(2750, gameGround, 160, 95,"spaceCraterBL","box"));
-	obstacles.push(new Obstacle(2940, gameGround, 160, 45,"spaceCraterBS","box"));
-	checkpoints.push(3160)
-	//obstacles.push(new Obstacle(3815, gameHeight, 840, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 3495, 535, 85, 65));//movable
-	platforms.push(new Platform("spacePlatS", 4060, 535, 85, 65));//movable
-	items.push(new Item(coinPictures,3780, 235, 60, 70));
-	//platforms.push(new Platform("spacePlatS", 3990, 120, 85, 65));
+	//obstacles.push(new Obstacle("spaceCraterBL","box", 2750, gameGround, 160, 95));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 2940, gameGround, 160, 45));
+	checkpoints.push(2660)
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 3400, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatS", 3600, 535, 85, 65, 160, 0));			//movable
+	platforms.push(new Platform("spacePlatS", 4040, 535, 85, 65, 160, 0));			//movable
+	items.push(new Item(coinPictures,3780, 170, 60, 60));		
+	platforms.push(new Platform("spacePlatS", 3990, 120, 85, 65));
 	platforms.push(new Platform("spacePlatS", 4170, 200, 85, 65));	
-	obstacles.push(new Obstacle(4320, gameHeight, 560, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 4320, 510, 85, 65));
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 4320, gameHeight, 840, 100));
 	platforms.push(new Platform("spacePlatS", 4330, 315, 85, 65));
 	platforms.push(new Platform("spacePlatS", 4490, 445, 85, 65));
-	platforms.push(new Platform("spacePlatL", 4565, 295, 360, 65));
-	platforms.push(new Platform("spacePlatS", 4710, 520, 85, 65));
-	obstacles.push(new Obstacle(4695, 295, 55, 60,"spaceEngineS2","box"));
-	obstacles.push(new Obstacle(4870, 295, 55, 60,"spaceEngineS1","box"));	
+	platforms.push(new Platform("spacePlatL", 4565, 280, 360, 65));
+	platforms.push(new Platform("spacePlatS", 4850, 500, 85, 65, 200, 0));			//movable
+	obstacles.push(new Obstacle("spaceEngineS2","box", 4695, 280, 55, 60));
+	obstacles.push(new Obstacle("spaceEngineS1","box", 4870, 280, 55, 60));	
 	platforms.push(new Platform("spacePlatS", 5000, 205, 85, 65));
-	items.push(new Item(bluePrintShadowPictures, 5045, 210, 60, 70));
-	obstacles.push(new Obstacle(5230, gameGround, 160, 45,"spaceCraterBS","box"));
+	items.push(new Item(bluePrintShadowPictures, 5010, 140, 60, 70));
+	//obstacles.push(new Obstacle("spaceCraterBL","box", 5200, gameGround, 160, 95));
 	platforms.push(new Platform("spacePlatS", 5350, 520, 85, 65));
-	obstacles.push(new Obstacle(5425, gameGround, 160, 95,"spaceCraterBL","box"));
-	obstacles.push(new Obstacle(5880, gameHeight, 560, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 5950, 540, 85, 65));
-	platforms.push(new Platform("spacePlatS", 6100, 510, 85, 65));
-	obstacles.push(new Obstacle(6120, 515, 55, 60,"spaceEngineS2","box"));
-	platforms.push(new Platform("spacePlatS", 6250, 530, 85, 65));
-	items.push(new Item(coinShadowPictures,6460, 540, 60, 70));
-	obstacles.push(new Obstacle(6530, gameHeight, 280, 100,"spaceWaterS","hole"));
-	platforms.push(new Platform("spacePlatS", 6635, 510, 85, 65));
-	checkpoints.push(6910)
-	obstacles.push(new Obstacle(7035, gameGround, 160, 45,"spaceCraterBS","box"));
-	obstacles.push(new Obstacle(7400, gameGround, 160, 45,"spaceCraterBS","box"));
-	obstacles.push(new Obstacle(7735, gameGround, 160, 45,"spaceCraterBS","box"));
+	//obstacles.push(new Obstacle("spaceCraterBL","box", 5430, gameGround, 160, 95));
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 5860, gameHeight, 560, 100));
+	platforms.push(new Platform("spacePlatS", 5930, 540, 85, 65));
+	platforms.push(new Platform("spacePlatS", 6080, 510, 85, 65));
+	obstacles.push(new Obstacle("spaceEngineS2","box", 6100, 515, 55, 60));
+	platforms.push(new Platform("spacePlatS", 6230, 530, 85, 65));
+	items.push(new Item(coinShadowPictures,6450, 540, 60, 70));
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 6530, gameHeight, 560, 100));
+	platforms.push(new Platform("spacePlatS", 6600, 530, 85, 65));
+	platforms.push(new Platform("spacePlatS", 6750, 510, 85, 65));
+	obstacles.push(new Obstacle("spaceEngineS1","box", 6770, 515, 55, 60));
+	platforms.push(new Platform("spacePlatS", 6900, 540, 85, 65));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 7200, gameGround, 160, 45));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 7530, gameGround, 160, 45));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 7830, gameGround, 160, 45));
 
 
 	// 6. SEMESTER
-
-	platforms.push(new Platform("spacePlatL", 8290, 200, 360, 65));
-	items.push(new Item(coinShadowPictures, 8440, 140, 60, 70));
-	obstacles.push(new Obstacle(8435, gameHeight, 560, 100,"spaceWaterM","hole"));	
-	platforms.push(new Platform("spacePlatS", 8560, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 8850, 460, 85, 65));
-	platforms.push(new Platform("spacePlatS", 8930, 225, 85, 65));
-	obstacles.push(new Obstacle(9035, gameHeight, 840, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 9120, 350, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9290, 500, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9525, 525, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9745, 510, 85, 65));
-	obstacles.push(new Obstacle(9905, gameHeight, 560, 100,"spaceWaterM","hole"));	
-	platforms.push(new Platform("spacePlatS", 9940, 315, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9990, 510, 85, 65));
-	platforms.push(new Platform("spacePlatS", 10165, 190, 85, 65));
-	platforms.push(new Platform("spacePlatS", 10185, 405, 85, 65));
-	platforms.push(new Platform("spacePlatS", 10420, 520, 85, 65));
+	checkpoints.push(7550)
+	platforms.push(new Platform("spacePlatM", 8390, 200, 220, 65));
+	items.push(new Item(coinShadowPictures, 8470, 140, 60, 70));
+	//obstacles.push(new Obstacle("spaceWaterM","hole", 8435, gameHeight, 560, 100));	
+	platforms.push(new Platform("spacePlatS", 8520, 520, 85, 65));
+	platforms.push(new Platform("spacePlatS", 8755, 450, 85, 65));
+	platforms.push(new Platform("spacePlatS", 9010, 330, 85, 65, 400, 0));				//movable
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 9035, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatS", 9235, 505, 85, 65));
+	platforms.push(new Platform("spacePlatS", 9290, 280, 85, 65));
+	obstacles.push(new Obstacle("spaceEngineS2","box", 9305, 280, 55, 60));
+	platforms.push(new Platform("spacePlatM", 9395, 225, 220, 65));
+	platforms.push(new Platform("spacePlatS", 9505, 510, 85, 65));
+	platforms.push(new Platform("spacePlatS", 9650, 200, 85, 65));
+	obstacles.push(new Obstacle("spaceEngineS1","box", 9665, 200, 55, 60));
+	//obstacles.push(new Obstacle("spaceWaterM","hole", 9905, gameHeight, 560, 100));	
+	platforms.push(new Platform("spacePlatS", 9940, 505, 85, 65, 300, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 10060, 185, 85, 65, 300, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 10370, 525, 85, 65));
 	platforms.push(new Platform("spacePlatL", 10480, 210, 360, 65));
-	obstacles.push(new Obstacle(10585, 220, 55, 60,"spaceEngineS2","box"));
+	obstacles.push(new Obstacle("spaceEngineS2","box", 10490, 210, 55, 60));
 	checkpoints.push(10680)
-	obstacles.push(new Obstacle(10740, 220, 55, 60,"spaceEngineS1","box"));	
-	//items.push(new Item(passportShadowPictures, 10810, 220, 55, 70));
-	obstacles.push(new Obstacle(10880, gameGround, 160, 45,"spaceCraterBS","box"));
+	obstacles.push(new Obstacle("spaceEngineS1","box", 10660, 210, 55, 60));	
+	items.push(new Item(passportShadowPictures, 10765, 135, 75, 85));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 10880, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 11110, 515, 85, 65));
-	obstacles.push(new Obstacle(11230, gameGround, 160, 95,"spaceCraterBL","box"));
-	obstacles.push(new Obstacle(11590, gameGround, 160, 45,"spaceCraterBS","box"));
-	obstacles.push(new Obstacle(12140, gameHeight, 840, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatM", 12185, 505, 220, 65));
-	platforms.push(new Platform("spacePlatS", 12575, 400, 85, 65));//movable
-	platforms.push(new Platform("spacePlatS", 12585, 220, 85, 65));
-	platforms.push(new Platform("spacePlatS", 12740, 480, 85, 65));
-	platforms.push(new Platform("spacePlatS", 12795, 130, 85, 65));
-	platforms.push(new Platform("spacePlatL", 12805, 300, 360, 65));
-	obstacles.push(new Obstacle(12990, 310, 55, 60,"spaceEngineS2","box"));
-	platforms.push(new Platform("spacePlatS", 12930, 510, 85, 65));
-	obstacles.push(new Obstacle(13000, gameHeight, 840, 100,"spaceWaterL","hole"));
-	platforms.push(new Platform("spacePlatS", 13055, 130, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13155, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13295, 135, 85, 65));
-	items.push(new Item(certificateShadowPictures, 13300, 75, 70, 70));
+	//obstacles.push(new Obstacle("spaceCraterBL","box", 11230, gameGround, 160, 95));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 11590, gameGround, 160, 45));
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 12140, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatM", 12220, 495, 220, 65));
+	platforms.push(new Platform("spacePlatS", 12605, 400, 85, 65, 280, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 12815, 140, 85, 65, 420, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 12805, 520, 85, 65));				
+	platforms.push(new Platform("spacePlatM", 12860, 300, 220, 65));
+	obstacles.push(new Obstacle("spaceEngineS2","box", 12953, 310, 55, 60));
+	//obstacles.push(new Obstacle("spaceWaterL","hole", 13000, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatS", 13255, 520, 85, 65, 280, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 13145, 220, 85, 65, 120, 1));				//movable
+	platforms.push(new Platform("spacePlatS", 13290, 135, 85, 65));
+	items.push(new Item(certificateShadowPictures, 13295, 75, 70, 70));
 	platforms.push(new Platform("spacePlatS", 13370, 405, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13665, 520, 85, 65));
-	items.push(new Item(coinPictures, 13890, 400, 60, 60));
-	obstacles.push(new Obstacle(14130, gameGround, 160, 45,"spaceCraterBS","box"));
+	platforms.push(new Platform("spacePlatS", 13650, 520, 85, 65));
+	platforms.push(new Platform("spacePlatS", 13775, 290, 85, 65, 120, 1));				//movable
+	items.push(new Item(coinPictures, 140000, 105, 60, 60));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 13900, gameGround, 160, 45));
+	platforms.push(new Platform("spacePlatS", 14055, 510, 85, 65));
+	obstacles.push(new Obstacle("spaceCraterBS","box", 14130, gameGround, 160, 45));
 }
 
 
@@ -1086,7 +1093,7 @@ function drawPlatforms() {
 		var platform = platforms[index];	
 		var picture = document.getElementById(platform.pictureId)
 		if (platform.moveArea != 0) {
-			platform.movePlatform(2)
+			platform.movePlatform(4)
 			if (playersPlatform == platform) {
 			
 				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.onPlatform == true && player.playerWantsDownFromPlatform == false) {
