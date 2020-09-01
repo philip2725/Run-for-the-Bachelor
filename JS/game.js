@@ -43,13 +43,15 @@ class Lecturer {
 		var charHeight = 152;
 		this.charWidth = charWidth;																	
 		this.charHeight = charHeight;						
-		this.charX = gameWidth*0.5-(charWidth/2);	
+		this.charX = gameWidth;	
 		this.charY = gameHeight*0.87-charHeight;	
 		this.charPictureWL = [];
-		this.charPictureIL = [];					
+		this.charPictureIL = [];
+		this.speachBubbles = [];					
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxIL = 0;				
-		this.movementSpeed = 60;					
+		this.movementSpeed = 60;				
+		this.startAnimation = false;
 		this.lecturerImg;								
 		//move Option	
 		this.ground = this.charY;																															
@@ -70,7 +72,8 @@ class Lecturer {
 			'MUIL07', 'MUIL08', 'MUIL09', 'MUIL10', 'MUIL11', 'MUIL12', 
 			'MUIL13', 'MUIL14', 'MUIL15', 'MUIL16', 'MUIL17', 'MUIL18', 
 			'MUIL19', 'MUIL20'];
-			}
+			this.speachBubbles = ['MUEB01', 'MUEB02', 'MUEB03', 'MUEB04', 'MUEB05']	
+		}
 
 		if(level == 2){		
 			//Baeumle-Courth								
@@ -82,6 +85,7 @@ class Lecturer {
 			'BCIL07', 'BCIL08', 'BCIL09', 'BCIL10', 'BCIL11', 'BCIL12', 
 			'BCIL13', 'BCIL14', 'BCIL15', 'BCIL16', 'BCIL17', 'BCIL18', 
 			'BCIL19', 'BCIL20'];	
+			this.speachBubbles = ['BAEB01', 'BAEB02', 'BAEB03', 'BAEB04', 'BAEB05']
 			}
 
 		if(level == 3){		
@@ -94,6 +98,7 @@ class Lecturer {
 			'BRIL07', 'BRIL08', 'BRIL09', 'BRIL10', 'BRIL11', 'BRIL12', 
 			'BRIL13', 'BRIL14', 'BRIL15', 'BRIL16', 'BRIL17', 'BRIL18', 
 			'BRIL19', 'BRIL20'];	
+			this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
 			}
 	}
 }
@@ -136,7 +141,8 @@ class Player {
 		this.playerWantsDownFromPlatform = false; 												//tells whether the player wants down from the platform
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
 		var fallIntervalHandle;	
-		this.lives = 3;																
+		this.lives = 3;			
+		this.grade = 4;													
 	}
 
 	drawPlayer() {
@@ -840,7 +846,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 2)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -870,6 +876,7 @@ function init(){
 		load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
+	//lecturer.startAnimation = true;
 }
 
 function draw(){
@@ -879,7 +886,8 @@ function draw(){
 	drawPlatforms();	
 	drawItems();																				//Obstacle Images
 	drawObstacles();
-	player.drawPlayer();																				//character Image																					
+	player.drawPlayer();																				//character Image	
+	drawLecturerAnimation();																				
 	checkGameState();
 
 	drawMenuIcon();
@@ -949,7 +957,8 @@ function checkGameState(){
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(environmentIntervalHandle);
-		drawFinishMenu()
+		lecturer.startAnimation = true
+		//drawFinishMenu();
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(environmentIntervalHandle);
@@ -1203,6 +1212,41 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureJL[player.currentPictureIdxJL]);
 	}
 
+}
+
+function drawLecturerAnimation(){
+	if(lecturer.startAnimation == true){
+		if(lecturer.charX > gameWidth/2 + 100 ){
+			changeLecturerPicture("WL");
+			lecturer.charX -= 5
+		}else {
+			changeLecturerPicture("IL");
+			var picture = document.getElementById(lecturer.speachBubbles[3]);
+			ctx.drawImage(picture, 225, 100, 750, 100);
+	}
+		lecturer.drawLecturer()
+	}
+}
+
+function changeLecturerPicture(animation){
+	if(animation == "WL"){
+		//WL = Walk Left
+		if(lecturer.charPictureWL[lecturer.currentPictureIdxWL] == lecturer.charPictureWL[lecturer.charPictureWL.length - 1]){
+			lecturer.currentPictureIdxWL = 0;
+		}else{
+			lecturer.currentPictureIdxWL++;
+		}
+		lecturer.lecturerImg = document.getElementById(lecturer.charPictureWL[lecturer.currentPictureIdxWL]);
+	}else if(animation == "IL"){
+		//IL = Idle Left
+		if(lecturer.charPictureIL[lecturer.currentPictureIdxIL] == lecturer.charPictureIL[lecturer.charPictureIL.length - 1]){
+			lecturer.currentPictureIdxIL = 0;
+		}else{
+			lecturer.currentPictureIdxIL++;
+		}
+		lecturer.lecturerImg = document.getElementById(lecturer.charPictureIL[lecturer.currentPictureIdxIL]);
+	}
+	
 }
 
 function updateEnvironment(backgroundMoveSpeed){
