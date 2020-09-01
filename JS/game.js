@@ -614,33 +614,29 @@ const gameState = {
 function createLevel1(){
 	background = document.getElementById("cityImage");
 	audioPlayer = document.getElementById("cityMusic");
-	audioPlayer.volume = 0.4;
+	audioPlayer.volume = 0.3;
 
 
 	// 1. SEMESTER
 	checkpoints.push(0);
-	//demo for moving platforms
-	platforms.push(new Platform("cityPlatS", 1300, 500, 85, 65, 400, 1));
-	platforms.push(new Platform("cityPlatS", 700, 500, 85, 65, 100, 0));
-	//
-	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 1225, gameGround, 145, 50));
+	obstacles.push(new Obstacle("cityPowerbox","box", 1930, gameGround, 70, 85));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
-	obstacles.push(new Obstacle(2615, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 2615, gameGround, 145, 50));
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
 	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
 	items.push(new Item(grammarShadowPictures,3985, 87, 60, 80));
 	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
-	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
+	obstacles.push(new Obstacle("cityWaterS","hole", 4880, gameHeight, 285, 95));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
 	items.push(new Item(coinPictures,4990, 440, 60, 60));
 	checkpoints.push(5070);
-	obstacles.push(new Obstacle(6045, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle("cityPowerbox","box", 6045, gameGround, 70, 85));
 	platforms.push(new Platform("cityPlatS", 6400, 295, 85, 65));
 	items.push(new Item(coinPictures,6410, 215, 60, 60));
 	platforms.push(new Platform("cityPlatM", 6720, 180, 220, 65));
-	obstacles.push(new Obstacle(6940, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 6940, gameGround, 145, 50));
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
 	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
 	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
@@ -648,134 +644,140 @@ function createLevel1(){
 
 	// 2. SEMESTER
 	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
-	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterGrayL","hole"));
+	obstacles.push(new Obstacle("cityWaterGrayL","hole", 8800, gameHeight, 835, 95));
 	platforms.push(new Platform("cityPlatS", 8840, 370, 85, 65));
-	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 9085, gameGround - 330, 145, 50));
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
 	items.push(new Item(glassesShadowPictures,9315, 480, 60, 70));
 	checkpoints.push(9550);
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
-	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(10830, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 10420, gameGround, 145, 50));
+	obstacles.push(new Obstacle("cityPowerbox","box", 10830, gameGround, 70, 85));
 	items.push(new Item(coinPictures, 10920, 165, 60, 60));
 	platforms.push(new Platform("cityPlatS", 11080, 290, 85, 65));
 	platforms.push(new Platform("cityPlatM", 11210, 385, 220, 65));
 	platforms.push(new Platform("cityPlatM", 11490, 500, 220, 65));
 	platforms.push(new Platform("cityPlatS", 11780, 375, 85, 65));
-	obstacles.push(new Obstacle(11850, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 11850, gameGround, 145, 50));
 	platforms.push(new Platform("cityPlatS", 11990, 275, 85, 65));
 	platforms.push(new Platform("cityPlatL", 12250, 220, 360, 65));	
-	obstacles.push(new Obstacle(12360, 225, 160, 56,"cityOilBarrel","box"));
-	obstacles.push(new Obstacle(12420, gameHeight, 560, 95,"cityWaterM","hole"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 12360, 225, 145, 50));
+	obstacles.push(new Obstacle("cityWaterM","hole", 12420, gameHeight, 560, 95));
 	platforms.push(new Platform("cityPlatS", 12550, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
 	checkpoints.push(13135);
 	items.push(new Item(scriptPictures,13300, 65, 90, 100));
-	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
+	obstacles.push(new Obstacle("cityWaterS","hole", 13370, gameHeight, 285, 95));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
-	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
+	obstacles.push(new Obstacle("cityPowerbox","box", 13915, gameGround, 70, 85));
 	items.push(new Item(coinPictures, 13900, 400, 60, 60));
-	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
+	obstacles.push(new Obstacle("cityOilBarrel","box", 14380, gameGround, 145, 50));
 }
 
 
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("jungleMusic");
-	audioPlayer.volume = 0.4;
+	audioPlayer.volume = 0.3;
 
 
 	// 3. SEMESTER
 	checkpoints.push(0)
 	platforms.push(new Platform("junglePlatS", 1165, 485, 85, 85));
-	obstacles.push(new Obstacle(1200, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 1200, gameGround, 150, 35));
 	platforms.push(new Platform("junglePlatS", 1325, 400, 85, 85));
-	obstacles.push(new Obstacle(1400, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 1400, gameGround, 150, 35));
 	platforms.push(new Platform("junglePlatS", 1510, 320, 85, 85));
-	obstacles.push(new Obstacle(1590, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 1590, gameGround, 150, 35));
 	platforms.push(new Platform("junglePlatS", 1700, 240, 85, 85));
-	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
-	items.push(new Item(coinPictures,1850, 120, 60, 60));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 1785, gameGround, 150, 35));
+	items.push(new Item(coinPictures,1820, 100, 60, 60));
 	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
 	checkpoints.push(1700);
-	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(3140, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
+	obstacles.push(new Obstacle("jungleSpikesL","box",2540, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box",2855, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box",3140, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleWaterL","hole",3820, gameHeight, 830, 96));
 	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
-	obstacles.push(new Obstacle(3850, 530, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(4070, 530, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 3850, 530, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 4070, 530, 50, 35));
 	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
-	obstacles.push(new Obstacle(4165, 420, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 4165, 420, 150, 35));
 	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
 	items.push(new Item(coinPictures,4540, 50, 60, 60));
 	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
-	obstacles.push(new Obstacle(4640, 300, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 4640, 300, 50, 35));
 	checkpoints.push(4940);
-	obstacles.push(new Obstacle(5290, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(6070, gameHeight, 830, 96,"jungleWaterL","hole"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 5290, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleWaterL","hole", 6070, gameHeight, 830, 96));
 	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
-	obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 6160, 495, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 6390, 495, 50, 35));
 	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
-	obstacles.push(new Obstacle(6510, 370, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(6560, 370, 180, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 6510, 370, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 6560, 370, 180, 35));
 	platforms.push(new Platform("junglePlatS", 6280, 200, 85, 85));
 	platforms.push(new Platform("junglePlatM", 5940, 130, 220, 85));
-	obstacles.push(new Obstacle(6100, 140, 45, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 6100, 140, 45, 35));
 	items.push(new Item(coinPictures,5780, 100, 60, 60));
 	checkpoints.push(7520);
 
 	// 4. SEMESTER
-	obstacles.push(new Obstacle(8260, 380, 50, 35,"jungleSpikesS","box"));
-	platforms.push(new Platform("junglePlatM", 8260, 370, 220, 85));
-	items.push(new Item(laptopShadowPictures,8335, 300,  80, 75));
-	obstacles.push(new Obstacle(8430, 380, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 8260, 305, 50, 35));
+	platforms.push(new Platform("junglePlatM", 8260, 300, 220, 85));
+	items.push(new Item(laptopShadowPictures,8335, 230,  80, 75));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 8430, 305, 50, 35));
 	platforms.push(new Platform("junglePlatS", 8550, 240, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8760, 290, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8985, 365, 85, 85));
-	obstacles.push(new Obstacle(9040, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 9040, gameGround, 150, 35));
 	platforms.push(new Platform("junglePlatS", 9200, 365, 85, 85));
 	platforms.push(new Platform("junglePlatS", 9425, 430, 85, 85));
 	platforms.push(new Platform("junglePlatS", 9575, 515, 85, 85));
-	obstacles.push(new Obstacle(9480, gameHeight, 285, 96,"jungleWaterS","hole"));
+	obstacles.push(new Obstacle("jungleWaterS","hole", 9480, gameHeight, 285, 96));
 	platforms.push(new Platform("junglePlatS", 9745, 420, 85, 85));
 	platforms.push(new Platform("junglePlatS", 9880, 343, 85, 85));
 	platforms.push(new Platform("junglePlatS", 10035, 265, 85, 85));
-	obstacles.push(new Obstacle(9990, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(10135, gameHeight, 555, 96,"jungleWaterM","hole"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 9990, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleWaterM","hole", 10135, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
-	platforms.push(new Platform("junglePlatS", 10520, 500, 85, 85));
+	platforms.push(new Platform("junglePlatS", 10370, 500, 85, 85, 220, 0));
 	items.push(new Item(dummiesPictures,10360, 400, 80, 80));
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
-	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
-	checkpoints.push(11180);
-	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
-	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
-	platforms.push(new Platform("junglePlatS", 11885, 485, 85, 85));
-	obstacles.push(new Obstacle(12550, gameGround, 150, 35,"jungleSpikesL","box"));
-	obstacles.push(new Obstacle(12875, gameGround, 150, 35,"jungleSpikesL","box"));
+	checkpoints.push(10750);
+	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
+	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));
+	platforms.push(new Platform("junglePlatS", 11850, 490, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 490, 50, 35));
+	platforms.push(new Platform("junglePlatS", 11850, 210, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 220, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
 	items.push(new Item(coinPictures,12915, 400, 60, 60));
-	obstacles.push(new Obstacle(13200, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 13200, gameGround, 150, 35));
 	checkpoints.push(13430);
-	obstacles.push(new Obstacle(13600, gameHeight, 830, 96,"jungleWaterL","hole"));
-	platforms.push(new Platform("junglePlatM", 13725, 500, 220, 85)); //movable
-	platforms.push(new Platform("junglePlatS", 13975, 350, 85, 85));
-	items.push(new Item(blackberryPictures,14000, 200, 50, 60));
-	obstacles.push(new Obstacle(14560, gameGround, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(14735, gameGround, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle("jungleWaterL","hole", 13600, gameHeight, 830, 96));
+	platforms.push(new Platform("junglePlatS", 13725, 480, 85, 85)); 
+	platforms.push(new Platform("junglePlatS", 13550, 315, 85, 85)); 
+	platforms.push(new Platform("junglePlatS", 14000, 480, 85, 85)); 
+	platforms.push(new Platform("junglePlatS", 14250, 480, 85, 85)); 
+	platforms.push(new Platform("junglePlatS", 14050, 150, 85, 85, 280, 0));//movable
+	items.push(new Item(blackberryPictures,14550, 100, 50, 60));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 14460, gameGround, 150, 35));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 14735, gameGround, 150, 35));
 }
 
 function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("spaceMusic");
-	audioPlayer.volume = 0.35;
+	audioPlayer.volume = 0.25;
 
 
 	// 5. SEMESTER
@@ -891,7 +893,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
