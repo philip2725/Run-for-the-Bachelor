@@ -4,13 +4,13 @@
 //*************** Functions ******************//
 
 //  function to change the visibility of an element
-function toggle(txt) {
-    var txt = document.getElementById(txt);
+function visSwitch(element) {
+    var ele = document.getElementById(element);
    
-    if (txt.style.display == "block") {
-        txt.style.display = "none"}
+    if (ele.style.display == "block") {
+        ele.style.display = "none"}
     else {
-        txt.style.display = "block"
+        ele.style.display = "block"
     }
 }
 

@@ -170,8 +170,10 @@ class Player {
 		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
 			if(object.type == "hole"){
 				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
+				playSoundFX(waterdrop);
 				setTimeout(function(){
 					player.lives -= 1;
+					playSoundFX(hurtsound);
 					if(player.lives == 0){
 						gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
 					}else{
@@ -463,7 +465,7 @@ var moveSpeedHelper = 0;												//helps changeItemsPicture() to draw Items j
 var coinShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
 'CPS07', 'CPS08', 'CPS09', 'CPS10'];
 
-var blackBerryShadowPictures = ['BBS01', 'BBS02', 'BBS03', 'BBS04', 'BBS05', 'BBS06', 
+var blackberryShadowPictures = ['BBS01', 'BBS02', 'BBS03', 'BBS04', 'BBS05', 'BBS06', 
 'BBS07', 'BBS08', 'BBS09', 'BBS10'];
 
 var bluePrintShadowPictures = ['BPS01', 'BPS02', 'BPS03', 'BPS04', 'BPS05', 'BPS06', 
@@ -509,6 +511,9 @@ var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06',
 var grammarPictures = ['GR01', 'GR02', 'GR03', 'GR04', 'GR05', 'GR06', 
 'GR07', 'GR08', 'GR09', 'GR10'];
 
+var dummiesPictures = ['DU01', 'DU02', 'DU03', 'DU04', 'DU05', 'DU06', 
+'DU07', 'DU08', 'DU09', 'DU10'];
+
 var laptopPictures = ['LT01', 'LT02', 'LT03', 'LT04', 'LT05', 'LT06', 
 'LT07', 'LT08', 'LT09', 'LT10'];
 
@@ -524,16 +529,55 @@ var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06',
 
 //platforms 
 class Platform {
-	constructor(pictureId,x,y,width,height) {
-		this.x = x;
-		this.y = y;
+	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {
+		var xPos = x;
+		this.x = xPos;
+		this.helperX = xPos;
+		var yPos = y;
+		this.y = yPos;
+		this.helperY = yPos;
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
+		this.moveArea = moveArea;
+		this.moveToRight = false;
+		this.moveToBottom = false;
+		this.moveDirection = moveDirection;
 	}
 
 	update(direcion) {
-		this.x += direcion;																	//movement of platform when player goes to right
+		this.x += direcion;	
+		this.helperX += direcion;																//movement of platform when player goes to right
+	}
+
+	movePlatform(direction) {
+		if (this.moveDirection == 0) {
+			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) {
+				this.x -= direction;
+				if (this.helperX - this.x == this.moveArea) {
+					this.moveToRight = true;
+				}
+			} else {
+				this.x += direction;
+				if (this.x - this.helperX == this.moveArea) {
+					this.moveToRight = false;
+				}
+				
+			} 
+		} else {
+			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
+				this.y -= direction;
+				if (this.helperY - this.y == this.moveArea || this.y == 0) {
+					this.moveToBottom = true;
+				}
+			} else {
+				this.y += direction;
+				if (this.y - this.helperY == this.moveArea || this.y == gameHeight*0.87- this.height) {
+					this.moveToBottom = false;
+				}
+			} 
+		}
+		
 	}
 
 	getTop() {
@@ -571,15 +615,16 @@ const gameState = {
 
 function createLevel1(){
 	background = document.getElementById("cityImage");
-	audioPlayer = document.getElementById("backgroundAudio");
-	audioPlayer.volume = 0.1;
-	var jumpsound = document.getElementById("jumpdemo");
-	var gameoversound = document.getElementById("gameoversound");
-	var runningsound = document.getElementById("runningsound");
-	var collectcoin = document.getElementById("collectcoin");
+	audioPlayer = document.getElementById("cityMusic");
+	audioPlayer.volume = 0.4;
+
 
 	// 1. SEMESTER
 	checkpoints.push(0);
+	//demo for moving platforms
+	platforms.push(new Platform("cityPlatS", 1300, 500, 85, 65, 400, 1));
+	platforms.push(new Platform("cityPlatS", 700, 500, 85, 65, 100, 0));
+	//
 	obstacles.push(new Obstacle(1225, gameGround, 160, 56,"cityOilBarrel","box"));
 	obstacles.push(new Obstacle(1930, gameGround, 75, 95,"cityPowerbox","box"));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
@@ -587,7 +632,7 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 3640, 500, 85, 65));
 	platforms.push(new Platform("cityPlatM", 3910, 425, 220, 65));
 	platforms.push(new Platform("cityPlatS", 3975, 160, 85, 65));
-	items.push(new Item(grammarShadowPictures,3985, 85, 60, 80));
+	items.push(new Item(grammarShadowPictures,3985, 87, 60, 80));
 	platforms.push(new Platform("cityPlatS", 4225, 275, 85, 65));
 	obstacles.push(new Obstacle(4880, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 4980, 520, 85, 65));
@@ -601,15 +646,16 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
 	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
 	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
+	checkpoints.push(8060);
 
 	// 2. SEMESTER
 	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
-	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterL","hole"));
+	obstacles.push(new Obstacle(8800, gameHeight, 835, 95,"cityWaterGrayL","hole"));
 	platforms.push(new Platform("cityPlatS", 8840, 370, 85, 65));
 	obstacles.push(new Obstacle(9085, gameGround - 330, 160, 56,"cityOilBarrel","box"));
 	platforms.push(new Platform("cityPlatL", 8995, 280, 360, 65));
 	platforms.push(new Platform("cityPlatS", 9300, 540, 85, 65));
-	items.push(new Item(glassesShadowPictures,9315, 490, 60, 70));
+	items.push(new Item(glassesShadowPictures,9315, 480, 60, 70));
 	checkpoints.push(9550);
 	platforms.push(new Platform("cityPlatS", 9565, 495, 85, 65));
 	obstacles.push(new Obstacle(10420, gameGround, 160, 56,"cityOilBarrel","box"));
@@ -629,23 +675,20 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
 	checkpoints.push(13135);
-	items.push(new Item(scriptPictures,13300, 65, 60, 70));
+	items.push(new Item(scriptPictures,13300, 65, 90, 100));
 	obstacles.push(new Obstacle(13370, gameHeight, 285, 95,"cityWaterS","hole"));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
 	obstacles.push(new Obstacle(13915, gameGround, 75, 95,"cityPowerbox","box"));
-	items.push(new Item(coinPictures, 13930, 375, 60, 60));
+	items.push(new Item(coinPictures, 13900, 400, 60, 60));
 	obstacles.push(new Obstacle(14380, gameGround, 160, 56,"cityOilBarrel","box"));
 }
 
 
 function createLevel2(){
 	background = document.getElementById("jungleImage");
-	audioPlayer = document.getElementById("backgroundAudio");
-	audioPlayer.volume = 0.1;
-	var jumpsound = document.getElementById("jumpdemo");
-	var gameoversound = document.getElementById("gameoversound");
-	var runningsound = document.getElementById("runningsound");
-	var collectcoin = document.getElementById("collectcoin");
+	audioPlayer = document.getElementById("jungleMusic");
+	audioPlayer.volume = 0.4;
+
 
 	// 3. SEMESTER
 	checkpoints.push(0)
@@ -659,9 +702,10 @@ function createLevel2(){
 	obstacles.push(new Obstacle(1785, gameGround, 150, 35,"jungleSpikesL","box"));
 	items.push(new Item(coinPictures,1850, 120, 60, 60));
 	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
-	checkpoints.push(2180);
+	checkpoints.push(1700);
 	obstacles.push(new Obstacle(2540, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(2855, gameGround, 150, 35,"jungleSpikesL","box"));
+	obstacles.push(new Obstacle(3140, gameGround, 150, 35,"jungleSpikesL","box"));
 	obstacles.push(new Obstacle(3820, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
 	obstacles.push(new Obstacle(3855, 530, 50, 35,"jungleSpikesS","box"));
@@ -681,16 +725,18 @@ function createLevel2(){
 	obstacles.push(new Obstacle(6160, 495, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(6390, 495, 50, 35,"jungleSpikesS","box"));
 	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
-	obstacles.push(new Obstacle(6490, 370, 50, 35,"jungleSpikesS","box"));
-	obstacles.push(new Obstacle(6645, 370, 50, 35,"jungleSpikesS","box"));
-	platforms.push(new Platform("junglePlatL", 6080, 200, 360, 85));
-	items.push(new Item(coinPictures,6070, 100, 60, 60));
-	//checkpoints.push(7820);
+	obstacles.push(new Obstacle(6510, 370, 50, 35,"jungleSpikesS","box"));
+	obstacles.push(new Obstacle(6560, 370, 180, 35,"jungleSpikesL","box"));
+	platforms.push(new Platform("junglePlatS", 6280, 200, 85, 85));
+	platforms.push(new Platform("junglePlatM", 5940, 130, 220, 85));
+	obstacles.push(new Obstacle(6100, 140, 45, 35,"jungleSpikesS","box"));
+	items.push(new Item(coinPictures,5780, 100, 60, 60));
+	checkpoints.push(7520);
 
 	// 4. SEMESTER
 	obstacles.push(new Obstacle(8260, 380, 50, 35,"jungleSpikesS","box"));
 	platforms.push(new Platform("junglePlatM", 8260, 370, 220, 85));
-	// INSERT LAPTOP
+	items.push(new Item(laptopShadowPictures,8335, 300,  80, 75));
 	obstacles.push(new Obstacle(8430, 380, 50, 35,"jungleSpikesS","box"));
 	platforms.push(new Platform("junglePlatS", 8550, 240, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8760, 290, 85, 85));
@@ -707,11 +753,11 @@ function createLevel2(){
 	obstacles.push(new Obstacle(10135, gameHeight, 555, 96,"jungleWaterM","hole"));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
 	platforms.push(new Platform("junglePlatS", 10520, 500, 85, 85));
-	// INSERT DUMMIES CODING
+	items.push(new Item(dummiesPictures,10360, 400, 80, 80));
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle(10790, gameGround, 150, 35,"jungleSpikesL","box"));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
-	//checkpoints.push(11180);
+	checkpoints.push(11180);
 	obstacles.push(new Obstacle(11495, gameHeight, 555, 96,"jungleWaterM","hole"));
 	platforms.push(new Platform("junglePlatS", 11605, 485, 85, 85));
 	platforms.push(new Platform("junglePlatS", 11885, 485, 85, 85));
@@ -719,23 +765,20 @@ function createLevel2(){
 	obstacles.push(new Obstacle(12875, gameGround, 150, 35,"jungleSpikesL","box"));
 	items.push(new Item(coinPictures,12915, 400, 60, 60));
 	obstacles.push(new Obstacle(13200, gameGround, 150, 35,"jungleSpikesL","box"));
-	//checkpoints.push(13430);
+	checkpoints.push(13430);
 	obstacles.push(new Obstacle(13600, gameHeight, 830, 96,"jungleWaterL","hole"));
 	platforms.push(new Platform("junglePlatM", 13725, 500, 220, 85)); //movable
 	platforms.push(new Platform("junglePlatS", 13975, 350, 85, 85));
-	// INSERT BLACKBERRY
+	items.push(new Item(blackberryPictures,14000, 200, 50, 60));
 	obstacles.push(new Obstacle(14560, gameGround, 50, 35,"jungleSpikesS","box"));
 	obstacles.push(new Obstacle(14735, gameGround, 50, 35,"jungleSpikesS","box"));
 }
 
 function createLevel3(){
 	background = document.getElementById("spaceImage");
-	audioPlayer = document.getElementById("backgroundAudio");
-	audioPlayer.volume = 0.1;
-	var jumpsound = document.getElementById("jumpdemo");
-	var gameoversound = document.getElementById("gameoversound");
-	var runningsound = document.getElementById("runningsound");
-	var collectcoin = document.getElementById("collectcoin");
+	audioPlayer = document.getElementById("spaceMusic");
+	audioPlayer.volume = 0.35;
+
 
 	// 5. SEMESTER
 	checkpoints.push(0)
@@ -1022,6 +1065,7 @@ function checkCollision() {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
 			player.lives -= 1;
+			playSoundFX(hurtsound);
 			if(player.lives == 0){
 				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
 			}else{
@@ -1037,9 +1081,12 @@ function checkCollision() {
 		if(item.collected == false){
 			if (player.detectCollision(item)) {
 				item.collected = true;
-				if(item.type == "coin"){
+				
+				if(item.pictures == coinPictures || item.pictures == coinShadowPictures){
 					collectCreditpoints += creditsPerCoin;
-					playSoundFX(collectcoin)
+					playSoundFX(collectcoin);
+				}else {
+					playSoundFX(collectitem);
 				}
 				break;
 			}
@@ -1053,6 +1100,17 @@ function drawPlatforms() {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index];	
 		var picture = document.getElementById(platform.pictureId)
+		if (platform.moveArea != 0) {
+			platform.movePlatform(2)
+			if (playersPlatform == platform) {
+			
+				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.onPlatform == true && player.playerWantsDownFromPlatform == false) {
+					player.charY = platform.y - player.charHeight;
+					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+				}
+				checkPlatforms()
+			}
+		}
 		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
 		//drawRect(platform.x,platform.y,platform.width,platform.height)
 	}
@@ -1329,7 +1387,7 @@ function keyDown(event){
 			// 	player.jumpHigh = player.helperJumpHigh;
 			// }
 			if(player.jumpingIntervalHandle == 0) player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed)
-			playSoundFX(jumpdemo);
+			playSoundFX(jumpsound);
 			break;
 		case 39:
 			// Right-Arrow Pressed
