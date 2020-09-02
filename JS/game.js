@@ -260,6 +260,8 @@ class Player {
 			'BIL27', 'BIL28', 'BIL29', 'BIL30', 'BIL31', 'BIL32', 
 			'BIL33', 'BIL34', 'BIL35', 'BIL36', 'BIL37', 'BIL38', 
 			'BIL39', 'BIL40'];	
+
+			this.charWidth = 100;
 			}
 
 		if(gender == 3){		
@@ -288,6 +290,8 @@ class Player {
 			'BIL47', 'BIL48', 'BIL49', 'BIL50', 'BIL51', 'BIL52', 
 			'BIL53', 'BIL54', 'BIL55', 'BIL56', 'BIL57', 'BIL58', 
 			'BIL59', 'BIL60'];	
+			
+			this.charWidth = 100;
 			}
 	
 		if(gender == 4){ 
@@ -342,6 +346,7 @@ class Player {
 			'GIL27', 'GIL28', 'GIL29', 'GIL30', 'GIL31', 'GIL32', 
 			'GIL33', 'GIL34', 'GIL35', 'GIL36', 'GIL37', 'GIL38', 
 			'GIL39', 'GIL40'];	
+			this.charWidth = 100;
 			}
 
 		if(gender == 6){ 
@@ -370,6 +375,8 @@ class Player {
 			'GIL47', 'GIL48', 'GIL49', 'GIL50', 'GIL51', 'GIL52', 
 			'GIL53', 'GIL54', 'GIL55', 'GIL56', 'GIL57', 'GIL58', 
 			'GIL59', 'GIL60'];	
+
+			this.charWidth = 100;
 			}
 	}
 }
