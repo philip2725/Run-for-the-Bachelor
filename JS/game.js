@@ -565,12 +565,12 @@ class Platform {
 		} else {
 			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
 				this.y -= direction;
-				if (this.helperY - this.y == this.moveArea || this.y == 0) {
+				if (this.helperY - this.y == this.moveArea || this.y <= 0) {
 					this.moveToBottom = true;
 				}
 			} else {
 				this.y += direction;
-				if (this.y - this.helperY == this.moveArea || this.y == gameHeight*0.87- this.height) {
+				if (this.y - this.helperY == this.moveArea || this.y >= gameGround - this.height) {
 					this.moveToBottom = false;
 				}
 			} 
@@ -616,6 +616,9 @@ function createLevel1(){
 	audioPlayer = document.getElementById("cityMusic");
 	audioPlayer.volume = 0.2;
 
+	//demo
+	platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
+	platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
 
 	// 1. SEMESTER
 	checkpoints.push(0);
@@ -1105,13 +1108,15 @@ function drawPlatforms() {
 		var picture = document.getElementById(platform.pictureId)
 		if (platform.moveArea != 0) {
 			platform.movePlatform(4)
-			if (playersPlatform == platform) {
+			if (playersPlatform == platform && player.onPlatform == true) {
 			
-				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.onPlatform == true && player.playerWantsDownFromPlatform == false) {
+				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.playerWantsDownFromPlatform == false) {
 					player.charY = platform.y - player.charHeight;
 					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 				}
-				checkPlatforms()
+				if (player.jumpingIntervalHandle == 0 && platform.moveDirection == 0) {
+					checkPlatforms()
+				}
 			}
 		}
 		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
