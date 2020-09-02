@@ -631,9 +631,6 @@ function createLevel1(){
 	audioPlayer = document.getElementById("cityMusic");
 	audioPlayer.volume = 0.2;
 
-	//demo
-	//platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
-	//platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
 
 	// 1. SEMESTER
 	checkpoints.push(0);
