@@ -614,7 +614,7 @@ const gameState = {
 function createLevel1(){
 	background = document.getElementById("cityImage");
 	audioPlayer = document.getElementById("cityMusic");
-	audioPlayer.volume = 0.3;
+	audioPlayer.volume = 0.2;
 
 
 	// 1. SEMESTER
@@ -681,7 +681,8 @@ function createLevel1(){
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("jungleMusic");
-	audioPlayer.volume = 0.3;
+	audioPlayer.volume = 0.2;
+	playBackgroundAudio();
 
 
 	// 3. SEMESTER
@@ -778,6 +779,7 @@ function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("spaceMusic");
 	audioPlayer.volume = 0.25;
+	playBackgroundAudio();
 
 
 	// 5. SEMESTER
@@ -893,7 +895,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -1620,8 +1622,10 @@ function menuButtonClick(event)
 
 			if(sessionStorage.getItem("level") == 1){
 				sessionStorage.setItem("level", 2)
+				audioPlayer.pause();
 			}else if(sessionStorage.getItem("level") == 2){
 				sessionStorage.setItem("level", 3)
+				audioPlayer.pause();
 			}else if(sessionStorage.getItem("level") == 3){
 				
 			}
