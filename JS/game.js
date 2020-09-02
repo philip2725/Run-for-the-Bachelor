@@ -940,6 +940,7 @@ function init(){
 		load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
+	restartGame();
 
 }
 
@@ -1364,7 +1365,6 @@ function restartGame() {
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
 	player.grade = 4;
-	creditPoints = 0;
 	items = []
 	obstacles = []
 	platforms = []
@@ -1372,10 +1372,19 @@ function restartGame() {
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 2){
 		createLevel2();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 3){
 		createLevel3();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}
 	gameState.current = gameState.game;
 }
