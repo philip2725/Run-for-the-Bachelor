@@ -112,8 +112,8 @@ class Player {
 		var charHeight = 152;
 		this.charWidth = charWidth;																	//width of character image
 		this.charHeight = charHeight;																	//height of character image
-		this.rightPuffer = 30;																	//right puffer when an obstacle is hit
-		this.leftPuffer = 30;																	//left puffer when an obstacle is hit
+		this.rightPuffer = 40;																	//right puffer when an obstacle is hit
+		this.leftPuffer = 40;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.87-charHeight;												//Y-Point of character
 		this.charPictureWR = [];
@@ -135,16 +135,17 @@ class Player {
 		var jumpHigh = 290;
 		this.jumpHigh = jumpHigh;																//high from the ground
 		this.helperJumpHigh = jumpHigh;															//save the standard jump high because the var jumpHigh will change when player is on platform
-		this.jumpSpeed = 15;																	//lower = faster
-		this.jumpingIntervalHandle = 0;							  											//jumping Intervall ID
+		this.jumpSpeed = 6;																		
+		//this.jumpingIntervalHandle = 0;							  						    //jumping Intervall ID
+		this.isJumping = false;																	//starts jumping loop
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
 		this.onPlatform = false; 																//tells whether the player is on a platform or not
 		this.playerWantsDownFromPlatform = false; 												//tells whether the player wants down from the platform
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
-		var fallIntervalHandle;	
-		this.lives = 3;			
-		this.grade = 4;													
+		this.isfalling = false;
+		this.lives = 3;																			//bachelor-Heads at the Top	
+		this.grade = 4;																			//if you get collectables, the grade will be better
 	}
 
 	drawPlayer() {
@@ -171,17 +172,19 @@ class Player {
 		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))
 		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
 			if(object.type == "hole"){
-				this.fallIntervalHandle = setInterval(fall,this.jumpSpeed);
+				this.isfalling = true
 				playSoundFX(waterdrop);
 				setTimeout(function(){
 					player.lives -= 1;
 					playSoundFX(hurtsound);
 					if(player.lives == 0){
+						this.isfalling = false;
 						gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
 					}else{
+						this.isfalling = false;
 						restartAtCheckpoint();
 					}				
-				},500);
+				},1000);
 			}else{
 				return true;
 			}
@@ -198,10 +201,10 @@ class Player {
 			} 
 			return false;
 		} else {
-			if (player.jumpingIntervalHandle == 0 && player.charY == platform.getTop() - player.charHeight) {
+			if (this.isJumping == false && player.charY == platform.getTop() - player.charHeight) {
 				player.onPlatform = false;
 				player.playerWantsDownFromPlatform = true;
-				player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed);
+				this.isJumping = true;
 			}
 
 			if (playersPlatform != 0) {
@@ -632,8 +635,8 @@ function createLevel1(){
 	audioPlayer.volume = 0.2;
 
 	//demo
-	platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
-	platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
+	//platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
+	//platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
 
 	// 1. SEMESTER
 	checkpoints.push(0);
@@ -911,7 +914,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -951,7 +954,7 @@ function draw(){
 	drawPlatforms();	
 	drawItems();																				//Obstacle Images
 	drawObstacles();
-	player.drawPlayer();																				//character Image	
+	player.drawPlayer();																		//character Image	
 	drawLecturerAnimation();																				
 	checkGameState();
 
@@ -959,6 +962,8 @@ function draw(){
 	drawECTSLabel();
 	drawLivesLabel();
 	drawMuteButton();
+	fall();	
+	jump();	
 }
 
 
@@ -1126,11 +1131,11 @@ function drawPlatforms() {
 			platform.movePlatform(4)
 			if (playersPlatform == platform && player.onPlatform == true) {
 			
-				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.playerWantsDownFromPlatform == false) {
+				if (platform.moveDirection != 0 && player.isJumping == false && player.playerWantsDownFromPlatform == false) {
 					player.charY = platform.y - player.charHeight;
 					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 				}
-				if (player.jumpingIntervalHandle == 0 && platform.moveDirection == 0) {
+				if (this.isJumping == false && platform.moveDirection == 0) {
 					checkPlatforms()
 				}
 			}
@@ -1171,50 +1176,52 @@ function checkFinished() {
 }
 
 function jump(){
-	 
-	if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
-		player.charY -= 6
-	} else {
-		if(player.charY > player.ground){
-			player.goingDown = false;
-			player.charY = player.ground;
-			clearInterval(player.jumpingIntervalHandle);
-			checkCollision();
-			player.jumpingIntervalHandle = 0;
-			player.playerWantsDownFromPlatform = false;
-			player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
+	if(player.isJumping == true){
+		if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
+			player.charY -= player.jumpSpeed * 3
 		} else {
-			if (player.onPlatform) {
-				if (player.getBottom() < playersPlatform.getTop()) { // if the player bottom  is not at the platform top
-					player.goingDown = true;
-					player.charY += 9
-					checkPlatforms()
-				} else { // if the player lands on the platform
-					player.goingDown = false;
-					clearInterval(player.jumpingIntervalHandle);
-					checkCollision();
-					player.jumpingIntervalHandle = 0;
-					player.playerWantsDownFromPlatform = false;
-					player.charY = playersPlatform.getTop() - player.charHeight;
-					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
-				}
+			if(player.charY > player.ground){
+				player.goingDown = false;
+				player.charY = player.ground;
+				player.isJumping = false;
+				checkCollision();
+				player.playerWantsDownFromPlatform = false;
+				player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 			} else {
-				player.goingDown = true;
-				player.charY += 9
-				checkPlatforms()
-			}	
+				if (player.onPlatform) {
+					if (player.getBottom() < playersPlatform.getTop()) { // if the player bottom  is not at the platform top
+						player.goingDown = true;
+						player.charY += player.jumpSpeed * 4
+						checkPlatforms()
+					} else { // if the player lands on the platform
+						player.goingDown = false;
+						player.isJumping = false;
+						checkCollision();
+						player.playerWantsDownFromPlatform = false;
+						player.charY = playersPlatform.getTop() - player.charHeight;
+						player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+					}
+				} else {
+					player.goingDown = true;
+					player.charY += player.jumpSpeed * 4
+					checkPlatforms();
+					checkCollision();
+				}	
+			}
 		}
 	}
 }
 
 function fall(){
 	//player falls down in a hole
-	clearInterval(environmentIntervalHandle);
-	clearInterval(player.jumpingIntervalHandle);
-	if(player.charY < gameHeight){
-		player.charY += 5
-	}else{
-		clearInterval( player.fallIntervalHandle )
+	if(player.isfalling == true){
+		clearInterval(environmentIntervalHandle);
+		player.isJumping = false;
+		if(player.charY < gameHeight){
+			player.charY += 10
+		}else{
+			player.isfalling = false;
+		}
 	}
 }
 
@@ -1239,7 +1246,7 @@ function moveBackground(direction){
 function changePlayerPicture(){
 	
 	//Movement: Stay Right
-	if (player.jumpingIntervalHandle === 0 && player.walkDirection === 0 && player.isGoing === false) {
+	if (player.isJumping == false && player.walkDirection === 0 && player.isGoing === false) {
 		if(player.charPictureIR[player.currentPictureIdxIR] == player.charPictureIR[player.charPictureIR.length - 1]){
 			player.currentPictureIdxIR = 0;
 		}else{
@@ -1249,7 +1256,7 @@ function changePlayerPicture(){
 	}
 
 	//Movement: Stay Left
-	else if (player.jumpingIntervalHandle === 0 && player.walkDirection === 1 && player.isGoing === false) {
+	else if (player.isJumping == false && player.walkDirection === 1 && player.isGoing === false) {
 		if(player.charPictureIL[player.currentPictureIdxIL] == player.charPictureIL[player.charPictureIL.length - 1]){
 			player.currentPictureIdxIL = 0;
 		}else{
@@ -1259,7 +1266,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Walk Right
-	else if(player.jumpingIntervalHandle === 0 && player.walkDirection === 0 && player.isGoing === true){
+	else if(player.isJumping == false && player.walkDirection === 0 && player.isGoing === true){
 		if(player.charPictureWR[player.currentPictureIdxWR] == player.charPictureWR[player.charPictureWR.length - 1]){
 			player.currentPictureIdxWR = 0;
 		}else{
@@ -1268,7 +1275,7 @@ function changePlayerPicture(){
 		player.playerImg = document.getElementById(player.charPictureWR[player.currentPictureIdxWR]);
 	}
 	//Movement: Walk Left
-	else if(player.jumpingIntervalHandle === 0 && player.walkDirection === 1 && player.isGoing === true){
+	else if(player.isJumping == false && player.walkDirection === 1 && player.isGoing === true){
 		if(player.charPictureWL[player.currentPictureIdxWL] == player.charPictureWL[player.charPictureWL.length - 1]){
 			player.currentPictureIdxWL = 0;
 		}else{
@@ -1278,7 +1285,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Right
-	else if(player.jumpingIntervalHandle != 0 && player.walkDirection === 0) {
+	else if(player.isJumping == true && player.walkDirection === 0) {
 		if(player.charPictureJR[player.currentPictureIdxJR] == player.charPictureJR[player.charPictureJR.length - 1]){
 			player.currentPictureIdxJR = 0;
 		} else{
@@ -1288,7 +1295,7 @@ function changePlayerPicture(){
 	}
 
 	//Movment: Jump Left
-	else if(player.jumpingIntervalHandle != 0 && player.walkDirection === 1){
+	else if(player.isJumping == true && player.walkDirection === 1){
 		if(player.charPictureJL[player.currentPictureIdxJL] == player.charPictureJL[player.charPictureJL.length - 1]){
 			player.currentPictureIdxJL = 0;
 		}else{
@@ -1360,7 +1367,7 @@ function restartGame() {
 	lecturer.startAnimation = false;
 	pressAnyKey = false;
 	clearInterval(environmentIntervalHandle);
-	clearInterval(player.fallIntervalHandle);
+	player.isfalling = false;
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
@@ -1391,7 +1398,7 @@ function restartGame() {
 
 function restartAtCheckpoint() {
 	clearInterval(environmentIntervalHandle);
-	clearInterval(player.fallIntervalHandle);
+	player.isfalling = false;
 	player.charY = gameHeight*0.87-player.charHeight;
 
 	var difference = backgroundX+getLastCheckpoint();
@@ -1446,7 +1453,7 @@ function keyDown(event){
 			// } else {
 			// 	player.jumpHigh = player.helperJumpHigh;
 			// }
-			if(player.jumpingIntervalHandle == 0) player.jumpingIntervalHandle = setInterval(jump, player.jumpSpeed)
+			if(player.isJumping == false) player.isJumping = true
 			playSoundFX(jumpsound);
 			break;
 		case 39:
