@@ -631,10 +631,6 @@ function createLevel1(){
 	audioPlayer = document.getElementById("cityMusic");
 	audioPlayer.volume = 0.2;
 
-	//demo
-	platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
-	platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
-
 	// 1. SEMESTER
 	checkpoints.push(0);
 	obstacles.push(new Obstacle("cityOilBarrel","box", 1225, gameGround, 145, 50));
@@ -911,7 +907,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 3);
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -1527,11 +1523,11 @@ function drawBreakMenu() {
 	var menubackground = document.getElementById("breakmenu");
 	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 
-	//continueButton
+	//resumeButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuehover");
+		var continueButton = document.getElementById("resumehover");
 	} else {
-		var continueButton = document.getElementById("continuebutton");
+		var continueButton = document.getElementById("resumebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
@@ -1683,7 +1679,7 @@ function menuButtonClick(event)
 		//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 			console.log("Exit Button Pressed");
-			window.open("./menu/menu_onepage.html","_self");
+			window.open("index.html","_self");
 		}
 
 
@@ -1700,7 +1696,7 @@ function menuButtonClick(event)
 			//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 			console.log("Exit Button Pressed");
-			window.open("./menu/menu_onepage.html","_self");
+			window.open("index.html","_self");
 		}
 		
 	}
@@ -1734,7 +1730,7 @@ function menuButtonClick(event)
 			//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 			console.log("Exit Button Pressed");
-			window.open("./menu/menu_onepage.html","_self");
+			window.open("index.html","_self");
 		}
 		
 	}
