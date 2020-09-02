@@ -1449,25 +1449,25 @@ function drawBreakMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 	
@@ -1480,25 +1480,25 @@ function drawFinishMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 
@@ -1519,9 +1519,9 @@ function drawGameOverMenu() {
 	
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 370, 200, 50);
 		
