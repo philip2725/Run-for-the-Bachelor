@@ -1412,7 +1412,7 @@ function drawMenuIcon()
 	if(gameState.current == gameState.game) //Menu Open Button
 	{
 		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
-			var menuicon = document.getElementById("menuopen_hover");
+			var menuicon = document.getElementById("menuopenhover");
 		}else{
 			var menuicon = document.getElementById("menuopen");
 		
@@ -1423,7 +1423,7 @@ function drawMenuIcon()
 	if(gameState.current == gameState.break) //Menu Close Button
 	{
 		if (mousePosX >= 20 && mousePosX <= 60 && mousePosY >= 5 && mousePosY <= 50){
-			var menuicon = document.getElementById("menuclose_hover");
+			var menuicon = document.getElementById("menuclosehover");
 		}else{
 			var menuicon = document.getElementById("menuclose");
 		}
@@ -1526,14 +1526,14 @@ function drawECTSLabel()
 function drawMuteButton() {
 	if (playingAudio) {
 		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
-			var audioButton = document.getElementById("mutebutton_hover");
+			var audioButton = document.getElementById("mutebuttonhover");
 		}else {
 			var audioButton = document.getElementById("mutebutton");
 		}
 		
 	} else {
 		if(mousePosX >= 1150 && mousePosX <= 1200 && mousePosY <= 55 && mousePosY >= 5) {
-			var audioButton = document.getElementById("unmutebutton_hover");
+			var audioButton = document.getElementById("unmutebuttonhover");
 		}else{
 		var audioButton = document.getElementById("unmutebutton");
 		}
