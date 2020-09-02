@@ -936,6 +936,7 @@ function init(){
 		load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
+	restartGame();
 
 }
 
@@ -1360,7 +1361,6 @@ function restartGame() {
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
 	player.grade = 4;
-	creditPoints = 0;
 	items = []
 	obstacles = []
 	platforms = []
@@ -1368,10 +1368,19 @@ function restartGame() {
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 2){
 		createLevel2();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 3){
 		createLevel3();
+		creditPoints = 0;
+		walkCreditPoints = 0;
+		collectCreditpoints = 0;
 	}
 	gameState.current = gameState.game;
 }
@@ -1516,25 +1525,25 @@ function drawBreakMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 	
@@ -1547,25 +1556,25 @@ function drawFinishMenu() {
 
 	//continueButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuebutton");
-	} else {
 		var continueButton = document.getElementById("continuehover");
+	} else {
+		var continueButton = document.getElementById("continuebutton");
 	}	
 	ctx.drawImage(continueButton, 500, 300, 200, 50);
 
 	//restartButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restartbutton");
-	} else {
 		var restartButton = document.getElementById("restarthover");
+	} else {
+		var restartButton = document.getElementById("restartbutton");
 	}	
 	ctx.drawImage(restartButton, 500, 370, 200, 50);
 
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 440, 200, 50);
 
@@ -1586,9 +1595,9 @@ function drawGameOverMenu() {
 	
 	//exitButton
 	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var exitButton = document.getElementById("exitbutton");
-	} else {
 		var exitButton = document.getElementById("exithover");
+	} else {
+		var exitButton = document.getElementById("exitbutton");
 	}	
 	ctx.drawImage(exitButton, 500, 370, 200, 50);
 		
