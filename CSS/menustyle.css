@@ -157,8 +157,16 @@ body{background-image: url(../assets/Images/Backgrounds/MenuPageBackground.png);
 
 .licenseButton {
     position: absolute;
+    display: inline-block;
     bottom: 1%;
     right: 5%;
+}
+
+.controlSheet {
+    position: absolute;
+    display: none;
+    right: 35%;
+    top: 52%;
 }
    
 
