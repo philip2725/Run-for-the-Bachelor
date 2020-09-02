@@ -6,7 +6,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" type="text/css" href="CSS/style.css">
 		<script src="JS/game.js"></script>
-		<script src="menu/menufunctions.js"></script>
+		<script src="JS/menufunctions.js"></script>
 	</head>
 
 	<body	style="overflow:hidden; background-image: url(assets/Images/Backgrounds/MenuPageBackground.png);"	onload="getCharacterName();"> 	
@@ -17,6 +17,11 @@
 			<canvas id="mycanvas" width="1200" height="700" style="margin-top: 35px; ">
 				Your browser does not support the canvas element.
 			</canvas>
+
+
+			<!------- Window Size Altert -------->
+			<p class="windowSizeAlert"> Browser window is too small! <br> 
+				<span style="font-size:15px">Window must be at least <strong>1250x800</strong> pixels large.</span></p>
 			
 			<!------ Character Sprite Sheets ------>
 			<div id="Boys">
@@ -986,6 +991,8 @@
 				<img id="unmutebuttonhover"		style="display:none" src="assets/Images/menu/new icons/Unmute Button_hover.png" 			alt="char">
 				<img id="continuebutton" 		style="display:none" src="assets/Images/Buttons/InGame_Buttons/Continue blue.png" 			alt="char">
 				<img id="continuehover" 		style="display:none" src="assets/Images/Buttons/InGame_Buttons/Continue hover blue.png" 	alt="char">
+				<img id="resumebutton" 			style="display:none" src="assets/Images/Buttons/InGame_Buttons/Resume blue.png" 			alt="char">
+				<img id="resumehover" 			style="display:none" src="assets/Images/Buttons/InGame_Buttons/Resume hover blue.png"	 	alt="char">
 				<img id="restartbutton" 		style="display:none" src="assets/Images/Buttons/InGame_Buttons/Restart blue.png" 			alt="char">
 				<img id="restarthover" 			style="display:none" src="assets/Images/Buttons/InGame_Buttons/Restart hover blue.png" 		alt="char">
 				<img id="controlsbutton" 		style="display:none" src="assets/Images/Buttons/InGame_Buttons/Controls blue.png" 			alt="char">
