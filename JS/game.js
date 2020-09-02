@@ -640,7 +640,7 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatM", 7110, 245, 220, 65));
 	platforms.push(new Platform("cityPlatS", 7430, 365, 85, 65));
 	platforms.push(new Platform("cityPlatS", 7630, 485, 85, 65));
-	checkpoints.push(8060);
+	checkpoints.push(7600);
 
 	// 2. SEMESTER
 	platforms.push(new Platform("cityPlatS", 8650, 490, 85, 65));
@@ -668,7 +668,7 @@ function createLevel1(){
 	platforms.push(new Platform("cityPlatS", 12770, 490, 85, 65));
 	platforms.push(new Platform("cityPlatS", 12800, 205, 85, 65));
 	platforms.push(new Platform("cityPlatS", 13060, 180, 85, 65));
-	checkpoints.push(13135);
+	checkpoints.push(12600);
 	items.push(new Item(scriptPictures,13300, 65, 90, 100));
 	obstacles.push(new Obstacle("cityWaterS","hole", 13370, gameHeight, 285, 95));
 	platforms.push(new Platform("cityPlatS", 13475, 475, 85, 65));
@@ -696,7 +696,6 @@ function createLevel2(){
 	obstacles.push(new Obstacle("jungleSpikesL","box", 1785, gameGround, 150, 35));
 	items.push(new Item(coinPictures,1820, 100, 60, 60));
 	platforms.push(new Platform("junglePlatS", 1915, 195, 85, 85));
-	checkpoints.push(1700);
 	obstacles.push(new Obstacle("jungleSpikesL","box",2540, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box",2855, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box",3140, gameGround, 150, 35));
@@ -712,7 +711,7 @@ function createLevel2(){
 	items.push(new Item(coinPictures,4540, 50, 60, 60));
 	platforms.push(new Platform("junglePlatM", 4570, 295, 220, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 4640, 300, 50, 35));
-	checkpoints.push(4940);
+	checkpoints.push(4540);
 	obstacles.push(new Obstacle("jungleSpikesL","box", 5290, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleWaterL","hole", 6070, gameHeight, 830, 96));
 	platforms.push(new Platform("junglePlatL", 6090, 490, 360, 85));
@@ -755,14 +754,13 @@ function createLevel2(){
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));
 	platforms.push(new Platform("junglePlatS", 11850, 490, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 490, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 495, 50, 35));
 	platforms.push(new Platform("junglePlatS", 11850, 210, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 220, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 215, 50, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
 	items.push(new Item(coinPictures,12915, 400, 60, 60));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 13200, gameGround, 150, 35));
-	checkpoints.push(13430);
 	obstacles.push(new Obstacle("jungleWaterL","hole", 13600, gameHeight, 830, 96));
 	platforms.push(new Platform("junglePlatS", 13725, 480, 85, 85)); 
 	platforms.push(new Platform("junglePlatS", 13550, 315, 85, 85)); 
@@ -893,7 +891,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 2)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
