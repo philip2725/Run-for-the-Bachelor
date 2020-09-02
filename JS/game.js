@@ -260,6 +260,8 @@ class Player {
 			'BIL27', 'BIL28', 'BIL29', 'BIL30', 'BIL31', 'BIL32', 
 			'BIL33', 'BIL34', 'BIL35', 'BIL36', 'BIL37', 'BIL38', 
 			'BIL39', 'BIL40'];	
+
+			this.charWidth = 100;
 			}
 
 		if(gender == 3){		
@@ -288,6 +290,8 @@ class Player {
 			'BIL47', 'BIL48', 'BIL49', 'BIL50', 'BIL51', 'BIL52', 
 			'BIL53', 'BIL54', 'BIL55', 'BIL56', 'BIL57', 'BIL58', 
 			'BIL59', 'BIL60'];	
+			
+			this.charWidth = 100;
 			}
 	
 		if(gender == 4){ 
@@ -342,6 +346,7 @@ class Player {
 			'GIL27', 'GIL28', 'GIL29', 'GIL30', 'GIL31', 'GIL32', 
 			'GIL33', 'GIL34', 'GIL35', 'GIL36', 'GIL37', 'GIL38', 
 			'GIL39', 'GIL40'];	
+			this.charWidth = 100;
 			}
 
 		if(gender == 6){ 
@@ -370,6 +375,8 @@ class Player {
 			'GIL47', 'GIL48', 'GIL49', 'GIL50', 'GIL51', 'GIL52', 
 			'GIL53', 'GIL54', 'GIL55', 'GIL56', 'GIL57', 'GIL58', 
 			'GIL59', 'GIL60'];	
+
+			this.charWidth = 100;
 			}
 	}
 }
@@ -565,12 +572,12 @@ class Platform {
 		} else {
 			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
 				this.y -= direction;
-				if (this.helperY - this.y == this.moveArea || this.y == 0) {
+				if (this.helperY - this.y == this.moveArea || this.y <= 0) {
 					this.moveToBottom = true;
 				}
 			} else {
 				this.y += direction;
-				if (this.y - this.helperY == this.moveArea || this.y == gameHeight*0.87- this.height) {
+				if (this.y - this.helperY == this.moveArea || this.y >= gameGround - this.height) {
 					this.moveToBottom = false;
 				}
 			} 
@@ -616,6 +623,9 @@ function createLevel1(){
 	audioPlayer = document.getElementById("cityMusic");
 	audioPlayer.volume = 0.2;
 
+	//demo
+	platforms.push(new Platform("cityPlatM", 700, 470, 220, 65, 200));
+	platforms.push(new Platform("cityPlatM", 1000, 470, 220, 65, 1000,1));
 
 	// 1. SEMESTER
 	checkpoints.push(0);
@@ -1105,13 +1115,15 @@ function drawPlatforms() {
 		var picture = document.getElementById(platform.pictureId)
 		if (platform.moveArea != 0) {
 			platform.movePlatform(4)
-			if (playersPlatform == platform) {
+			if (playersPlatform == platform && player.onPlatform == true) {
 			
-				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.onPlatform == true && player.playerWantsDownFromPlatform == false) {
+				if (platform.moveDirection != 0 && player.jumpingIntervalHandle == 0 && player.playerWantsDownFromPlatform == false) {
 					player.charY = platform.y - player.charHeight;
 					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 				}
-				checkPlatforms()
+				if (player.jumpingIntervalHandle == 0 && platform.moveDirection == 0) {
+					checkPlatforms()
+				}
 			}
 		}
 		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
