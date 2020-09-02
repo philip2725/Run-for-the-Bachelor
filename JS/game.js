@@ -27,6 +27,7 @@ var backgroundUpdateSpeed = 30;																//miliseconds how often the backg
 var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move															//lower = faster
 var environmentIntervalHandle;
 var checkpoints = [];
+var pressAnyKey = false;																	//if a level and the lecturer Animation has finished. the game will wait that the player press any key.
 
 // Audio
 var audioPlayer;
@@ -52,7 +53,8 @@ class Lecturer {
 		this.currentPictureIdxIL = 0;				
 		this.movementSpeed = 60;				
 		this.startAnimation = false;
-		this.lecturerImg;								
+		this.lecturerImg;	
+		this.lecturerAninmation = false;							
 		//move Option	
 		this.ground = this.charY;																															
 	}
@@ -618,6 +620,9 @@ function createLevel1(){
 	audioPlayer = document.getElementById("cityMusic");
 	audioPlayer.volume = 0.4;
 
+	items.push(new Item(coinPictures,17500, 320, 60, 60));
+	items.push(new Item(coinPictures,16500, 320, 60, 60));
+
 
 	// 1. SEMESTER
 	checkpoints.push(0);
@@ -889,7 +894,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -908,7 +913,6 @@ function init(){
 
 	gameState.current = gameState.game;
 
-
 	playBackgroundAudio();
 
 	setInterval(changePlayerPicture, player.movementSpeed);
@@ -919,7 +923,7 @@ function init(){
 		load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
-	//lecturer.startAnimation = true;
+
 }
 
 function draw(){
@@ -978,12 +982,11 @@ function checkGameState(){
 
 	if(gameState.current === gameState.game)
 	{
-
 		//creditPoint Counter
 		if (backgroundX < recordDistance) { 					//checks whether the player has already achieved the distance
 			recordDistance = backgroundX; 						// new Record
 			if (recordDistance < nextCreditPointPosition) { 	//checks whether the position for the next Credit Point is achieved
-				var end = backgroundWidth*(-1)+gameWidth+20; 	// gets the gameWitdh
+				var end = backgroundWidth*(-1)+gameWidth+170; 	// gets the gameWitdh
 				var counterHelper = (end - recordDistance) / (maxWalkCreditPoints - walkCreditPoints); // calculate the next Position where a player gets a creditpoint
 				nextCreditPointPosition += counterHelper; 
 				walkCreditPoints++;
@@ -1000,8 +1003,8 @@ function checkGameState(){
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(environmentIntervalHandle);
-		lecturer.startAnimation = true
-		//drawFinishMenu();
+		drawFinishMenu();
+		
 	}else if (gameState.current == gameState.over)
 	{
 		clearInterval(environmentIntervalHandle);
@@ -1087,6 +1090,7 @@ function checkCollision() {
 					playSoundFX(collectcoin);
 				}else {
 					playSoundFX(collectitem);
+						player.grade--
 				}
 				break;
 			}
@@ -1135,11 +1139,14 @@ function checkPlatforms() {
 
 function checkFinished() {
 	//player is at end of map
-	var end = backgroundWidth*(-1)+gameWidth+20
+	var end = backgroundWidth*(-1)+gameWidth+170
 
 	if(backgroundX <= end && creditPoints >= maxCreditPoints){
-		gameState.current = gameState.finish;
-		
+		lecturer.startAnimation = true
+	}else if(backgroundX <= end && creditPoints <= maxCreditPoints) {
+		lecturer.startAnimation = true;
+		setTimeout(function(){if(lecturer.lecturerAninmation == false )lecturer.startAnimation = false},5000);
+		gameState.current = gameState.game
 	}
 }
 
@@ -1196,7 +1203,7 @@ function moveBackground(direction){
 	//direction = positive --> go right
 	
 	var start = 0
-	var end = backgroundWidth*(-1)+gameWidth
+	var end = backgroundWidth*(-1)+gameWidth+150
 
 	if(backgroundX + direction > end && backgroundX + direction <= start){
 		backgroundX += direction;
@@ -1273,16 +1280,29 @@ function changePlayerPicture(){
 }
 
 function drawLecturerAnimation(){
-	if(lecturer.startAnimation == true){
+	if(creditPoints >= maxCreditPoints && lecturer.startAnimation == true){
+		lecturer.lecturerAninmation = true										//dont move during Animation works
 		if(lecturer.charX > gameWidth/2 + 100 ){
 			changeLecturerPicture("WL");
 			lecturer.charX -= 5
 		}else {
 			changeLecturerPicture("IL");
-			var picture = document.getElementById(lecturer.speachBubbles[3]);
+			if(player.grade == 1){
+				var picture = document.getElementById(lecturer.speachBubbles[0]);
+			}else if(player.grade == 2){
+				var picture = document.getElementById(lecturer.speachBubbles[1]);
+			}else if(player.grade == 3){
+				var picture = document.getElementById(lecturer.speachBubbles[2]);
+			}else if(player.grade == 4){
+				var picture = document.getElementById(lecturer.speachBubbles[3]);
+			}
+			pressAnyKey = true;
 			ctx.drawImage(picture, 225, 100, 750, 100);
-	}
+		}
 		lecturer.drawLecturer()
+	}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
+		var picture = document.getElementById(lecturer.speachBubbles[4]);
+		ctx.drawImage(picture, 225, 100, 750, 100);
 	}
 }
 
@@ -1315,14 +1335,21 @@ function updateEnvironment(backgroundMoveSpeed){
 }
 
 function restartGame() {
+	gameState.current = gameState.game
+	lecturer.lecturerAninmation = false;
+	lecturer.startAnimation = false;
+	pressAnyKey = false;
 	clearInterval(environmentIntervalHandle);
 	clearInterval(player.fallIntervalHandle);
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
-	player.lives = 3
+	player.lives = 3;
+	player.grade = 4;
+	creditPoints = 0;
 	items = []
 	obstacles = []
 	platforms = []
+	lecturer.lecturerAninmation = false;
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
@@ -1371,7 +1398,12 @@ function goRight(){
 //Find Out KeyCode Here  ->  https://keycode.info
 
 function keyDown(event){
-	if(gameState.current != gameState.over){
+	if(  pressAnyKey == true){
+		gameState.current = gameState.finish;
+		pressAnyKey = false;
+	}
+
+	if(gameState.current != gameState.over && lecturer.lecturerAninmation == false){
 		switch (event.keyCode) {
 		case 37:
 			// Left-Arrow Pressed
