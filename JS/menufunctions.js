@@ -119,7 +119,7 @@ function saveCharacterName() {
 // gets the chosen character out of the session storge and replace it at the given paragraph id
 function getCharacterName(){
     var header = document.getElementById("head")
-    header.innerHTML = "Run " + sessionStorage.getItem("characterName") + " for the Bachelor!";
+    header.innerHTML = sessionStorage.getItem("characterName") + ", Run for the Bachelor!";
     header.setAttribute("style", "font: 60px Bangers; color: #233769; margin-bottom: -25px; margin-top: -2px; text-shadow: -1px 0 #F39F21, 0 1px #F39F21, 1px 0 #F39F21, 0 -1px #F39F21;");
 }
 

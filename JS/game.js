@@ -629,7 +629,7 @@ const gameState = {
 function createLevel1(){
 	background = document.getElementById("cityImage");
 	audioPlayer = document.getElementById("cityMusic");
-	audioPlayer.volume = 0.2;
+	audioPlayer.volume = 0.1;
 
 	// 1. SEMESTER
 	checkpoints.push(0);
@@ -695,7 +695,7 @@ function createLevel1(){
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("jungleMusic");
-	audioPlayer.volume = 0.2;
+	audioPlayer.volume = 0.1;
 	playBackgroundAudio();
 
 
@@ -740,7 +740,7 @@ function createLevel2(){
 	obstacles.push(new Obstacle("jungleSpikesS","box", 6100, 140, 45, 35));
 	items.push(new Item(coinPictures,5780, 100, 60, 60));
 	checkpoints.push(7520);
-
+ 
 	// 4. SEMESTER
 	obstacles.push(new Obstacle("jungleSpikesS","box", 8260, 295, 50, 35));
 	platforms.push(new Platform("junglePlatM", 8260, 290, 220, 85));
@@ -765,13 +765,14 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
-	checkpoints.push(10750);
+	checkpoints.push(10600);
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
-	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));
+	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));		   //movable
 	platforms.push(new Platform("junglePlatS", 11850, 490, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 495, 50, 35));
 	platforms.push(new Platform("junglePlatS", 11850, 210, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 215, 50, 35));
+	checkpoints.push(11600);
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
 	items.push(new Item(coinPictures,12915, 400, 60, 60));
@@ -790,7 +791,7 @@ function createLevel2(){
 function createLevel3(){
 	background = document.getElementById("spaceImage");
 	audioPlayer = document.getElementById("spaceMusic");
-	audioPlayer.volume = 0.25;
+	audioPlayer.volume = 0.1;
 	playBackgroundAudio();
 
 
@@ -906,7 +907,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3);
+	sessionStorage.setItem("level", 2);
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
