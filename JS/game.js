@@ -654,6 +654,8 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	checkpoints.push(0);
+	items.push(new Item(coinPictures,1000, 550, 60, 60));
+	items.push(new Item(coinPictures,800, 300, 60, 60));
 	obstacles.push(new Obstacle(cityOilBarrelPictures,"boxAnimated", 1225, gameGround, 145, 50));
 	obstacles.push(new Obstacle(cityPowerboxPictures,"boxAnimated", 1930, gameGround, 70, 85));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
@@ -928,7 +930,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -978,6 +980,7 @@ function draw(){
 	drawMuteButton();
 	fall();	
 	jump();	
+	checkCollision();
 }
 
 
@@ -1079,11 +1082,11 @@ function changePicture(object){
 	if(pictureArray[object.currentPictureIdx] == pictureArray[pictureArray.length-1]){
 		object.currentPictureIdx = 0;	
 	}else{
-		if(moveSpeedHelper == 0){						//draw Items just every second time 
+		if(moveSpeedHelper == 0){						//draw Items just every second time, obstacles every 4th time
 			object.currentPictureIdx++;
-			moveSpeedHelper = 1;
+			moveSpeedHelper = -2;
 		}else{
-			moveSpeedHelper = 0
+			moveSpeedHelper++
 		}
 	}		
 	var picture = document.getElementById(pictureArray[object.currentPictureIdx])
@@ -1204,7 +1207,6 @@ function jump(){
 				player.goingDown = false;
 				player.charY = player.ground;
 				player.isJumping = false;
-				checkCollision();
 				player.playerWantsDownFromPlatform = false;
 				player.jumpHigh = player.helperJumpHigh; // when the player hits the ground the jumpHigh must be the standard 
 			} else {
@@ -1216,7 +1218,6 @@ function jump(){
 					} else { // if the player lands on the platform
 						player.goingDown = false;
 						player.isJumping = false;
-						checkCollision();
 						player.playerWantsDownFromPlatform = false;
 						player.charY = playersPlatform.getTop() - player.charHeight;
 						player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
@@ -1225,7 +1226,6 @@ function jump(){
 					player.goingDown = true;
 					player.charY += player.jumpSpeed * 4
 					checkPlatforms();
-					checkCollision();
 				}	
 			}
 		}
@@ -1259,7 +1259,6 @@ function moveBackground(direction){
 	}
 
 	checkFinished();																//player at end of map
-	checkCollision();																//obstacles + items
 	checkPlatforms();
 }
 
@@ -1435,7 +1434,6 @@ function restartAtCheckpoint() {
 function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
-
 			environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
