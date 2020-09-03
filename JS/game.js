@@ -430,21 +430,19 @@ class Obstacle {
 	var obstacles = [];
 
 	//Obstacles Arrays
-	cityOilBarrelPictures = ['BCWL01','BCWL02'];
+	cityOilBarrelPictures = ['OILB01','OILB02','OILB03','OILB04'];
 
-	cityPowerboxPictures = ['BCWL01','BCWL02'];
+	cityPowerboxPictures = ['POBX01','POBX02','POBX03','POBX04','POBX05','POBX06','POBX07','POBX08'];
 	
-	spaceCraterBSPictures = ['BCWL01','BCWL02'];
+	spaceCraterBSPictures = ['SCBS01','SCBS02','SCBS03','SCBS04','SCBS05','SCBS06'];
 
-	spaceCraterBLPictures = ['BCWL01','BCWL02'];
+	spaceCraterBLPictures = ['SCBL01','SCBL02','SCBL03','SCBL04','SCBL05','SCBL06'];
 
-	spaceEngineS1Pictures = ['BCWL01','BCWL02'];
+	spaceEngineS1Pictures = ['SPES101','SPES102','SPES103','SPES104'];
 
-	spaceEngineS2Pictures = ['BCWL01','BCWL02'];
+	spaceEngineS2Pictures = ['SPES201','SPES202','SPES203','SPES204'];
 
-	spaceEngineS2Pictures = ['BCWL01','BCWL02'];
-
-	spaceEngineLPictures = ['BCWL01','BCWL02'];
+	spaceEngineLPictures = ['SPEL01','SPEL02','SPEL03','SPEL04'];
 
 //Items (for example: Credit-Points)
 class Item {
