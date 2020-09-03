@@ -19,6 +19,9 @@ var breakMenuY = breakMenuHeight*0.8/2;
 //load
 var load;
 
+//moving platforms
+var platformsMoveSpeed = 4;
+
 //Background
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
@@ -967,6 +970,7 @@ function draw(){
 	drawItems();																				//Obstacle Images
 	drawObstacles();
 	player.drawPlayer();																		//character Image	
+	handlePlayerOnMovingPlatform()
 	drawLecturerAnimation();																				
 	checkGameState();
 
@@ -1141,26 +1145,35 @@ function checkCollision() {
 }
 
 function drawPlatforms() {
-	
-	for (index = 0; index < platforms.length; index++) {
-		var platform = platforms[index];	
-		var picture = document.getElementById(platform.pictureId)
-		if (platform.moveArea != 0) {
-			platform.movePlatform(4)
-			if (playersPlatform == platform && player.onPlatform == true) {
-			
-				if (platform.moveDirection != 0 && player.isJumping == false && player.playerWantsDownFromPlatform == false) {
-					player.charY = platform.y - player.charHeight;
-					player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - platform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
-				}
-				if (this.isJumping == false && platform.moveDirection == 0) {
-					checkPlatforms()
-				}
-			}
-		}
-		ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
-		//drawRect(platform.x,platform.y,platform.width,platform.height)
-	}
+    
+    for (index = 0; index < platforms.length; index++) {
+        var platform = platforms[index];    
+        var picture = document.getElementById(platform.pictureId)
+        if (platform.moveArea != 0) {
+            platform.movePlatform(platformsMoveSpeed)
+        }
+        ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
+        //drawRect(platform.x,platform.y,platform.width,platform.height)
+    }
+}
+
+function handlePlayerOnMovingPlatform() {
+
+    
+    if (player.onPlatform && playersPlatform.moveArea != 0 && player.charY == playersPlatform.getTop() - player.charHeight && player.playerWantsDownFromPlatform == false) {
+        
+        if (playersPlatform.moveDirection == 0) {
+            if (playersPlatform.moveToRight) {
+                updateEnvironment(-platformsMoveSpeed);
+            } else {
+                updateEnvironment(platformsMoveSpeed);
+            }
+        } else {
+            player.charY = playersPlatform.y - player.charHeight;
+            player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
+        }
+
+    }
 }
 
 function updatePlatforms(direction) {
