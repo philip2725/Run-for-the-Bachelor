@@ -1454,7 +1454,12 @@ function goRight(){
 
 function keyDown(event){
 	if(  pressAnyKey == true){
-		gameState.current = gameState.finish;
+		
+		if (gameState.current == gameState.finish) {
+			window.open("index.html","_self");
+		} else {
+			gameState.current = gameState.finish;
+		}
 		pressAnyKey = false;
 	}
 
@@ -1581,33 +1586,47 @@ function drawBreakMenu() {
 }
 
 function drawFinishMenu() {
-	var menubackground = document.getElementById("finishmenu");
-	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 
+	if(sessionStorage.getItem("level") == 3) { 
+		
+		var name = sessionStorage.getItem("characterName");
+		var bachelorCertificate = document.getElementById("BACE01");
+		ctx.drawImage(bachelorCertificate,0,0,canvas.width, canvas.height);
 
-	//continueButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuehover");
-	} else {
-		var continueButton = document.getElementById("continuebutton");
-	}	
-	ctx.drawImage(continueButton, 500, 300, 200, 50);
+		ctx.fillText(name, 550, 310);
+		ctx.fillText(player.grade,542,518);
+		pressAnyKey = true;
 
-	//restartButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restarthover");
-	} else {
-		var restartButton = document.getElementById("restartbutton");
-	}	
-	ctx.drawImage(restartButton, 500, 370, 200, 50);
+	} else {		
+		var menubackground = document.getElementById("finishmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+	
+	
+		//continueButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+			var continueButton = document.getElementById("continuehover");
+		} else {
+			var continueButton = document.getElementById("continuebutton");
+		}	
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
+	
+		//restartButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
+			var restartButton = document.getElementById("restarthover");
+		} else {
+			var restartButton = document.getElementById("restartbutton");
+		}	
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+	
+		//exitButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
+			var exitButton = document.getElementById("exithover");
+		} else {
+			var exitButton = document.getElementById("exitbutton");
+		}	
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 
-	//exitButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exithover");
-	} else {
-		var exitButton = document.getElementById("exitbutton");
-	}	
-	ctx.drawImage(exitButton, 500, 440, 200, 50);
+	}
 
 }
 
@@ -1735,34 +1754,41 @@ function menuButtonClick(event)
 	//handler for all the events when game state is finished
 	if (gameState.current == gameState.finish) {
 
-		//handler for continueButton
-		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
-			console.log("Continue Button Pressed");
-
-			if(sessionStorage.getItem("level") == 1){
-				sessionStorage.setItem("level", 2)
-				audioPlayer.pause();
-			}else if(sessionStorage.getItem("level") == 2){
-				sessionStorage.setItem("level", 3)
-				audioPlayer.pause();
-			}else if(sessionStorage.getItem("level") == 3){
-				
-			}
-			restartGame();
-			gameState.current = gameState.game;
-		}
-
-		//handler for restartbutton
-		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
-			console.log("Restart Button Pressed");
-			restartGame()	
-		}
-		
-			//handler for exitbutton
-		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
-			console.log("Exit Button Pressed");
+		if(sessionStorage.getItem("level") == 3) { 
 			window.open("index.html","_self");
+			
+		} else {
+					//handler for continueButton
+			if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
+				console.log("Continue Button Pressed");
+
+				if(sessionStorage.getItem("level") == 1){
+					sessionStorage.setItem("level", 2)
+					audioPlayer.pause();
+				}else if(sessionStorage.getItem("level") == 2){
+					sessionStorage.setItem("level", 3)
+					audioPlayer.pause();
+				}else if(sessionStorage.getItem("level") == 3){
+					
+				}
+				restartGame();
+				gameState.current = gameState.game;
+			}
+
+			//handler for restartbutton
+			if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
+				console.log("Restart Button Pressed");
+				restartGame()	
+			}
+			
+				//handler for exitbutton
+			if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
+				console.log("Exit Button Pressed");
+				window.open("index.html","_self");
+			}
 		}
+
+		
 		
 	}
 
