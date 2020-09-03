@@ -654,8 +654,6 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	checkpoints.push(0);
-	items.push(new Item(coinPictures,1000, 550, 60, 60));
-	items.push(new Item(coinPictures,800, 300, 60, 60));
 	obstacles.push(new Obstacle(cityOilBarrelPictures,"boxAnimated", 1225, gameGround, 145, 50));
 	obstacles.push(new Obstacle(cityPowerboxPictures,"boxAnimated", 1930, gameGround, 70, 85));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
