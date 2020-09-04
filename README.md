@@ -12,7 +12,7 @@
 
 ### Allgemeine Information
 ***
-Das Spiel RUN FOR THE BACHELOR (RFTB) wurde von folgenden Autoren entwickelt:
+Das Spiel **RUN FOR THE BACHELOR (RFTB)** wurde von folgenden Autoren entwickelt:
 * Aksoy, Erdem
 * Boehlke, Dustin
 * Bosbach, André
@@ -20,7 +20,7 @@ Das Spiel RUN FOR THE BACHELOR (RFTB) wurde von folgenden Autoren entwickelt:
 * Kaluza, Alexander
 
 Spielgeschichte:
-Der Student/in befindet sich am Anfang seines Bachelor-Marathons. Er/Sie muss viele Hindernisse überwinden und Gegenstände sammeln, um sein Endziel, das Bachelor Zertifikat zu erreichen. In jedem Level wartet ein/e Dozent/in darauf, bedingt der Leistung des Studenten eine Note zu vergeben. Zudem bekommt der Student ein kleines Feedback. Bist du bereit für den größten Marathon deines Lebens zu laufen? ;)
+Der Student/in befindet sich am Anfang seines Bachelor-Marathons. Er/Sie muss viele Hindernisse überwinden und Gegenstände sammeln, um sein/ihr Endziel, das Bachelor Zertifikat zu erreichen. In jedem Level wartet ein/e Dozent/in darauf, bedingt der Leistung des Studenten eine Note zu vergeben. Zudem bekommt der Student ein kleines Feedback. Bist du bereit, für den größten Marathon deines Lebens zu laufen? ;)
 
 Levelziel:
 Es gibt insgesamt 3 Level und in jedem einzelnen sind maximal 60 CP zu erreichen. Diese setzen sich wie folgt zusammen:
