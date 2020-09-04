@@ -174,21 +174,15 @@ class Player {
 		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )
 		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))
 		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
-			if(object.type == "hole"){
+			if(object.type == "hole" && this.isfalling == false){
 				this.isfalling = true
 				playSoundFX(waterdrop);
 				setTimeout(function(){
-					player.lives -= 1;
 					playSoundFX(hurtsound);
-					if(player.lives == 0){
-						this.isfalling = false;
-						gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
-					}else{
-						this.isfalling = false;
-						restartAtCheckpoint();
-					}				
-				},1000);
-			}else{
+					player.lives--;	
+				},1500);
+				
+			}else if(this.isfalling == false){
 				return true;
 			}
 		}
@@ -740,8 +734,8 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 3850, 530, 50, 35));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 4070, 530, 50, 35));
-	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
-	obstacles.push(new Obstacle("jungleSpikesL","box", 4165, 420, 150, 35));
+	platforms.push(new Platform("junglePlatM", 4100, 400, 220, 85));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 4165, 400, 150, 35));
 	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
@@ -757,8 +751,8 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 6510, 370, 50, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 6560, 370, 180, 35));
-	platforms.push(new Platform("junglePlatS", 6280, 200, 85, 85));
-	platforms.push(new Platform("junglePlatM", 5940, 130, 220, 85));
+	platforms.push(new Platform("junglePlatS", 6280, 210, 85, 85));
+	platforms.push(new Platform("junglePlatM", 5940, 140, 220, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 6100, 140, 45, 35));
 	items.push(new Item(coinPictures,5780, 100, 60, 60));
 	checkpoints.push(7520);
@@ -790,10 +784,10 @@ function createLevel2(){
 	checkpoints.push(10600);
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));		   //movable
-	platforms.push(new Platform("junglePlatS", 11850, 490, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 495, 50, 35));
-	platforms.push(new Platform("junglePlatS", 11850, 210, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 215, 50, 35));
+	platforms.push(new Platform("junglePlatS", 11850, 480, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 485, 50, 35));
+	platforms.push(new Platform("junglePlatS", 11850, 200, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 205, 50, 35));
 	checkpoints.push(11600);
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
@@ -804,7 +798,7 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 13550, 315, 85, 85)); 
 	platforms.push(new Platform("junglePlatS", 14000, 480, 85, 85)); 
 	platforms.push(new Platform("junglePlatS", 14250, 480, 85, 85)); 
-	platforms.push(new Platform("junglePlatS", 14050, 150, 85, 85, 280, 0));			//movable
+	platforms.push(new Platform("junglePlatS", 14050, 170, 85, 85, 280, 0));			//movable
 	items.push(new Item(blackberryPictures,14550, 100, 50, 60));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 14460, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 14735, gameGround, 150, 35));
@@ -920,8 +914,6 @@ function createLevel3(){
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 14130, gameGround, 160, 45));
 }
 
-
-
 //************* Initialisierung ******************//
 function init(){
 	console.log("init called");
@@ -929,7 +921,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -1112,7 +1104,7 @@ function checkCollision() {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
-			player.lives -= 1;
+			player.lives--;
 			playSoundFX(hurtsound);
 			if(player.lives == 0){
 				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
@@ -1207,7 +1199,7 @@ function checkFinished() {
 }
 
 function jump(){
-	if(player.isJumping == true){
+	if(player.isJumping == true && player.isfalling == false){
 		if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 			player.charY -= player.jumpSpeed * 3
 		} else {
@@ -1244,11 +1236,15 @@ function fall(){
 	//player falls down in a hole
 	if(player.isfalling == true){
 		clearInterval(environmentIntervalHandle);
-		player.isJumping = false;
 		if(player.charY < gameHeight){
 			player.charY += 10
 		}else{
-			player.isfalling = false;
+			if(player.lives == 0){
+				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
+			}else{
+				restartAtCheckpoint();
+			}		
+			this.isfalling = false;	
 		}
 	}
 }
@@ -1382,10 +1378,12 @@ function changeLecturerPicture(animation){
 }
 
 function updateEnvironment(backgroundMoveSpeed){
-	moveBackground(backgroundMoveSpeed);
-	updateObstacles(backgroundMoveSpeed);
-	updateItems(backgroundMoveSpeed);
-	updatePlatforms(backgroundMoveSpeed);
+	if(backgroundX + backgroundMoveSpeed < 0) {
+		moveBackground(backgroundMoveSpeed);
+		updateObstacles(backgroundMoveSpeed);
+		updateItems(backgroundMoveSpeed);
+		updatePlatforms(backgroundMoveSpeed);
+	}
 }
 
 function restartGame() {
@@ -1442,7 +1440,7 @@ function restartAtCheckpoint() {
 function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
-			environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+		environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
