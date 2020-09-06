@@ -174,21 +174,15 @@ class Player {
 		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )
 		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))
 		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
-			if(object.type == "hole"){
+			if(object.type == "hole" && this.isfalling == false){
 				this.isfalling = true
 				playSoundFX(waterdrop);
 				setTimeout(function(){
-					player.lives -= 1;
 					playSoundFX(hurtsound);
-					if(player.lives == 0){
-						this.isfalling = false;
-						gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
-					}else{
-						this.isfalling = false;
-						restartAtCheckpoint();
-					}				
-				},1000);
-			}else{
+					player.lives--;	
+				},1500);
+				
+			}else if(this.isfalling == false){
 				return true;
 			}
 		}
@@ -716,13 +710,11 @@ function createLevel1(){
 	obstacles.push(new Obstacle(cityOilBarrelPictures,"boxAnimated", 14380, gameGround, 145, 50));
 }
 
-
 function createLevel2(){
 	background = document.getElementById("jungleImage");
 	audioPlayer = document.getElementById("jungleMusic");
 	audioPlayer.volume = 0.1;
 	playBackgroundAudio();
-
 
 	// 3. SEMESTER
 	checkpoints.push(0)
@@ -743,8 +735,8 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatL", 3770, 520, 360, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 3850, 530, 50, 35));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 4070, 530, 50, 35));
-	platforms.push(new Platform("junglePlatM", 4100, 415, 220, 85));
-	obstacles.push(new Obstacle("jungleSpikesL","box", 4165, 420, 150, 35));
+	platforms.push(new Platform("junglePlatM", 4100, 400, 220, 85));
+	obstacles.push(new Obstacle("jungleSpikesL","box", 4165, 400, 150, 35));
 	platforms.push(new Platform("junglePlatS", 3925, 280, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4110, 180, 85, 85));
 	platforms.push(new Platform("junglePlatS", 4330, 180, 85, 85));
@@ -760,17 +752,17 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatL", 6380, 365, 360, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 6510, 370, 50, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 6560, 370, 180, 35));
-	platforms.push(new Platform("junglePlatS", 6280, 200, 85, 85));
-	platforms.push(new Platform("junglePlatM", 5940, 130, 220, 85));
+	platforms.push(new Platform("junglePlatS", 6280, 210, 85, 85));
+	platforms.push(new Platform("junglePlatM", 5940, 140, 220, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 6100, 140, 45, 35));
 	items.push(new Item(coinPictures,5780, 100, 60, 60));
 	checkpoints.push(7520);
  
 	// 4. SEMESTER
-	obstacles.push(new Obstacle("jungleSpikesS","box", 8260, 295, 50, 35));
-	platforms.push(new Platform("junglePlatM", 8260, 290, 220, 85));
-	items.push(new Item(laptopShadowPictures,8335, 220,  80, 75));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 8430, 295, 50, 35));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 8260, 275, 50, 35));
+	platforms.push(new Platform("junglePlatM", 8260, 270, 220, 85));
+	items.push(new Item(laptopShadowPictures,8335, 200,  80, 75));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 8430, 275, 50, 35));
 	platforms.push(new Platform("junglePlatS", 8550, 230, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8760, 290, 85, 85));
 	platforms.push(new Platform("junglePlatS", 8985, 365, 85, 85));
@@ -786,17 +778,17 @@ function createLevel2(){
 	obstacles.push(new Obstacle("jungleWaterM","hole", 10135, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
 	platforms.push(new Platform("junglePlatS", 10370, 500, 85, 85, 220, 0));
-	items.push(new Item(dummiesPictures,10360, 400, 80, 80));
+	items.push(new Item(dummiesPictures,10360, 330, 80, 80));
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
 	checkpoints.push(10600);
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
-	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));		   //movable
-	platforms.push(new Platform("junglePlatS", 11850, 490, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 495, 50, 35));
-	platforms.push(new Platform("junglePlatS", 11850, 210, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 215, 50, 35));
+	platforms.push(new Platform("junglePlatS", 11700, 580, 85, 85, 140, 0));		   //movable
+	platforms.push(new Platform("junglePlatS", 11850, 480, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 485, 50, 35));
+	platforms.push(new Platform("junglePlatS", 11850, 200, 85, 85));
+	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 205, 50, 35));
 	checkpoints.push(11600);
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
@@ -807,7 +799,7 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 13550, 315, 85, 85)); 
 	platforms.push(new Platform("junglePlatS", 14000, 480, 85, 85)); 
 	platforms.push(new Platform("junglePlatS", 14250, 480, 85, 85)); 
-	platforms.push(new Platform("junglePlatS", 14050, 150, 85, 85, 280, 0));			//movable
+	platforms.push(new Platform("junglePlatS", 14050, 170, 85, 85, 280, 0));			//movable
 	items.push(new Item(blackberryPictures,14550, 100, 50, 60));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 14460, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 14735, gameGround, 150, 35));
@@ -818,7 +810,6 @@ function createLevel3(){
 	audioPlayer = document.getElementById("spaceMusic");
 	audioPlayer.volume = 0.1;
 	playBackgroundAudio();
-
 
 	// 5. SEMESTER
 	checkpoints.push(0)
@@ -842,7 +833,7 @@ function createLevel3(){
 	obstacles.push(new Obstacle("spaceWaterL","hole", 3350, gameHeight, 840, 100));
 	platforms.push(new Platform("spacePlatS", 3600, 515, 85, 65, 160, 0));				//movable
 	platforms.push(new Platform("spacePlatS", 4040, 515, 85, 65, 160, 0));				//movable
-	items.push(new Item(coinPictures,3780, 170, 60, 60));		
+	items.push(new Item(coinPictures,3780, 120, 60, 60));		
 	platforms.push(new Platform("spacePlatS", 3990, 120, 85, 65));
 	platforms.push(new Platform("spacePlatS", 4170, 200, 85, 65));	
 	obstacles.push(new Obstacle("spaceWaterL","hole", 4320, gameHeight, 840, 100));
@@ -872,23 +863,22 @@ function createLevel3(){
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 7530, gameGround, 160, 45));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 7830, gameGround, 160, 45));
 
-
 	// 6. SEMESTER
 	checkpoints.push(7550)
 	platforms.push(new Platform("spacePlatM", 8390, 200, 220, 65));
 	items.push(new Item(coinShadowPictures, 8470, 140, 60, 70));
 	obstacles.push(new Obstacle("spaceWaterM","hole", 8435, gameHeight, 560, 100));	
 	platforms.push(new Platform("spacePlatS", 8520, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 8755, 450, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9010, 330, 85, 65, 400, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 8755, 440, 85, 65));
+	platforms.push(new Platform("spacePlatS", 9010, 310, 85, 65, 360, 0));				//movable
 	obstacles.push(new Obstacle("spaceWaterL","hole", 9035, gameHeight, 840, 100));
 	platforms.push(new Platform("spacePlatS", 9235, 505, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9290, 280, 85, 65));
-	obstacles.push(new Obstacle(spaceEngineS2Pictures,"boxAnimated", 9305, 280, 55, 60));
-	platforms.push(new Platform("spacePlatM", 9395, 225, 220, 65));
+	platforms.push(new Platform("spacePlatS", 9290, 260, 85, 65));
+	obstacles.push(new Obstacle(spaceEngineS2Pictures,"boxAnimated", 9305, 260, 55, 60));
+	platforms.push(new Platform("spacePlatM", 9395, 225, 200, 65));
 	platforms.push(new Platform("spacePlatS", 9505, 510, 85, 65));
-	platforms.push(new Platform("spacePlatS", 9650, 200, 85, 65));
-	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 9665, 200, 55, 60));
+	platforms.push(new Platform("spacePlatS", 9650, 180, 85, 65));
+	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 9665, 180, 55, 60));
 	obstacles.push(new Obstacle("spaceWaterM","hole", 9905, gameHeight, 560, 100));	
 	platforms.push(new Platform("spacePlatS", 9940, 505, 85, 65, 300, 0));				//movable
 	platforms.push(new Platform("spacePlatS", 10060, 185, 85, 65, 300, 0));				//movable
@@ -897,33 +887,30 @@ function createLevel3(){
 	obstacles.push(new Obstacle(spaceEngineS2Pictures,"boxAnimated", 10490, 210, 55, 60));
 	checkpoints.push(10100)
 	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 10660, 210, 55, 60));	
-	items.push(new Item(passportShadowPictures, 10765, 135, 75, 85));
+	items.push(new Item(passportShadowPictures, 10765, 135, 70, 85));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 10880, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 11110, 515, 85, 65));
 	obstacles.push(new Obstacle(spaceCraterBLPictures,"boxAnimated","box", 11230, gameGround, 160, 95));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 11590, gameGround, 160, 45));
 	obstacles.push(new Obstacle("spaceWaterL","hole", 12140, gameHeight, 840, 100));
-	platforms.push(new Platform("spacePlatM", 12220, 495, 220, 65));
-	platforms.push(new Platform("spacePlatS", 12605, 400, 85, 65, 280, 0));				//movable
-	platforms.push(new Platform("spacePlatS", 12805, 530, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 12220, 495, 85, 65));
+	platforms.push(new Platform("spacePlatS", 12635, 450, 85, 65, 240, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 12975, 530, 85, 65));				
 	platforms.push(new Platform("spacePlatS", 13000, 135, 85, 65));
 	items.push(new Item(certificateShadowPictures, 13005, 75, 70, 70));
-	platforms.push(new Platform("spacePlatS", 13255, 540, 85, 65, 280, 0));				//movable
-	platforms.push(new Platform("spacePlatS", 13145, 220, 85, 65, 120, 1));				//movable
-	platforms.push(new Platform("spacePlatS", 13140, 375, 85, 65));
-	obstacles.push(new Obstacle(spaceEngineS2Pictures,"boxAnimated", 13155, 380, 55, 60));
-	platforms.push(new Platform("spacePlatS", 13250, 375, 85, 65));
-	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 13265, 380, 55, 60));
-	platforms.push(new Platform("spacePlatS", 13370, 405, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13650, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13775, 290, 85, 65, 120, 1));				//movable
-	items.push(new Item(coinPictures, 14000, 105, 60, 60));
+	obstacles.push(new Obstacle("spaceWaterL","hole", 13050, gameHeight, 840, 100));
+	platforms.push(new Platform("spacePlatS", 13355, 530, 85, 65, 280, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 13145, 250, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 13250, 365, 85, 65));
+	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 13265, 370, 55, 60));
+	platforms.push(new Platform("spacePlatS", 13400, 405, 85, 65));
+	//platforms.push(new Platform("spacePlatS", 13650, 520, 85, 65));
+	platforms.push(new Platform("spacePlatS", 13725, 290, 85, 65));				
+	items.push(new Item(coinPictures, 14000, 90, 60, 60));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 13900, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 14055, 510, 85, 65));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 14130, gameGround, 160, 45));
 }
-
-
 
 //************* Initialisierung ******************//
 function init(){
@@ -1116,8 +1103,8 @@ function checkCollision() {
 	//loops throw the obstacles and checks for a collision with the player
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
-		if (player.detectCollision(obstacle)) { //player has collision with obstacle
-			player.lives -= 1;
+		if (player.detectCollision(obstacle)) {
+			player.lives--;
 			playSoundFX(hurtsound);
 			if(player.lives == 0){
 				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
@@ -1214,9 +1201,10 @@ function checkFinished() {
 }
 
 function jump(){
-	if(player.isJumping == true){
+	if(player.isJumping == true && player.isfalling == false){
 		if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
 			player.charY -= player.jumpSpeed * 3
+			checkCollision();
 		} else {
 			if(player.charY > player.ground){
 				player.goingDown = false;
@@ -1251,11 +1239,15 @@ function fall(){
 	//player falls down in a hole
 	if(player.isfalling == true){
 		clearInterval(environmentIntervalHandle);
-		player.isJumping = false;
 		if(player.charY < gameHeight){
 			player.charY += 10
 		}else{
-			player.isfalling = false;
+			if(player.lives == 0){
+				gameState.current = gameState.over	//sets the current game State to Game Over when a Collision with an obstacle is detected
+			}else{
+				restartAtCheckpoint();
+			}		
+			this.isfalling = false;	
 		}
 	}
 }
@@ -1389,10 +1381,12 @@ function changeLecturerPicture(animation){
 }
 
 function updateEnvironment(backgroundMoveSpeed){
-	moveBackground(backgroundMoveSpeed);
-	updateObstacles(backgroundMoveSpeed);
-	updateItems(backgroundMoveSpeed);
-	updatePlatforms(backgroundMoveSpeed);
+	if(backgroundX + backgroundMoveSpeed < 0) {
+		moveBackground(backgroundMoveSpeed);
+		updateObstacles(backgroundMoveSpeed);
+		updateItems(backgroundMoveSpeed);
+		updatePlatforms(backgroundMoveSpeed);
+	}
 }
 
 function restartGame() {
@@ -1449,14 +1443,13 @@ function restartAtCheckpoint() {
 function goLeft(){
 	if(player.isGoing === false){
 		player.isGoing = true;
-			environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
+		environmentIntervalHandle = setInterval(function() { updateEnvironment(backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
 
 function goRight(){
 	if(player.isGoing === false){
 		player.isGoing = true;
-
 		environmentIntervalHandle = setInterval(function() { updateEnvironment(-backgroundMoveSpeed); }, backgroundUpdateSpeed);
 	}
 }
@@ -1467,7 +1460,12 @@ function goRight(){
 
 function keyDown(event){
 	if(  pressAnyKey == true){
-		gameState.current = gameState.finish;
+		
+		if (gameState.current == gameState.finish) {
+			window.open("index.html","_self");
+		} else {
+			gameState.current = gameState.finish;
+		}
 		pressAnyKey = false;
 	}
 
@@ -1594,34 +1592,46 @@ function drawBreakMenu() {
 }
 
 function drawFinishMenu() {
-	var menubackground = document.getElementById("finishmenu");
-	ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
+
+	if(sessionStorage.getItem("level") == 3) { 
+		
+		var name = sessionStorage.getItem("characterName");
+		var bachelorCertificate = document.getElementById("BACE01");
+		ctx.drawImage(bachelorCertificate,0,0,canvas.width, canvas.height);
+		ctx.fillStyle = "#233769";
+		ctx.fillText(name, 525, 310);
+		ctx.fillText(player.grade,535,518);
+		pressAnyKey = true;
+
+	} else {		
+		var menubackground = document.getElementById("finishmenu");
+		ctx.drawImage(menubackground, 0, 0, canvas.width, canvas.height);
 
 
-	//continueButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
-		var continueButton = document.getElementById("continuehover");
-	} else {
-		var continueButton = document.getElementById("continuebutton");
+		//continueButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 300 && mousePosY <= 350) {
+			var continueButton = document.getElementById("continuehover");
+		} else {
+			var continueButton = document.getElementById("continuebutton");
+		}	
+		ctx.drawImage(continueButton, 500, 300, 200, 50);
+
+		//restartButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
+			var restartButton = document.getElementById("restarthover");
+		} else {
+			var restartButton = document.getElementById("restartbutton");
+		}	
+		ctx.drawImage(restartButton, 500, 370, 200, 50);
+
+		//exitButton
+		if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
+			var exitButton = document.getElementById("exithover");
+		} else {
+			var exitButton = document.getElementById("exitbutton");
+		}	
+		ctx.drawImage(exitButton, 500, 440, 200, 50);
 	}	
-	ctx.drawImage(continueButton, 500, 300, 200, 50);
-
-	//restartButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 370 && mousePosY <= 420) {
-		var restartButton = document.getElementById("restarthover");
-	} else {
-		var restartButton = document.getElementById("restartbutton");
-	}	
-	ctx.drawImage(restartButton, 500, 370, 200, 50);
-
-	//exitButton
-	if (mousePosX >= 500 && mousePosX <= 700 && mousePosY >= 440 && mousePosY <= 490) {
-		var exitButton = document.getElementById("exithover");
-	} else {
-		var exitButton = document.getElementById("exitbutton");
-	}	
-	ctx.drawImage(exitButton, 500, 440, 200, 50);
-
 }
 
 function drawGameOverMenu() {
@@ -1651,8 +1661,8 @@ function drawECTSLabel()
 {
 	ctx.font = "29px Bangers";
 	ctx.fillStyle = "#f28e13";
-	ctx.textAlign = "center";
-	ctx.fillText("Creditpoints: " + creditPoints, 240, 40);
+	ctx.textAlign = "start";
+	ctx.fillText("Creditpoints: " + creditPoints, 180, 40);
 }
 
 function drawMuteButton() {
@@ -1674,8 +1684,7 @@ function drawMuteButton() {
 	
 }
 
-function menuButtonClick(event)
-{
+function menuButtonClick(event){
 	let rect = canvas.getBoundingClientRect(); 
 	let x = event.clientX - rect.left; 
 	let y = event.clientY - rect.top;
@@ -1747,38 +1756,41 @@ function menuButtonClick(event)
 
 	//handler for all the events when game state is finished
 	if (gameState.current == gameState.finish) {
-
-		//handler for continueButton
-		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
-			console.log("Continue Button Pressed");
-
-			if(sessionStorage.getItem("level") == 1){
-				sessionStorage.setItem("level", 2)
-				audioPlayer.pause();
-			}else if(sessionStorage.getItem("level") == 2){
-				sessionStorage.setItem("level", 3)
-				audioPlayer.pause();
-			}else if(sessionStorage.getItem("level") == 3){
-				
-			}
-			restartGame();
-			gameState.current = gameState.game;
-		}
-
-		//handler for restartbutton
-		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
-			console.log("Restart Button Pressed");
-			restartGame()	
-		}
 		
-			//handler for exitbutton
-		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
-			console.log("Exit Button Pressed");
+		if(sessionStorage.getItem("level") == 3) { 
 			window.open("index.html","_self");
-		}
-		
-	}
+			
+		} else {
+			//handler for continueButton
+			if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
+				console.log("Continue Button Pressed");
 
+				if(sessionStorage.getItem("level") == 1){
+					sessionStorage.setItem("level", 2)
+					audioPlayer.pause();
+				}else if(sessionStorage.getItem("level") == 2){
+					sessionStorage.setItem("level", 3)
+					audioPlayer.pause();
+				}else if(sessionStorage.getItem("level") == 3){
+
+				}
+				restartGame();
+				gameState.current = gameState.game;
+			}
+
+			//handler for restartbutton
+			if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
+				console.log("Restart Button Pressed");
+				restartGame()	
+			}
+
+				//handler for exitbutton
+			if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
+				console.log("Exit Button Pressed");
+				window.open("index.html","_self");
+			}
+		}
+	}
 }
 
 function getMousePos(event){
