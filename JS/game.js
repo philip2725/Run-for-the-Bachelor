@@ -196,22 +196,24 @@ class Player {
 	}	
 
 	detectPlatform(platform) {
+		//checks whether the player is touching a platform
 		if (this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
 			if (this.getBottom() <= platform.getTop() && platform.getTop() - this.getBottom() < 100) {
 					player.onPlatform = true;
-					playersPlatform = platform;
+					playersPlatform = platform;	//playersplatform is the platform where the player stays on top
 					return true;	
 			} 
 			return false;
 		} else {
+			//When the player is not at the platform anymore but still in the air
 			if (this.isJumping == false && player.charY == platform.getTop() - player.charHeight) {
 				player.onPlatform = false;
-				player.playerWantsDownFromPlatform = true;
+				player.playerWantsDownFromPlatform = true; // with setting these variable and the player.onplatform the player goes down inside the jump function
 				this.isJumping = true;
 			}
 
-			if (playersPlatform != 0) {
-				if (player.getBottom() < playersPlatform.getTop()) {
+			if (playersPlatform != 0) { 
+				if (player.getBottom() < playersPlatform.getTop()) { //player is above the platform
 					player.onPlatform = false
 				}
 			}
@@ -410,7 +412,7 @@ class Obstacle {
 	}
 
 	update(direcion) {
-		this.x += direcion;																	//movement of obstacle when player goes to right
+		this.x += direcion;																	//change the x position of the obstacle when player goes to right or left
 	}
 
 	getTop() {
@@ -430,7 +432,7 @@ class Obstacle {
 	}
 }
 
-	var obstacles = [];
+	var obstacles = [];	//all obstacles of the current level are inside these array
 
 	//Obstacles Arrays
 	cityOilBarrelPictures = ['OILB01','OILB02','OILB03','OILB04'];
@@ -563,30 +565,31 @@ class Platform {
 	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {
 		var xPos = x;
 		this.x = xPos;
-		this.helperX = xPos;
+		this.helperX = xPos; //this variable is needed for the movePlatform funtion. 
 		var yPos = y;
 		this.y = yPos;
-		this.helperY = yPos;
+		this.helperY = yPos; //this variable is needed for the movePlatform funtion. 
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
-		this.moveArea = moveArea;
-		this.moveToRight = false;
-		this.moveToBottom = false;
-		this.moveDirection = moveDirection;
+		this.moveArea = moveArea; //defines the area of moving platforms , for example: 200 means that the platform move 200 left and 200 right of the x position
+		this.moveToRight = false; //tells if a moving platform goes to right or left
+		this.moveToBottom = false; // tells if a moving platform goes to bottom or to top
+		this.moveDirection = moveDirection; //defines whether a moving platform move on the y axis or the x axis
 	}
 
 
 	
 	update(direction) {
 		this.x += direction;	
-		this.helperX += direction;																//movement of platform when player goes to right
+		this.helperX += direction;																//updates the x position of the platform when the player goes to right or left
 	}
 
 	movePlatform(direction) {
-		if (this.moveDirection == 0) {
 
-			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) {
+		if (this.moveDirection == 0) { //handle  x-axis moving platforms 
+
+			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) { //calulate if the platform have to change its moving direction
 				
 				this.x -= direction;
 				if (this.helperX - this.x == this.moveArea) {
@@ -599,7 +602,7 @@ class Platform {
 				}
 
 			} 
-		} else {
+		} else { //handle  y-axis moving platforms 
 			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
 				this.y -= direction;
 				if (this.helperY - this.y == this.moveArea || this.y <= 0) {
@@ -632,8 +635,8 @@ class Platform {
 	}
 
 }
-var platforms = [];
-var playersPlatform = 0; 																	// is the platform where the player is on top
+var platforms = [];			// here are all platforms of the current level saved
+var playersPlatform = 0; 																	// holds the platform where the player is on top
 
 
 //control the game
@@ -929,7 +932,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -989,6 +992,7 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	ctx.fillStyle = rstyle;
 	return ctx.fillRect(rx, ry, rw, rh);
 }
+
 
 function playBackgroundAudio() {
 	if (playingAudio) {
@@ -1054,7 +1058,7 @@ function checkGameState(){
 }
 
 function drawObstacles() {
-	
+	//loops throw all obstacles in the level and draw them on the canvas
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index];	
 		if(obstacle.type == "boxAnimated"){
@@ -1100,6 +1104,7 @@ function updateItems(direction) {
 	}
 }
 
+//this function get called when the player is moving to the right or left. It changes the x position of all obstacles
 function updateObstacles(direction) {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
@@ -1108,10 +1113,10 @@ function updateObstacles(direction) {
 }
 
 function checkCollision() {
-	//check for upstacles
+	//loops throw the obstacles and checks for a collision with the player
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
-		if (player.detectCollision(obstacle)) {
+		if (player.detectCollision(obstacle)) { //player has collision with obstacle
 			player.lives -= 1;
 			playSoundFX(hurtsound);
 			if(player.lives == 0){
@@ -1145,12 +1150,12 @@ function checkCollision() {
 }
 
 function drawPlatforms() {
-    
+   //loops throw all platforms in the level and draw them on the canvas 
     for (index = 0; index < platforms.length; index++) {
         var platform = platforms[index];    
         var picture = document.getElementById(platform.pictureId)
-        if (platform.moveArea != 0) {
-            platform.movePlatform(platformsMoveSpeed)
+        if (platform.moveArea != 0) { //checks if the platform is a moving platform
+            platform.movePlatform(platformsMoveSpeed) //this function makes the platform moving
         }
         ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
         //drawRect(platform.x,platform.y,platform.width,platform.height)
@@ -1159,23 +1164,25 @@ function drawPlatforms() {
 
 function handlePlayerOnMovingPlatform() {
 
-    
+    //checks if the player is on top of a moving platform
     if (player.onPlatform && playersPlatform.moveArea != 0 && player.charY == playersPlatform.getTop() - player.charHeight && player.playerWantsDownFromPlatform == false) {
         
         if (playersPlatform.moveDirection == 0) {
+			//player is on a moving x-axis platform. The Environment has to change, so that the player can stay on the moving platform
             if (playersPlatform.moveToRight) {
                 updateEnvironment(-platformsMoveSpeed);
             } else {
                 updateEnvironment(platformsMoveSpeed);
             }
         } else {
-            player.charY = playersPlatform.y - player.charHeight;
+			// when the player is on a moving y-axis platform
+            player.charY = playersPlatform.y - player.charHeight; //players y position have to be equal with the platforms y position
             player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
         }
 
     }
 }
-
+//this function get called when the player is moving to the right or left. It changes the x position of all platforms
 function updatePlatforms(direction) {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
@@ -1186,7 +1193,7 @@ function updatePlatforms(direction) {
 function checkPlatforms() {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
-		if (player.detectPlatform(platform)) {
+		if (player.detectPlatform(platform)) { //checks if the player is on a platform
 			break;
 		} 
 	}	
@@ -1230,7 +1237,7 @@ function jump(){
 						player.charY = playersPlatform.getTop() - player.charHeight;
 						player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 					}
-				} else {
+				} else { // if the player is not on a platform and should go down to the ground
 					player.goingDown = true;
 					player.charY += player.jumpSpeed * 4
 					checkPlatforms();
