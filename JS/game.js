@@ -51,7 +51,8 @@ class Lecturer {
 		this.charY = gameHeight*0.87-charHeight;	
 		this.charPictureWL = [];
 		this.charPictureIL = [];
-		this.speachBubbles = [];					
+		this.speachBubbles = [];
+		this.showNextSpeachBubble = false;					
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxIL = 0;				
 		this.movementSpeed = 60;				
@@ -103,7 +104,7 @@ class Lecturer {
 			'BRIL07', 'BRIL08', 'BRIL09', 'BRIL10', 'BRIL11', 'BRIL12', 
 			'BRIL13', 'BRIL14', 'BRIL15', 'BRIL16', 'BRIL17', 'BRIL18', 
 			'BRIL19', 'BRIL20'];	
-			this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
+			this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05','BRAB06'];
 			}
 	}
 }
@@ -148,7 +149,8 @@ class Player {
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
 		this.isfalling = false;
 		this.lives = 3;																			//bachelor-Heads at the Top	
-		this.grade = 4;																			//if you get collectables, the grade will be better
+		this.grade = 4;	
+		this.averageGradeHelper = 0;																		//if you get collectables, the grade will be better
 	}
 
 	drawPlayer() {
@@ -190,22 +192,24 @@ class Player {
 	}	
 
 	detectPlatform(platform) {
+		//checks whether the player is touching a platform
 		if (this.getRight() > platform.getLeft() && this.getLeft() < platform.getRight()) {
 			if (this.getBottom() <= platform.getTop() && platform.getTop() - this.getBottom() < 100) {
 					player.onPlatform = true;
-					playersPlatform = platform;
+					playersPlatform = platform;	//playersplatform is the platform where the player stays on top
 					return true;	
 			} 
 			return false;
 		} else {
+			//When the player is not at the platform anymore but still in the air
 			if (this.isJumping == false && player.charY == platform.getTop() - player.charHeight) {
 				player.onPlatform = false;
-				player.playerWantsDownFromPlatform = true;
+				player.playerWantsDownFromPlatform = true; // with setting these variable and the player.onplatform the player goes down inside the jump function
 				this.isJumping = true;
 			}
 
-			if (playersPlatform != 0) {
-				if (player.getBottom() < playersPlatform.getTop()) {
+			if (playersPlatform != 0) { 
+				if (player.getBottom() < playersPlatform.getTop()) { //player is above the platform
 					player.onPlatform = false
 				}
 			}
@@ -404,7 +408,7 @@ class Obstacle {
 	}
 
 	update(direcion) {
-		this.x += direcion;																	//movement of obstacle when player goes to right
+		this.x += direcion;																	//change the x position of the obstacle when player goes to right or left
 	}
 
 	getTop() {
@@ -424,7 +428,7 @@ class Obstacle {
 	}
 }
 
-	var obstacles = [];
+	var obstacles = [];	//all obstacles of the current level are inside these array
 
 	//Obstacles Arrays
 	cityOilBarrelPictures = ['OILB01','OILB02','OILB03','OILB04'];
@@ -557,30 +561,31 @@ class Platform {
 	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {
 		var xPos = x;
 		this.x = xPos;
-		this.helperX = xPos;
+		this.helperX = xPos; //this variable is needed for the movePlatform funtion. 
 		var yPos = y;
 		this.y = yPos;
-		this.helperY = yPos;
+		this.helperY = yPos; //this variable is needed for the movePlatform funtion. 
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
-		this.moveArea = moveArea;
-		this.moveToRight = false;
-		this.moveToBottom = false;
-		this.moveDirection = moveDirection;
+		this.moveArea = moveArea; //defines the area of moving platforms , for example: 200 means that the platform move 200 left and 200 right of the x position
+		this.moveToRight = false; //tells if a moving platform goes to right or left
+		this.moveToBottom = false; // tells if a moving platform goes to bottom or to top
+		this.moveDirection = moveDirection; //defines whether a moving platform move on the y axis or the x axis
 	}
 
 
 	
 	update(direction) {
 		this.x += direction;	
-		this.helperX += direction;																//movement of platform when player goes to right
+		this.helperX += direction;																//updates the x position of the platform when the player goes to right or left
 	}
 
 	movePlatform(direction) {
-		if (this.moveDirection == 0) {
 
-			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) {
+		if (this.moveDirection == 0) { //handle  x-axis moving platforms 
+
+			if(this.helperX - this.x <= this.moveArea && this.moveToRight == false) { //calulate if the platform have to change its moving direction
 				
 				this.x -= direction;
 				if (this.helperX - this.x == this.moveArea) {
@@ -593,7 +598,7 @@ class Platform {
 				}
 
 			} 
-		} else {
+		} else { //handle  y-axis moving platforms 
 			if(this.helperY - this.y <= this.moveArea && this.moveToBottom == false) {
 				this.y -= direction;
 				if (this.helperY - this.y == this.moveArea || this.y <= 0) {
@@ -626,8 +631,8 @@ class Platform {
 	}
 
 }
-var platforms = [];
-var playersPlatform = 0; 																	// is the platform where the player is on top
+var platforms = [];			// here are all platforms of the current level saved
+var playersPlatform = 0; 																	// holds the platform where the player is on top
 
 
 //control the game
@@ -914,7 +919,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 3)
+	sessionStorage.setItem("level", 1)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -975,6 +980,7 @@ function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
 	return ctx.fillRect(rx, ry, rw, rh);
 }
 
+
 function playBackgroundAudio() {
 	if (playingAudio) {
 		audioPlayer.play()
@@ -1028,7 +1034,7 @@ function checkGameState(){
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(environmentIntervalHandle);
-		drawFinishMenu();
+		drawFinishMenu();	
 		
 	}else if (gameState.current == gameState.over)
 	{
@@ -1039,7 +1045,7 @@ function checkGameState(){
 }
 
 function drawObstacles() {
-	
+	//loops throw all obstacles in the level and draw them on the canvas
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index];	
 		if(obstacle.type == "boxAnimated"){
@@ -1085,6 +1091,7 @@ function updateItems(direction) {
 	}
 }
 
+//this function get called when the player is moving to the right or left. It changes the x position of all obstacles
 function updateObstacles(direction) {
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
@@ -1093,7 +1100,7 @@ function updateObstacles(direction) {
 }
 
 function checkCollision() {
-	//check for upstacles
+	//loops throw the obstacles and checks for a collision with the player
 	for (index = 0; index < obstacles.length; index++) {
 		var obstacle = obstacles[index]
 		if (player.detectCollision(obstacle)) {
@@ -1130,12 +1137,12 @@ function checkCollision() {
 }
 
 function drawPlatforms() {
-    
+   //loops throw all platforms in the level and draw them on the canvas 
     for (index = 0; index < platforms.length; index++) {
         var platform = platforms[index];    
         var picture = document.getElementById(platform.pictureId)
-        if (platform.moveArea != 0) {
-            platform.movePlatform(platformsMoveSpeed)
+        if (platform.moveArea != 0) { //checks if the platform is a moving platform
+            platform.movePlatform(platformsMoveSpeed) //this function makes the platform moving
         }
         ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
         //drawRect(platform.x,platform.y,platform.width,platform.height)
@@ -1144,23 +1151,25 @@ function drawPlatforms() {
 
 function handlePlayerOnMovingPlatform() {
 
-    
+    //checks if the player is on top of a moving platform
     if (player.onPlatform && playersPlatform.moveArea != 0 && player.charY == playersPlatform.getTop() - player.charHeight && player.playerWantsDownFromPlatform == false) {
         
         if (playersPlatform.moveDirection == 0) {
+			//player is on a moving x-axis platform. The Environment has to change, so that the player can stay on the moving platform
             if (playersPlatform.moveToRight) {
                 updateEnvironment(-platformsMoveSpeed);
             } else {
                 updateEnvironment(platformsMoveSpeed);
             }
         } else {
-            player.charY = playersPlatform.y - player.charHeight;
+			// when the player is on a moving y-axis platform
+            player.charY = playersPlatform.y - player.charHeight; //players y position have to be equal with the platforms y position
             player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
         }
 
     }
 }
-
+//this function get called when the player is moving to the right or left. It changes the x position of all platforms
 function updatePlatforms(direction) {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
@@ -1171,7 +1180,7 @@ function updatePlatforms(direction) {
 function checkPlatforms() {
 	for (index = 0; index < platforms.length; index++) {
 		var platform = platforms[index]
-		if (player.detectPlatform(platform)) {
+		if (player.detectPlatform(platform)) { //checks if the player is on a platform
 			break;
 		} 
 	}	
@@ -1216,7 +1225,7 @@ function jump(){
 						player.charY = playersPlatform.getTop() - player.charHeight;
 						player.jumpHigh = player.helperJumpHigh - (gameHeight*0.88 - playersPlatform.getTop()); //when the player hits the platform the jumphigh must be jumphigh + platformHeight
 					}
-				} else {
+				} else { // if the player is not on a platform and should go down to the ground
 					player.goingDown = true;
 					player.charY += player.jumpSpeed * 4
 					checkPlatforms();
@@ -1331,17 +1340,23 @@ function drawLecturerAnimation(){
 			lecturer.charX -= 5
 		}else {
 			changeLecturerPicture("IL");
-			if(player.grade == 1){
-				var picture = document.getElementById(lecturer.speachBubbles[0]);
-			}else if(player.grade == 2){
-				var picture = document.getElementById(lecturer.speachBubbles[1]);
-			}else if(player.grade == 3){
-				var picture = document.getElementById(lecturer.speachBubbles[2]);
-			}else if(player.grade == 4){
-				var picture = document.getElementById(lecturer.speachBubbles[3]);
+			if (lecturer.showNextSpeachBubble == false) {
+				if(player.grade == 1){
+					var picture = document.getElementById(lecturer.speachBubbles[0]);
+				}else if(player.grade == 2){
+					var picture = document.getElementById(lecturer.speachBubbles[1]);
+				}else if(player.grade == 3){
+					var picture = document.getElementById(lecturer.speachBubbles[2]);
+				}else if(player.grade == 4){
+					var picture = document.getElementById(lecturer.speachBubbles[3]);
+				}
+				ctx.drawImage(picture, 225, 100, 750, 100);
+			} else {
+				var picture = document.getElementById(lecturer.speachBubbles[5]);
+				ctx.drawImage(picture, 225, 100, 750, 150);
 			}
 			pressAnyKey = true;
-			ctx.drawImage(picture, 225, 100, 750, 100);
+			
 		}
 		lecturer.drawLecturer()
 	}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
@@ -1384,6 +1399,7 @@ function restartGame() {
 	gameState.current = gameState.game
 	lecturer.lecturerAninmation = false;
 	lecturer.startAnimation = false;
+	lecturer.showNextSpeachBubble = false;
 	pressAnyKey = false;
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
@@ -1451,14 +1467,28 @@ function goRight(){
 
 function keyDown(event){
 	if(  pressAnyKey == true){
-		
+		pressAnyKey = false;
 		if (gameState.current == gameState.finish) {
 			window.open("index.html","_self");
 		} else {
-			gameState.current = gameState.finish;
+			if (sessionStorage.getItem("level") == 3 && lecturer.showNextSpeachBubble == false) {
+				lecturer.showNextSpeachBubble = true;
+			} else {
+				gameState.current = gameState.finish;
+				player.averageGradeHelper += player.grade;
+			}
 		}
-		pressAnyKey = false;
+		
 	}
+//this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
+	/*if (lecturer.lecturerAninmation == true && sessionStorage.getItem("level") == 3) {
+			// var picture = document.getElementById(lecturer.speachBubbles[4]);
+			// ctx.drawImage(picture, 225, 100, 750, 100);
+			console.log("1");
+		} else {
+			console.log("2");
+			drawFinishMenu();
+		}	*/
 
 	if(gameState.current != gameState.over && lecturer.lecturerAninmation == false){
 		switch (event.keyCode) {
@@ -1585,13 +1615,12 @@ function drawBreakMenu() {
 function drawFinishMenu() {
 
 	if(sessionStorage.getItem("level") == 3) { 
-		
 		var name = sessionStorage.getItem("characterName");
 		var bachelorCertificate = document.getElementById("BACE01");
 		ctx.drawImage(bachelorCertificate,0,0,canvas.width, canvas.height);
 		ctx.fillStyle = "#233769";
 		ctx.fillText(name, 525, 310);
-		ctx.fillText(player.grade,535,518);
+		ctx.fillText((player.averageGradeHelper / 3).toFixed(1),535,518);
 		pressAnyKey = true;
 
 	} else {		
@@ -1762,8 +1791,6 @@ function menuButtonClick(event){
 				}else if(sessionStorage.getItem("level") == 2){
 					sessionStorage.setItem("level", 3)
 					audioPlayer.pause();
-				}else if(sessionStorage.getItem("level") == 3){
-
 				}
 				restartGame();
 				gameState.current = gameState.game;
