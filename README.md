@@ -38,6 +38,7 @@ Eine Liste von Technologien die innerhalb dieses Projektes verwendet wurden:
 Musik:
 * [Chrome Music Lab - Song Maker](https://musiclab.chromeexperiments.com/Song-Maker): Version 12.3 
 * [Audacity](https://www.audacity.de/): Version 2.4.2
+* [AE-Juice](https://aejuice.com/free-plugins/)
 
 Design/Animation:
 * [GIMP](https://www.gimp.org/): Version 2.10.20
@@ -232,11 +233,13 @@ Design:
 * Menüschriftzüge
 * Game-Logo
 
+* Game-Trailer
+
 
 ## Systemvoraussetzungen
 ***
 * ein geeigneter Webbrowser: Google Chrome, Firefox, Microsoft Edge, Opera
-* Browser Fenstergröße: min. 1250 x 800
+* Browser Fenstergröße: min. 1250 x 800 Pixel
 
 
 ## FAQs
