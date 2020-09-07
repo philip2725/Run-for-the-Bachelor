@@ -145,6 +145,7 @@ Schriftliches:
 * Pitchslide
 * README
 * Projektstrukturplan
+* Lizendatei (LICENSE.md)
 
 ***
 
