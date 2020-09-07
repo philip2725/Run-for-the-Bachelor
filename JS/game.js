@@ -51,7 +51,8 @@ class Lecturer {
 		this.charY = gameHeight*0.87-charHeight;	
 		this.charPictureWL = [];
 		this.charPictureIL = [];
-		this.speachBubbles = [];					
+		this.speachBubbles = [];
+		this.showNextSpeachBubble = false;					
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxIL = 0;				
 		this.movementSpeed = 60;				
@@ -103,7 +104,7 @@ class Lecturer {
 			'BRIL07', 'BRIL08', 'BRIL09', 'BRIL10', 'BRIL11', 'BRIL12', 
 			'BRIL13', 'BRIL14', 'BRIL15', 'BRIL16', 'BRIL17', 'BRIL18', 
 			'BRIL19', 'BRIL20'];	
-			this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
+			this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05','BRAB06'];
 			}
 	}
 }
@@ -148,7 +149,8 @@ class Player {
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
 		this.isfalling = false;
 		this.lives = 3;																			//bachelor-Heads at the Top	
-		this.grade = 4;																			//if you get collectables, the grade will be better
+		this.grade = 4;	
+		this.averageGradeHelper = 0;																		//if you get collectables, the grade will be better
 	}
 
 	drawPlayer() {
@@ -1034,7 +1036,7 @@ function checkGameState(){
 	}else if (gameState.current == gameState.finish)
 	{
 		clearInterval(environmentIntervalHandle);
-		drawFinishMenu();
+		drawFinishMenu();	
 		
 	}else if (gameState.current == gameState.over)
 	{
@@ -1340,17 +1342,23 @@ function drawLecturerAnimation(){
 			lecturer.charX -= 5
 		}else {
 			changeLecturerPicture("IL");
-			if(player.grade == 1){
-				var picture = document.getElementById(lecturer.speachBubbles[0]);
-			}else if(player.grade == 2){
-				var picture = document.getElementById(lecturer.speachBubbles[1]);
-			}else if(player.grade == 3){
-				var picture = document.getElementById(lecturer.speachBubbles[2]);
-			}else if(player.grade == 4){
-				var picture = document.getElementById(lecturer.speachBubbles[3]);
+			if (lecturer.showNextSpeachBubble == false) {
+				if(player.grade == 1){
+					var picture = document.getElementById(lecturer.speachBubbles[0]);
+				}else if(player.grade == 2){
+					var picture = document.getElementById(lecturer.speachBubbles[1]);
+				}else if(player.grade == 3){
+					var picture = document.getElementById(lecturer.speachBubbles[2]);
+				}else if(player.grade == 4){
+					var picture = document.getElementById(lecturer.speachBubbles[3]);
+				}
+				ctx.drawImage(picture, 225, 100, 750, 100);
+			} else {
+				var picture = document.getElementById(lecturer.speachBubbles[5]);
+				ctx.drawImage(picture, 225, 100, 750, 150);
 			}
 			pressAnyKey = true;
-			ctx.drawImage(picture, 225, 100, 750, 100);
+			
 		}
 		lecturer.drawLecturer()
 	}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
@@ -1393,6 +1401,7 @@ function restartGame() {
 	gameState.current = gameState.game
 	lecturer.lecturerAninmation = false;
 	lecturer.startAnimation = false;
+	lecturer.showNextSpeachBubble = false;
 	pressAnyKey = false;
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
@@ -1460,14 +1469,28 @@ function goRight(){
 
 function keyDown(event){
 	if(  pressAnyKey == true){
-		
+		pressAnyKey = false;
 		if (gameState.current == gameState.finish) {
 			window.open("index.html","_self");
 		} else {
-			gameState.current = gameState.finish;
+			if (sessionStorage.getItem("level") == 3 && lecturer.showNextSpeachBubble == false) {
+				lecturer.showNextSpeachBubble = true;
+			} else {
+				gameState.current = gameState.finish;
+				player.averageGradeHelper += player.grade;
+			}
 		}
-		pressAnyKey = false;
+		
 	}
+//this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
+	/*if (lecturer.lecturerAninmation == true && sessionStorage.getItem("level") == 3) {
+			// var picture = document.getElementById(lecturer.speachBubbles[4]);
+			// ctx.drawImage(picture, 225, 100, 750, 100);
+			console.log("1");
+		} else {
+			console.log("2");
+			drawFinishMenu();
+		}	*/
 
 	if(gameState.current != gameState.over && lecturer.lecturerAninmation == false){
 		switch (event.keyCode) {
@@ -1594,13 +1617,12 @@ function drawBreakMenu() {
 function drawFinishMenu() {
 
 	if(sessionStorage.getItem("level") == 3) { 
-		
 		var name = sessionStorage.getItem("characterName");
 		var bachelorCertificate = document.getElementById("BACE01");
 		ctx.drawImage(bachelorCertificate,0,0,canvas.width, canvas.height);
 		ctx.fillStyle = "#233769";
 		ctx.fillText(name, 525, 310);
-		ctx.fillText(player.grade,535,518);
+		ctx.fillText((player.averageGradeHelper / 3).toFixed(1),535,518);
 		pressAnyKey = true;
 
 	} else {		
@@ -1771,8 +1793,6 @@ function menuButtonClick(event){
 				}else if(sessionStorage.getItem("level") == 2){
 					sessionStorage.setItem("level", 3)
 					audioPlayer.pause();
-				}else if(sessionStorage.getItem("level") == 3){
-
 				}
 				restartGame();
 				gameState.current = gameState.game;
