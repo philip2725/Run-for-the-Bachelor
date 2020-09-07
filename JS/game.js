@@ -779,9 +779,8 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
-	checkpoints.push(10600);
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
-	platforms.push(new Platform("junglePlatS", 11700, 580, 85, 85, 140, 0));		   //movable
+	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));		   //movable
 	platforms.push(new Platform("junglePlatS", 11850, 480, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 485, 50, 35));
 	platforms.push(new Platform("junglePlatS", 11850, 200, 85, 85));
@@ -893,16 +892,15 @@ function createLevel3(){
 	platforms.push(new Platform("spacePlatS", 12220, 495, 85, 65));
 	platforms.push(new Platform("spacePlatS", 12635, 450, 85, 65, 240, 0));				//movable
 	platforms.push(new Platform("spacePlatS", 12975, 530, 85, 65));				
-	platforms.push(new Platform("spacePlatS", 13000, 135, 85, 65));
+	platforms.push(new Platform("spacePlatS", 13000, 150, 85, 65));
 	items.push(new Item(certificateShadowPictures, 13005, 75, 70, 70));
 	obstacles.push(new Obstacle("spaceWaterL","hole", 13050, gameHeight, 840, 100));
-	platforms.push(new Platform("spacePlatS", 13355, 530, 85, 65, 280, 0));				//movable
-	platforms.push(new Platform("spacePlatS", 13145, 250, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 13145, 265, 85, 65));				
 	platforms.push(new Platform("spacePlatS", 13250, 365, 85, 65));
 	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 13265, 370, 55, 60));
-	platforms.push(new Platform("spacePlatS", 13400, 405, 85, 65));
-	//platforms.push(new Platform("spacePlatS", 13650, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13725, 290, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 13355, 530, 85, 65, 280, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 13450, 405, 85, 65, 100, 0));
+	platforms.push(new Platform("spacePlatS", 13740, 290, 85, 65));				
 	items.push(new Item(coinPictures, 14000, 90, 60, 60));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 13900, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 14055, 510, 85, 65));
@@ -916,7 +914,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2)
+	sessionStorage.setItem("level", 3)
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -961,10 +959,10 @@ function draw(){
 	drawLecturerAnimation();																				
 	checkGameState();
 
-	drawMenuIcon();
-	drawECTSLabel();
-	drawLivesLabel();
-	drawMuteButton();
+	//drawMenuIcon();
+	//drawECTSLabel();
+	//drawLivesLabel();
+	//drawMuteButton();
 	fall();	
 	jump();	
 	checkCollision();
