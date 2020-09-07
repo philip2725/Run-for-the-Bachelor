@@ -919,7 +919,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 1);
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -964,10 +964,10 @@ function draw(){
 	drawLecturerAnimation();																				
 	checkGameState();
 
-	//drawMenuIcon();
-	//drawECTSLabel();
-	//drawLivesLabel();
-	//drawMuteButton();
+	drawMenuIcon();
+	drawECTSLabel();
+	drawLivesLabel();
+	drawMuteButton();
 	fall();	
 	jump();	
 	checkCollision();
@@ -1411,6 +1411,8 @@ function restartGame() {
 	obstacles = []
 	platforms = []
 	lecturer.lecturerAninmation = false;
+	lecturer.setProf(sessionStorage.getItem("level"));
+	lecturer.charX = gameWidth;
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
@@ -1741,7 +1743,7 @@ function menuButtonClick(event){
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Continue Button Pressed");
 			gameState.current = gameState.game;
-		}
+			}
 
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
@@ -1799,7 +1801,7 @@ function menuButtonClick(event){
 			//handler for restartbutton
 			if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 				console.log("Restart Button Pressed");
-				restartGame()	
+				restartGame();
 			}
 
 				//handler for exitbutton
