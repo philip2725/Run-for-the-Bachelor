@@ -63,7 +63,6 @@ Fonts:
 ## Known Bugs
 ***
 * Backgroundmusik startet nicht automatisch (wird teilweise vom Browser blockiert)
-* Objekte verschieben sich beim Laufen gegen das linke Ende (beim multiblem Klicken der linken Pfeiltaste)
 * Sammelobjekte/Münzen werden auf Brusthöhe durch links/rechts gehen des Charakters nicht eingesammelt, kann jedoch durch einen Sprung eingesammelt werden
 
 
