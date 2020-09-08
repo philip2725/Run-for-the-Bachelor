@@ -191,7 +191,9 @@ class Player {
 	detectCollision(object) {
 		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )	//detects collision at the top of the object
 		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))				//detects collision at the bottom of the object
-		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {			//detects collision at the sides of the object
+		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight()				//detects collision at the sides of the object
+		|| (this.getRight() > object.getLeft() && this.getLeft() < object.getRight()			//detects collision if the item is between top and bottom of the player
+		&& this.getBottom() > object.getBottom() && this.getTop() < object.getTop())) {			
 			if(object.type == "hole" && this.isfalling == false){
 				this.isfalling = true
 				playSoundFX(waterdrop);
@@ -637,6 +639,7 @@ function createLevel1(){
 
 	// 1. SEMESTER
 	checkpoints.push(0);
+	items.push(new Item(coinPictures,800, gameGround-100, 60, 60));
 	obstacles.push(new Obstacle(cityOilBarrelPictures,"boxAnimated", 1225, gameGround, 145, 50));
 	obstacles.push(new Obstacle(cityPowerboxPictures,"boxAnimated", 1930, gameGround, 70, 85));
 	items.push(new Item(coinPictures,2295, 390, 60, 60));
