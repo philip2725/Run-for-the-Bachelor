@@ -33,7 +33,7 @@ var checkpoints = [];
 var pressAnyKey = false;																	//if a level and the lecturer Animation has finished. the game will wait that the player press any key.
 
 // Audio
-var audioPlayer;
+var audioPlayer;																			//Variable to save the mutestatus
 if(sessionStorage.getItem("mutedStatus") == 1){
 	var playingAudio = false;
 }else if (sessionStorage.getItem("mutedStatus") == 0){
@@ -41,17 +41,17 @@ if(sessionStorage.getItem("mutedStatus") == 1){
 }
 
 //lecturer
-class Lecturer {
-	constructor() {
-		var charWidth = 109;
+class Lecturer {															//class for dozent at the end of each level
+	constructor() {		
+		var charWidth = 109;												
 		var charHeight = 152;
 		this.charWidth = charWidth;																	
 		this.charHeight = charHeight;						
 		this.charX = gameWidth;	
 		this.charY = gameHeight*0.87-charHeight;	
-		this.charPictureWL = [];
-		this.charPictureIL = [];
-		this.speachBubbles = [];
+		this.charPictureWL = [];											//Walk-Left Picture-Array
+		this.charPictureIL = [];											//Idle-Array Picture-Array
+		this.speachBubbles = [];											//SpeachBubbles Picture-Array
 		this.showNextSpeachBubble = false;					
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxIL = 0;				
@@ -62,12 +62,42 @@ class Lecturer {
 		//move Option	
 		this.ground = this.charY;																															
 	}
-	
-	drawLecturer() {
-		ctx.drawImage(this.lecturerImg, this.charX, this.charY, this.charWidth, this.charHeight);
+
+	drawLecturerAnimation(){
+		if(creditPoints >= maxCreditPoints && lecturer.startAnimation == true){
+			lecturer.lecturerAninmation = true										//dont move during Animation works
+			if(lecturer.charX > gameWidth/2 + 100 ){
+				changeLecturerPicture("WL");
+				lecturer.charX -= 5
+			}else {
+				changeLecturerPicture("IL");
+				if (lecturer.showNextSpeachBubble == false) {
+					if(player.grade == 1){
+						var picture = document.getElementById(lecturer.speachBubbles[0]);
+					}else if(player.grade == 2){
+						var picture = document.getElementById(lecturer.speachBubbles[1]);
+					}else if(player.grade == 3){
+						var picture = document.getElementById(lecturer.speachBubbles[2]);
+					}else if(player.grade == 4){
+						var picture = document.getElementById(lecturer.speachBubbles[3]);
+					}
+					ctx.drawImage(picture, 225, 100, 750, 100);
+				} else {
+					var picture = document.getElementById(lecturer.speachBubbles[5]);
+					ctx.drawImage(picture, 225, 100, 750, 150);
+				}
+				pressAnyKey = true;
+				
+			}
+			ctx.drawImage(this.lecturerImg, this.charX, this.charY, this.charWidth, this.charHeight);
+		}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
+			var picture = document.getElementById(lecturer.speachBubbles[4]);
+			ctx.drawImage(picture, 225, 100, 750, 100);
+		}
 	}
 
 	setProf(level){
+		//The Picture-Arrays of the lecturer will be filles by given level ID
 		if(level == 1){		
 			//Muesch
 			this.charPictureWL = ['MUWL01', 'MUWL02', 'MUWL03', 'MUWL04', 'MUWL05', 'MUWL06', 
@@ -114,19 +144,19 @@ class Player {
 	constructor() {
 		var charWidth = 109;
 		var charHeight = 152;
-		this.charWidth = charWidth;																	//width of character image
-		this.charHeight = charHeight;																	//height of character image
+		this.charWidth = charWidth;																//width of character image    (Array of all Player-pictures for Movement which are listed in HTML-Image-Section)
+		this.charHeight = charHeight;															//height of character image
 		this.rightPuffer = 35;																	//right puffer when an obstacle is hit
 		this.leftPuffer = 35;																	//left puffer when an obstacle is hit
 		this.charX = gameWidth*0.5-(charWidth/2);												//X-Point of character
 		this.charY = gameHeight*0.87-charHeight;												//Y-Point of character
-		this.charPictureWR = [];
-		this.charPictureWL = [];
-		this.charPictureJR = [];
-		this.charPictureJL = [];
-		this.charPictureIR = [];
-		this.charPictureIL = [];																//Array of all Player-pictures for Movement which are listed in HTML-Image-Section
-		this.currentPictureIdxWR = 0;
+		this.charPictureWR = [];																//Walk-Right Picture-Array
+		this.charPictureWL = [];																//Walk-Left Picure-Array
+		this.charPictureJR = [];																//Jump-Right Picure-Array
+		this.charPictureJL = [];																//Jump-Left Picure-Array
+		this.charPictureIR = [];																//Idle-Right Picture-Array
+		this.charPictureIL = [];																//Idle-Left Picture-Array
+		this.currentPictureIdxWR = 0;															//current pictures of the current Array
 		this.currentPictureIdxWL = 0;
 		this.currentPictureIdxJR = 0;
 		this.currentPictureIdxJL = 0;
@@ -961,9 +991,9 @@ function draw(){
 	drawPlatforms();	
 	drawItems();																				//Obstacle Images
 	drawObstacles();
-	player.drawPlayer();																		//character Image	
-	handlePlayerOnMovingPlatform()
-	drawLecturerAnimation();																				
+	player.drawPlayer();	
+	lecturer.drawLecturerAnimation();																		//character Image	
+	handlePlayerOnMovingPlatform()																			
 	checkGameState();
 
 	drawMenuIcon();
@@ -1334,39 +1364,6 @@ function changePlayerPicture(){
 
 }
 
-function drawLecturerAnimation(){
-	if(creditPoints >= maxCreditPoints && lecturer.startAnimation == true){
-		lecturer.lecturerAninmation = true										//dont move during Animation works
-		if(lecturer.charX > gameWidth/2 + 100 ){
-			changeLecturerPicture("WL");
-			lecturer.charX -= 5
-		}else {
-			changeLecturerPicture("IL");
-			if (lecturer.showNextSpeachBubble == false) {
-				if(player.grade == 1){
-					var picture = document.getElementById(lecturer.speachBubbles[0]);
-				}else if(player.grade == 2){
-					var picture = document.getElementById(lecturer.speachBubbles[1]);
-				}else if(player.grade == 3){
-					var picture = document.getElementById(lecturer.speachBubbles[2]);
-				}else if(player.grade == 4){
-					var picture = document.getElementById(lecturer.speachBubbles[3]);
-				}
-				ctx.drawImage(picture, 225, 100, 750, 100);
-			} else {
-				var picture = document.getElementById(lecturer.speachBubbles[5]);
-				ctx.drawImage(picture, 225, 100, 750, 150);
-			}
-			pressAnyKey = true;
-			
-		}
-		lecturer.drawLecturer()
-	}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
-		var picture = document.getElementById(lecturer.speachBubbles[4]);
-		ctx.drawImage(picture, 225, 100, 750, 100);
-	}
-}
-
 function changeLecturerPicture(animation){
 	if(animation == "WL"){
 		//WL = Walk Left
@@ -1413,22 +1410,17 @@ function restartGame() {
 	obstacles = []
 	platforms = []
 	lecturer.lecturerAninmation = false;
+	creditPoints = 0;
+	walkCreditPoints = 0;
+	collectCreditpoints = 0;
+	recordDistance = 0;
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
-		creditPoints = 0;
-		walkCreditPoints = 0;
-		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 2){
 		createLevel2();
-		creditPoints = 0;
-		walkCreditPoints = 0;
-		collectCreditpoints = 0;
 	}else if(sessionStorage.getItem("level") == 3){
 		createLevel3();
-		creditPoints = 0;
-		walkCreditPoints = 0;
-		collectCreditpoints = 0;
 	}
 	gameState.current = gameState.game;
 }
@@ -1836,6 +1828,4 @@ function drawLivesLabel() {
 		} 
 
 	}
-	
-
 }
