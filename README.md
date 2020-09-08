@@ -18,11 +18,13 @@ Das Spiel **RUN FOR THE BACHELOR (RFTB)** wurde von folgenden Autoren entwickelt
 * Bosbach, André
 * Härtel, Philip
 * Kaluza, Alexander
+***
+* Version: 1.0.0
 
-Version: 1.0.0
+* Erstelldatum: 10.09.2020
 
-Erstelldatum: 10.09.2020
-
+* Lizenz des **RFTB**: [[CC BY-ND 4.0]](https://creativecommons.org/licenses/by-nd/4.0/)
+***
 Spielgeschichte:
 Der Student/in befindet sich am Anfang seines Bachelor-Marathons. Er/Sie muss viele Hindernisse überwinden und Gegenstände sammeln, um sein/ihr Endziel, das Bachelor Zertifikat zu erreichen. In jedem Level wartet ein/e Dozent/in darauf, bedingt der Leistung des Studenten eine Note zu vergeben. Zudem bekommt der Student ein kleines Feedback. Bist du bereit, für den größten Marathon deines Lebens zu laufen? ;)
 
@@ -63,10 +65,7 @@ Fonts:
 ## Known Bugs
 ***
 * Backgroundmusik startet nicht automatisch (wird teilweise vom Browser blockiert)
-* Objekte verschieben sich beim Laufen gegen das linke Ende (beim multiblem Klicken der linken Pfeiltaste)
 * Sammelobjekte/Münzen werden auf Brusthöhe durch links/rechts gehen des Charakters nicht eingesammelt, kann jedoch durch einen Sprung eingesammelt werden
-* Charakter macht nachdem der User gestorben ist einen Doppelsprung (einmaliges Ereignis, danach springt er wieder normal)
-* Charakter spawnt in der Luft nachdem der User gestorben ist (sobald eine Pfeiltaste gedrückt wird, läuft er normal auf dem Boden weiter)
 
 
 ## Browserkompatibilität
@@ -80,7 +79,7 @@ Fonts:
 
 ## Lizenzen
 ***
-* [Creative Commons](https://creativecommons.org/licenses/by-nd/4.0/)
+* Lizenz des vorliegenden Spiels: [[CC BY-ND 4.0]](https://creativecommons.org/licenses/by-nd/4.0/)
 * Menümusik inspiriert von [Miitheme-Nintendo](https://www.nintendo.com/)
 
 
@@ -239,7 +238,6 @@ Design:
 * Bachelor Zertifikat
 * Menüschriftzüge
 * Game-Logo
-
 * Game-Trailer
 
 

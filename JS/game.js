@@ -1345,8 +1345,10 @@ function restartGame() {
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
+	player.jumpHigh = player.helperJumpHigh;
 	player.grade = 4;
 	items = []
+	checkpoints = []
 	obstacles = []
 	platforms = []
 	lecturer.lecturerAninmation = false;
@@ -1371,6 +1373,8 @@ function restartGame() {
 function restartAtCheckpoint() {
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
+	player.onPlatform = false;
+	player.isJumping = false;
 	player.charY = gameHeight*0.87-player.charHeight;
 
 	var difference = backgroundX+getLastCheckpoint();
