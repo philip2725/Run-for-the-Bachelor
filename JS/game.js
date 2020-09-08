@@ -1345,6 +1345,7 @@ function restartGame() {
 	player.jumpHigh = player.helperJumpHigh;
 	player.grade = 4;
 	items = []
+	checkpoints = []
 	obstacles = []
 	platforms = []
 	lecturer.lecturerAninmation = false;
