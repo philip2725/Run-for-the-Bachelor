@@ -19,6 +19,10 @@ Das Spiel **RUN FOR THE BACHELOR (RFTB)** wurde von folgenden Autoren entwickelt
 * Härtel, Philip
 * Kaluza, Alexander
 
+Version: 1.0.0
+
+Erstelldatum: 10.09.2020
+
 Spielgeschichte:
 Der Student/in befindet sich am Anfang seines Bachelor-Marathons. Er/Sie muss viele Hindernisse überwinden und Gegenstände sammeln, um sein/ihr Endziel, das Bachelor Zertifikat zu erreichen. In jedem Level wartet ein/e Dozent/in darauf, bedingt der Leistung des Studenten eine Note zu vergeben. Zudem bekommt der Student ein kleines Feedback. Bist du bereit, für den größten Marathon deines Lebens zu laufen? ;)
 
@@ -38,6 +42,7 @@ Eine Liste von Technologien die innerhalb dieses Projektes verwendet wurden:
 Musik:
 * [Chrome Music Lab - Song Maker](https://musiclab.chromeexperiments.com/Song-Maker): Version 12.3 
 * [Audacity](https://www.audacity.de/): Version 2.4.2
+* [AE-Juice](https://aejuice.com/free-plugins/)
 
 Design/Animation:
 * [GIMP](https://www.gimp.org/): Version 2.10.20
@@ -57,9 +62,11 @@ Fonts:
 
 ## Known Bugs
 ***
-* Backgroundmusik startet nicht automatisch (wird von Browser blockiert)
-* Objekte verschieben sich beim Laufen gegen das linke Ende (multibles Klicken der linken Pfeiltaste)
-* Sammelobjekte/Münzen können nur durch ausführen Sprung + links/rechts eingesammelt werden
+* Backgroundmusik startet nicht automatisch (wird teilweise vom Browser blockiert)
+* Objekte verschieben sich beim Laufen gegen das linke Ende (beim multiblem Klicken der linken Pfeiltaste)
+* Sammelobjekte/Münzen werden auf Brusthöhe durch links/rechts gehen des Charakters nicht eingesammelt, kann jedoch durch einen Sprung eingesammelt werden
+* Charakter macht nachdem der User gestorben ist einen Doppelsprung (einmaliges Ereignis, danach springt er wieder normal)
+* Charakter spawnt in der Luft nachdem der User gestorben ist (sobald eine Pfeiltaste gedrückt wird, läuft er normal auf dem Boden weiter)
 
 
 ## Browserkompatibilität
@@ -145,6 +152,7 @@ Schriftliches:
 * Pitchslide
 * README
 * Projektstrukturplan
+* Lizendatei (LICENSE.md)
 
 ***
 
@@ -232,11 +240,13 @@ Design:
 * Menüschriftzüge
 * Game-Logo
 
+* Game-Trailer
+
 
 ## Systemvoraussetzungen
 ***
 * ein geeigneter Webbrowser: Google Chrome, Firefox, Microsoft Edge, Opera
-* Browser Fenstergröße: min. 1250 x 800
+* Browser Fenstergröße: min. 1250 x 800 Pixel
 
 
 ## FAQs

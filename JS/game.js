@@ -806,7 +806,8 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 9745, 420, 85, 85));
 	platforms.push(new Platform("junglePlatS", 9880, 343, 85, 85));
 	platforms.push(new Platform("junglePlatS", 10035, 265, 85, 85));
-	obstacles.push(new Obstacle("jungleSpikesL","box", 9990, gameGround, 150, 35));
+	checkpoints.push(10600);
+	obstacles.push(new Obstacle("jungleSpikesL","box", 9970, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleWaterM","hole", 10135, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
 	platforms.push(new Platform("junglePlatS", 10370, 500, 85, 85, 220, 0));
@@ -814,14 +815,12 @@ function createLevel2(){
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
 	items.push(new Item(coinPictures,10880, 175, 60, 60));
-	checkpoints.push(10600);
 	obstacles.push(new Obstacle("jungleWaterM","hole", 11495, gameHeight, 555, 96));
-	platforms.push(new Platform("junglePlatS", 11700, 580, 85, 85, 140, 0));		   //movable
+	platforms.push(new Platform("junglePlatS", 11700, 500, 85, 85, 140, 0));		   //movable
 	platforms.push(new Platform("junglePlatS", 11850, 480, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 485, 50, 35));
 	platforms.push(new Platform("junglePlatS", 11850, 200, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesS","box", 11870, 205, 50, 35));
-	checkpoints.push(11600);
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12550, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 12875, gameGround, 150, 35));
 	items.push(new Item(coinPictures,12915, 400, 60, 60));
@@ -928,16 +927,15 @@ function createLevel3(){
 	platforms.push(new Platform("spacePlatS", 12220, 495, 85, 65));
 	platforms.push(new Platform("spacePlatS", 12635, 450, 85, 65, 240, 0));				//movable
 	platforms.push(new Platform("spacePlatS", 12975, 530, 85, 65));				
-	platforms.push(new Platform("spacePlatS", 13000, 135, 85, 65));
+	platforms.push(new Platform("spacePlatS", 13000, 150, 85, 65));
 	items.push(new Item(certificateShadowPictures, 13005, 75, 70, 70));
 	obstacles.push(new Obstacle("spaceWaterL","hole", 13050, gameHeight, 840, 100));
-	platforms.push(new Platform("spacePlatS", 13355, 530, 85, 65, 280, 0));				//movable
-	platforms.push(new Platform("spacePlatS", 13145, 250, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 13145, 265, 85, 65));				
 	platforms.push(new Platform("spacePlatS", 13250, 365, 85, 65));
 	obstacles.push(new Obstacle(spaceEngineS1Pictures,"boxAnimated", 13265, 370, 55, 60));
-	platforms.push(new Platform("spacePlatS", 13400, 405, 85, 65));
-	//platforms.push(new Platform("spacePlatS", 13650, 520, 85, 65));
-	platforms.push(new Platform("spacePlatS", 13725, 290, 85, 65));				
+	platforms.push(new Platform("spacePlatS", 13355, 530, 85, 65, 280, 0));				//movable
+	platforms.push(new Platform("spacePlatS", 13450, 405, 85, 65, 100, 0));
+	platforms.push(new Platform("spacePlatS", 13740, 290, 85, 65));				
 	items.push(new Item(coinPictures, 14000, 90, 60, 60));
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 13900, gameGround, 160, 45));
 	platforms.push(new Platform("spacePlatS", 14055, 510, 85, 65));
@@ -951,7 +949,7 @@ function init(){
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 1)
+	sessionStorage.setItem("level", 2);
 
 	player = new Player();
 	player.setGender(sessionStorage.getItem("chosenCharacter"));
@@ -1414,6 +1412,8 @@ function restartGame() {
 	walkCreditPoints = 0;
 	collectCreditpoints = 0;
 	recordDistance = 0;
+	lecturer.setProf(sessionStorage.getItem("level"));
+	lecturer.charX = gameWidth;
 
 	if(sessionStorage.getItem("level") == 1){
 		createLevel1();
@@ -1735,7 +1735,7 @@ function menuButtonClick(event){
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Continue Button Pressed");
 			gameState.current = gameState.game;
-		}
+			}
 
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
@@ -1793,7 +1793,7 @@ function menuButtonClick(event){
 			//handler for restartbutton
 			if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 				console.log("Restart Button Pressed");
-				restartGame()	
+				restartGame();
 			}
 
 				//handler for exitbutton
