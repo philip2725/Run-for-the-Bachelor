@@ -3,34 +3,24 @@
 var canvas, ctx;
 var gameWidth = 1200;
 var gameHeight = 700;
-var gameGround = gameHeight * 0.88;
+var gameGround = gameHeight * 0.88;															//nullpoint of the ground where the player walks
 
 //Mouse Position
-var mousePosX = 0;
+var mousePosX = 0;																			//used to give the coordinates of the mouse position for the hover function
 var mousePosY = 0;
 
-//Break-Menu
-var breakMenuRect;
-var breakMenuWidth = gameWidth/2;
-var breakMenuHeight = gameHeight/2;
-var breakMenuX = breakMenuWidth/2;
-var breakMenuY = breakMenuHeight*0.8/2;
-
-//load
-var load;
-
 //moving platforms
-var platformsMoveSpeed = 4;
+var platformsMoveSpeed = 4;																	//steps in pixel
 
 //Background
 var background;
 var backgroundWidth = 16273;																//Full lenght of the Background Image
 var backgroundX = 0;																		//Current X-point from the top left corner of the image
-var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated
-var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move															//lower = faster
-var environmentIntervalHandle;
-var checkpoints = [];
-var pressAnyKey = false;																	//if a level and the lecturer Animation has finished. the game will wait that the player press any key.
+var backgroundUpdateSpeed = 30;																//miliseconds how often the background will be updated (lower = faster)
+var backgroundMoveSpeed = 15;																//steps in pixel that backgound Move
+var environmentIntervalHandle;																//check if Background is moving (0 = currently not moving)
+var checkpoints = [];																		//saves all Checkpoints in the current level 
+var pressAnyKey = false;																	//if a level and the lecturer Animation has finished. the game will wait until the player presses any key.
 
 // Audio
 var audioPlayer;																			//Variable to save the mutestatus
@@ -41,7 +31,7 @@ if(sessionStorage.getItem("mutedStatus") == 1){
 }
 
 //lecturer
-class Lecturer {															//class for dozent at the end of each level
+class Lecturer {															//class for lecturer at the end of each level
 	constructor() {		
 		var charWidth = 109;												
 		var charHeight = 152;
@@ -54,13 +44,10 @@ class Lecturer {															//class for dozent at the end of each level
 		this.speachBubbles = [];											//SpeachBubbles Picture-Array
 		this.showNextSpeachBubble = false;					
 		this.currentPictureIdxWL = 0;
-		this.currentPictureIdxIL = 0;				
-		this.movementSpeed = 60;				
+		this.currentPictureIdxIL = 0;								
 		this.startAnimation = false;
 		this.lecturerImg;	
-		this.lecturerAninmation = false;							
-		//move Option	
-		this.ground = this.charY;																															
+		this.lecturerAninmation = false;																																					
 	}
 
 	drawLecturerAnimation(){
@@ -87,7 +74,6 @@ class Lecturer {															//class for dozent at the end of each level
 					ctx.drawImage(picture, 225, 100, 750, 150);
 				}
 				pressAnyKey = true;
-				
 			}
 			ctx.drawImage(this.lecturerImg, this.charX, this.charY, this.charWidth, this.charHeight);
 		}else if( creditPoints <= maxCreditPoints && lecturer.startAnimation == true){
@@ -97,7 +83,7 @@ class Lecturer {															//class for dozent at the end of each level
 	}
 
 	setProf(level){
-		//The Picture-Arrays of the lecturer will be filles by given level ID
+		//The Picture-Arrays of the lecturer will be filled by given level ID
 		if(level == 1){		
 			//Muesch
 			this.charPictureWL = ['MUWL01', 'MUWL02', 'MUWL03', 'MUWL04', 'MUWL05', 'MUWL06', 
@@ -162,7 +148,7 @@ class Player {
 		this.currentPictureIdxJL = 0;
 		this.currentPictureIdxIR = 0;
 		this.currentPictureIdxIL = 0;															//current Displayed PlayerPicture Index of charPictureIds-Array
-		this.movementSpeed = 60;																//speed of how often an image changes (lower = faster)	
+		this.movementSpeed = 60;																//speed of how often an image changes in milliseconds(lower = faster)	
 		this.playerImg;																			//contains the currently used image-Element of the player										
 		//move Option	
 		this.ground = this.charY;																//save the null point of the ground
@@ -175,9 +161,9 @@ class Player {
 		this.goingDown = false;																	//status of player currently going Down
 		this.isGoing = false;																	//Tells whether the player is going or not
 		this.onPlatform = false; 																//tells whether the player is on a platform or not
+		this.isfalling = false;
 		this.playerWantsDownFromPlatform = false; 												//tells whether the player wants down from the platform
 		this.walkDirection = 0;																	//1 = player go currently left, 0 = player go currently right
-		this.isfalling = false;
 		this.lives = 3;																			//bachelor-Heads at the Top	
 		this.grade = 4;	
 		this.averageGradeHelper = 0;																		//if you get collectables, the grade will be better
@@ -203,9 +189,9 @@ class Player {
 	}
 
 	detectCollision(object) {
-		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )
-		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))
-		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {
+		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )	//detects collision at the top of the object
+		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))				//detects collision at the bottom of the object
+		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {			//detects collision at the sides of the object
 			if(object.type == "hole" && this.isfalling == false){
 				this.isfalling = true
 				playSoundFX(waterdrop);
@@ -247,7 +233,7 @@ class Player {
 		}
 	}
 
-	setGender(gender){
+	setCharacter(gender){
 		if(gender == 1){		
 			//Boy 1										
 			this.charPictureWR = ['BWR01', 'BWR02', 'BWR03', 'BWR04', 'BWR05', 'BWR06', 
@@ -432,13 +418,13 @@ class Obstacle {
 		this.y = y - height;
 		this.width = width;
 		this.height = height;
-		this.pictureArray = pictureArray;
+		this.pictureArray = pictureArray;													//It gives either string or Array for moving obstacles
 		this.type = type;
 		this.currentPictureIdx = 0;
 	}
 
-	update(direcion) {
-		this.x += direcion;																	//change the x position of the obstacle when player goes to right or left
+	update(direction) {
+		this.x += direction;																	//change the x position of the obstacle when player goes to right or left
 	}
 
 	getTop() {
@@ -484,7 +470,7 @@ class Item {
 		this.height = height;
 		this.pictureArray = pictureArray;																	//Name of PictureArray with all images of the item
 		this.currentPictureIdx = 0;
-		this.collected = false;
+		this.collected = false;																//item should not displayed if its collected
 	}
 
 	update(direcion) {
@@ -524,9 +510,6 @@ var moveSpeedHelper = 0;												//helps changeItemsPicture() to draw Items j
 var coinShadowPictures = ['CPS01', 'CPS02', 'CPS03', 'CPS04', 'CPS05', 'CPS06', 
 'CPS07', 'CPS08', 'CPS09', 'CPS10'];
 
-var blackberryShadowPictures = ['BBS01', 'BBS02', 'BBS03', 'BBS04', 'BBS05', 'BBS06', 
-'BBS07', 'BBS08', 'BBS09', 'BBS10'];
-
 var bluePrintShadowPictures = ['BPS01', 'BPS02', 'BPS03', 'BPS04', 'BPS05', 'BPS06', 
 'BPS07', 'BPS08', 'BPS09', 'BPS10'];
 
@@ -545,12 +528,6 @@ var laptopShadowPictures = ['LTS01', 'LTS02', 'LTS03', 'LTS04', 'LTS05', 'LTS06'
 var passportShadowPictures = ['PPS01', 'PPS02', 'PPS03', 'PPS04', 'PPS05', 'PPS06', 
 'PPS07', 'PPS08', 'PPS09', 'PPS10'];
 
-var piShadowPictures = ['PIS01', 'PIS02', 'PIS03', 'PIS04', 'PIS05', 'PIS06', 
-'PIS07', 'PIS08', 'PIS09', 'PIS10'];
-
-var scriptShadowPictures = ['SCS01', 'SCS02', 'SCS03', 'SCS04', 'SCS05', 'SCS06', 
-'SCS07', 'SCS08', 'SCS09', 'SCS10'];
-
 //Collectables without shadow
 var coinPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06', 
 'CP07', 'CP08', 'CP09', 'CP10'];
@@ -558,29 +535,8 @@ var coinPictures = ['CP01', 'CP02', 'CP03', 'CP04', 'CP05', 'CP06',
 var blackberryPictures = ['BB01', 'BB02', 'BB03', 'BB04', 'BB05', 'BB06', 
 'BB07', 'BB08', 'BB09', 'BB10'];
 
-var blueprintPictures = ['BP01', 'BP02', 'BP03', 'BP04', 'BP05', 'BP06', 
-'BP07', 'BP08', 'BP09', 'BP10'];
-
-var certificatePictures = ['CT01', 'CT02', 'CT03', 'CT04', 'CT05', 'CT06', 
-'CT07', 'CT08', 'CT09', 'CT10'];
-
-var glassesPictures = ['GL01', 'GL02', 'GL03', 'GL04', 'GL05', 'GL06', 
-'GL07', 'GL08', 'GL09', 'GL10'];
-
-var grammarPictures = ['GR01', 'GR02', 'GR03', 'GR04', 'GR05', 'GR06', 
-'GR07', 'GR08', 'GR09', 'GR10'];
-
 var dummiesPictures = ['DU01', 'DU02', 'DU03', 'DU04', 'DU05', 'DU06', 
 'DU07', 'DU08', 'DU09', 'DU10'];
-
-var laptopPictures = ['LT01', 'LT02', 'LT03', 'LT04', 'LT05', 'LT06', 
-'LT07', 'LT08', 'LT09', 'LT10'];
-
-var passportPictures = ['PP01', 'PP02', 'PP03', 'PP04', 'PP05', 'PP06', 
-'PP07', 'PP08', 'PP09', 'PP10'];
-
-var piPictures = ['PI01', 'PI02', 'PI03', 'PI04', 'PI05', 'PI06', 
-'PI07', 'PI08', 'PI09', 'PI10'];
 
 var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06', 
 'SC07', 'SC08', 'SC09', 'SC10'];
@@ -588,24 +544,22 @@ var scriptPictures = ['SC01', 'SC02', 'SC03', 'SC04', 'SC05', 'SC06',
 
 //platforms 
 class Platform {
-	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {
+	constructor(pictureId,x,y,width,height, moveArea = 0, moveDirection = 0) {	//0 = x-axis , 1 = y-axis
 		var xPos = x;
 		this.x = xPos;
-		this.helperX = xPos; //this variable is needed for the movePlatform funtion. 
+		this.helperX = xPos; 				//this variable is needed for the movePlatform funtion. 
 		var yPos = y;
 		this.y = yPos;
-		this.helperY = yPos; //this variable is needed for the movePlatform funtion. 
+		this.helperY = yPos; 				//this variable is needed for the movePlatform funtion. 
 		this.width = width;
 		this.height = height;
 		this.pictureId = pictureId;
-		this.moveArea = moveArea; //defines the area of moving platforms , for example: 200 means that the platform move 200 left and 200 right of the x position
-		this.moveToRight = false; //tells if a moving platform goes to right or left
-		this.moveToBottom = false; // tells if a moving platform goes to bottom or to top
+		this.moveArea = moveArea; 			//defines the area of moving platforms , for example: 200 means that the platform move 200 left and 200 right of the x position
+		this.moveToRight = false; 			//tells if a moving platform goes to right or left
+		this.moveToBottom = false; 			// tells if a moving platform goes to bottom or to top
 		this.moveDirection = moveDirection; //defines whether a moving platform move on the y axis or the x axis
 	}
 
-
-	
 	update(direction) {
 		this.x += direction;	
 		this.helperX += direction;																//updates the x position of the platform when the player goes to right or left
@@ -661,14 +615,13 @@ class Platform {
 	}
 
 }
-var platforms = [];			// here are all platforms of the current level saved
+var platforms = [];																			// here are all platforms of the current level saved
 var playersPlatform = 0; 																	// holds the platform where the player is on top
 
 
 //control the game
 const gameState = {
 	current : 0,
-	getReady : 0,
 	game : 1,
 	over : 2,
 	break : 3,
@@ -810,7 +763,7 @@ function createLevel2(){
 	obstacles.push(new Obstacle("jungleSpikesL","box", 9970, gameGround, 150, 35));
 	obstacles.push(new Obstacle("jungleWaterM","hole", 10135, gameHeight, 555, 96));
 	platforms.push(new Platform("junglePlatM", 10240, 265, 220, 85));
-	platforms.push(new Platform("junglePlatS", 10370, 500, 85, 85, 220, 0));
+	platforms.push(new Platform("junglePlatS", 10370, 500, 85, 85, 220, 0));			//movable
 	items.push(new Item(dummiesPictures,10360, 330, 80, 80));
 	platforms.push(new Platform("junglePlatS", 10635, 265, 85, 85));
 	obstacles.push(new Obstacle("jungleSpikesL","box", 10790, gameGround, 150, 35));
@@ -942,17 +895,17 @@ function createLevel3(){
 	obstacles.push(new Obstacle(spaceCraterBSPictures,"boxAnimated", 14130, gameGround, 160, 45));
 }
 
-//************* Initialisierung ******************//
+//************* Initialization ******************//
 function init(){
 	console.log("init called");
 	canvas = document.getElementById("mycanvas");
 	canvas.style.border = "2px solid black";
 	ctx = canvas.getContext("2d");
 
-	sessionStorage.setItem("level", 2);
+	sessionStorage.setItem("level", 1);
 
 	player = new Player();
-	player.setGender(sessionStorage.getItem("chosenCharacter"));
+	player.setCharacter(sessionStorage.getItem("chosenCharacter"));
 	
 	lecturer = new Lecturer()
 	lecturer.setProf(sessionStorage.getItem("level"))
@@ -968,17 +921,14 @@ function init(){
 
 	gameState.current = gameState.game;
 
-	playBackgroundAudio();
-
 	setInterval(changePlayerPicture, player.movementSpeed);
 	setInterval(draw, 40);
 
 	//Loading completed --> disable loading screen
 	setTimeout(function(){
-		load = document.getElementById("load");
+		var load = document.getElementById("load");
 		load.setAttribute("style", "display:none");
 	},2000);
-	restartGame();
 
 }
 
@@ -987,7 +937,7 @@ function draw(){
 	ctx.clearRect(0,0,gameWidth,gameHeight)
 	ctx.drawImage(background,backgroundX,0,backgroundWidth,gameHeight); 								//Background																						
 	drawPlatforms();	
-	drawItems();																				//Obstacle Images
+	drawItems();																						//Obstacle Images
 	drawObstacles();
 	player.drawPlayer();	
 	lecturer.drawLecturerAnimation();																		//character Image	
@@ -1005,11 +955,6 @@ function draw(){
 
 
 //*************** Functions ******************//
-function drawRect(rx, ry, rw, rh, rstyle = "#0000FF"){
-	ctx.fillStyle = rstyle;
-	return ctx.fillRect(rx, ry, rw, rh);
-}
-
 
 function playBackgroundAudio() {
 	if (playingAudio) {
@@ -1054,9 +999,6 @@ function checkGameState(){
 			}
 		}
 
-	}else if(gameState.current === gameState.getReady)
-	{
-		//TODO
 	}else if (gameState.current == gameState.break)
 	{
 		clearInterval(environmentIntervalHandle);
@@ -1175,7 +1117,6 @@ function drawPlatforms() {
             platform.movePlatform(platformsMoveSpeed) //this function makes the platform moving
         }
         ctx.drawImage(picture, platform.x,platform.y,platform.width,platform.height)
-        //drawRect(platform.x,platform.y,platform.width,platform.height)
     }
 }
 
@@ -1233,8 +1174,7 @@ function checkFinished() {
 function jump(){
 	if(player.isJumping == true && player.isfalling == false){
 		if(player.charY > player.jumpHigh && !player.goingDown && player.playerWantsDownFromPlatform == false){
-			player.charY -= player.jumpSpeed * 3
-			checkCollision();
+			player.charY -= player.jumpSpeed * 3;
 		} else {
 			if(player.charY > player.ground){
 				player.goingDown = false;
@@ -1265,7 +1205,7 @@ function jump(){
 	}
 }
 
-function fall(){
+function fall() {
 	//player falls down in a hole
 	if(player.isfalling == true){
 		clearInterval(environmentIntervalHandle);
@@ -1277,7 +1217,6 @@ function fall(){
 			}else{
 				restartAtCheckpoint();
 			}		
-			this.isfalling = false;	
 		}
 	}
 }
@@ -1295,7 +1234,7 @@ function moveBackground(direction){
 		clearInterval(environmentIntervalHandle);
 	}
 
-	checkFinished();																//player at end of map															//obstacles + items
+	checkFinished();																//player at end of map	
 	checkPlatforms();
 }
 
@@ -1412,6 +1351,7 @@ function restartGame() {
 	walkCreditPoints = 0;
 	collectCreditpoints = 0;
 	recordDistance = 0;
+	nextCreditPointPosition = 0;
 	lecturer.setProf(sessionStorage.getItem("level"));
 	lecturer.charX = gameWidth;
 
@@ -1437,7 +1377,6 @@ function restartAtCheckpoint() {
 	updateItems(-difference);
 	updatePlatforms(-difference);
 	
-	player.charY = gameHeight*0.87-player.charHeight;
 }
 
 
@@ -1460,6 +1399,7 @@ function goRight(){
 //Find Out KeyCode Here  ->  https://keycode.info
 
 function keyDown(event){
+	//Not the down arrow(Pfeil unten), but just the "slot" that ANY key was pressed
 	if(  pressAnyKey == true){
 		pressAnyKey = false;
 		if (gameState.current == gameState.finish) {
@@ -1474,15 +1414,6 @@ function keyDown(event){
 		}
 		
 	}
-//this.speachBubbles = ['BRAB01', 'BRAB02', 'BRAB03', 'BRAB04', 'BRAB05']
-	/*if (lecturer.lecturerAninmation == true && sessionStorage.getItem("level") == 3) {
-			// var picture = document.getElementById(lecturer.speachBubbles[4]);
-			// ctx.drawImage(picture, 225, 100, 750, 100);
-			console.log("1");
-		} else {
-			console.log("2");
-			drawFinishMenu();
-		}	*/
 
 	if(gameState.current != gameState.over && lecturer.lecturerAninmation == false){
 		switch (event.keyCode) {
@@ -1494,11 +1425,6 @@ function keyDown(event){
 			break;
 		case 38:
 			// Up-Arrow Pressed
-			// if (player.onPlatform && player.jumping == 0) {
-			// 	player.jumpHigh -= playersPlatform.height;
-			// } else {
-			// 	player.jumpHigh = player.helperJumpHigh;
-			// }
 			if(player.isJumping == false) player.isJumping = true
 			playSoundFX(jumpsound);
 			break;
@@ -1538,6 +1464,7 @@ function keyDown(event){
 }
 
 function keyUp(event){
+	//Not the up arrow(Pfeil oben), but just the "slot" that ANY key was released
 	changePlayerPicture()
 	if(player.isGoing === true && (event.keyCode === 37 || event.keyCode === 39)){
 		player.isGoing = false
