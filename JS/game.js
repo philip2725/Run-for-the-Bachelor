@@ -1344,6 +1344,10 @@ function restartGame() {
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
+	player.isJumping = false;
+	player.onPlatform = false;
+	player.goingDown = false;
+	player.playerWantsDownFromPlatform = false;
 	player.jumpHigh = player.helperJumpHigh;
 	player.grade = 4;
 	items = []
@@ -1372,8 +1376,11 @@ function restartGame() {
 function restartAtCheckpoint() {
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
-	player.onPlatform = false;
 	player.isJumping = false;
+	player.onPlatform = false;
+	player.goingDown = false;
+	player.playerWantsDownFromPlatform = false;
+	player.jumpHigh = player.helperJumpHigh;
 	player.charY = gameHeight*0.87-player.charHeight;
 
 	var difference = backgroundX+getLastCheckpoint();
