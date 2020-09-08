@@ -191,7 +191,9 @@ class Player {
 	detectCollision(object) {
 		if ( ((this.getBottom() > object.getTop() && this.getBottom() < object.getBottom() )	//detects collision at the top of the object
 		|| (this.getTop() < object.getBottom() && this.getTop() > object.getTop()))				//detects collision at the bottom of the object
-		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight() ) {			//detects collision at the sides of the object
+		&& this.getRight() > object.getLeft() && this.getLeft() < object.getRight()				//detects collision at the sides of the object
+		|| (this.getRight() > object.getLeft() && this.getLeft() < object.getRight()			//detects collision if the item is between top and bottom of the player
+		&& this.getBottom() > object.getBottom() && this.getTop() < object.getTop())) {			
 			if(object.type == "hole" && this.isfalling == false){
 				this.isfalling = true
 				playSoundFX(waterdrop);
@@ -1342,9 +1344,14 @@ function restartGame() {
 	backgroundX = 0;
 	player.charY = gameHeight*0.87-player.charHeight;
 	player.lives = 3;
+	player.isJumping = false;
+	player.onPlatform = false;
+	player.goingDown = false;
+	player.playerWantsDownFromPlatform = false;
 	player.jumpHigh = player.helperJumpHigh;
 	player.grade = 4;
 	items = []
+	checkpoints = []
 	obstacles = []
 	platforms = []
 	lecturer.lecturerAninmation = false;
@@ -1369,8 +1376,11 @@ function restartGame() {
 function restartAtCheckpoint() {
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
-	player.onPlatform = false;
 	player.isJumping = false;
+	player.onPlatform = false;
+	player.goingDown = false;
+	player.playerWantsDownFromPlatform = false;
+	player.jumpHigh = player.helperJumpHigh;
 	player.charY = gameHeight*0.87-player.charHeight;
 
 	var difference = backgroundX+getLastCheckpoint();
@@ -1636,6 +1646,7 @@ function menuButtonClick(event){
 	// handler for breakButtonClicked
 	if (x >= 20 && x <= 60 && y >= 5 && y <= 50)
 	{
+		playSoundFX(clicksound);
 		if(gameState.current == gameState.break)
 		{
 			gameState.current = gameState.game;
@@ -1664,18 +1675,21 @@ function menuButtonClick(event){
 		//handler for continueButton
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Continue Button Pressed");
+			playSoundFX(clicksound);
 			gameState.current = gameState.game;
 			}
 
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 			console.log("Restart Button Pressed");
+			playSoundFX(clicksound);
 			restartGame()	
 		}	
 		
 		//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 			console.log("Exit Button Pressed");
+			playSoundFX(clicksound);
 			window.open("index.html","_self");
 		}
 
@@ -1687,12 +1701,14 @@ function menuButtonClick(event){
 		//handler for restartbutton
 		if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 			console.log("Restart Button Pressed");
+			playSoundFX(clicksound);
 			restartGame()
 		}
 		
 			//handler for exitbutton
 		if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 			console.log("Exit Button Pressed");
+			playSoundFX(clicksound);
 			window.open("index.html","_self");
 		}
 		
@@ -1708,7 +1724,7 @@ function menuButtonClick(event){
 			//handler for continueButton
 			if (x >= 500 && x <= 700 && y <= 350 && y >= 300) {
 				console.log("Continue Button Pressed");
-
+				playSoundFX(clicksound);
 				if(sessionStorage.getItem("level") == 1){
 					sessionStorage.setItem("level", 2)
 					audioPlayer.pause();
@@ -1723,12 +1739,14 @@ function menuButtonClick(event){
 			//handler for restartbutton
 			if (x >= 500 && x <= 700 && y <= 420 && y >= 370) {
 				console.log("Restart Button Pressed");
+				playSoundFX(clicksound);
 				restartGame();
 			}
 
 				//handler for exitbutton
 			if (x >= 500 && x <= 700 && y <= 490 && y >= 440) {
 				console.log("Exit Button Pressed");
+				playSoundFX(clicksound);
 				window.open("index.html","_self");
 			}
 		}

@@ -64,8 +64,7 @@ Fonts:
 
 ## Known Bugs
 ***
-* Backgroundmusik startet nicht automatisch (wird teilweise vom Browser blockiert)
-* Sammelobjekte/Münzen werden auf Brusthöhe durch links/rechts gehen des Charakters nicht eingesammelt, kann jedoch durch einen Sprung eingesammelt werden
+* Backgroundmusik startet teilweise nicht automatisch, dies liegt allerdings an den Einstellungen des Browsers
 
 
 ## Browserkompatibilität
