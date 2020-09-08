@@ -1368,6 +1368,8 @@ function restartGame() {
 function restartAtCheckpoint() {
 	clearInterval(environmentIntervalHandle);
 	player.isfalling = false;
+	player.onPlatform = false;
+	player.isJumping = false;
 	player.charY = gameHeight*0.87-player.charHeight;
 
 	var difference = backgroundX+getLastCheckpoint();

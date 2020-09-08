@@ -66,7 +66,7 @@ Fonts:
 * Objekte verschieben sich beim Laufen gegen das linke Ende (beim multiblem Klicken der linken Pfeiltaste)
 * Sammelobjekte/Münzen werden auf Brusthöhe durch links/rechts gehen des Charakters nicht eingesammelt, kann jedoch durch einen Sprung eingesammelt werden
 * Charakter macht nachdem der User gestorben ist einen Doppelsprung (einmaliges Ereignis, danach springt er wieder normal)
-* Charakter spawnt in der Luft nachdem der User gestorben ist (sobald eine Pfeiltaste gedrückt wird, läuft er normal auf dem Boden weiter)
+
 
 
 ## Browserkompatibilität
